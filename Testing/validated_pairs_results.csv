@@ -1,0 +1,2 @@
+Ticker_Y,Ticker_X,Quality_Score,Total_Return,Sharpe,Max_DD,Win_Rate,Total_Trades,MC_Score,MC_PValue,Status
+SO,SRE,85,6.24,0.3,-4.79,4.5,83,0,1.0,FAILED

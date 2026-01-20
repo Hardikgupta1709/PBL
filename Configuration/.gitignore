@@ -1,0 +1,35 @@
+# API Keys and Configuration
+config.py
+*.env
+
+# Trading Logs
+paper_trading_log.txt
+paper_trades_log.csv
+performance_summary.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+*.csv
+!validated_pairs_results.csv
+!auto_found_pairs.csv
+
+# Validation reports
+validation_*.txt

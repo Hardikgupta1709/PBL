@@ -1,0 +1,7 @@
+[Tue Jan 20 09:09:58 IST 2026] Starting paper trading update...
+Traceback (most recent call last):
+  File "<string>", line 7, in <module>
+  File "/Users/hardik/PBL_Run/Paper_Trading/alpaca_paper_trader.py", line 17, in <module>
+    from Core_Strategy.ultra_conservative_strategy import UltraConservativeSystem, download_data
+ModuleNotFoundError: No module named 'Core_Strategy'
+[Tue Jan 20 09:09:59 IST 2026] ❌ Update failed
