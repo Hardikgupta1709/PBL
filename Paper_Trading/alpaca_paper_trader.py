@@ -7,15 +7,25 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from alpaca_trade_api import REST
-import config
 import sys
 import os
 
-# Add current directory to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Fix all paths
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+
+# Add to path
+sys.path.insert(0, project_root)
+sys.path.insert(0, current_dir)
+
+# Import config
+import config
+
+# Import strategy - add Core_Strategy to path directly
+core_strategy_dir = os.path.join(project_root, 'Core_Strategy')
+sys.path.insert(0, core_strategy_dir)
 
 from Core_Strategy.ultra_conservative_strategy import UltraConservativeSystem, download_data
-
 
 class AlpacaPaperTrader:
     """
