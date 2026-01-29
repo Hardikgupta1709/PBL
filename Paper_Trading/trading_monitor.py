@@ -172,3 +172,9 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nCouldn't generate charts yet: {e}")
         print("Charts will be available after 1+ week of trading data")
+
+
+
+
+ALPACA_API_KEY ="PKGHMR6IOMAHJFW2X5DXGDO2WF"  # Replace with your actual key
+ALPACA_SECRET_KEY ="7dfuuE9i2d5KWvamhdJRcuYss8eUye6hqRwxivwNY7L2"  # Replace with your actual secret

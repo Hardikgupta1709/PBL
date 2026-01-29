@@ -15,41 +15,21 @@ from alpaca.common.exceptions import APIError
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-<<<<<<< HEAD
-from alpaca_trade_api import REST
-import sys
-=======
 from typing import Optional, Dict, List, Tuple
 import logging
->>>>>>> 3db96387 (Updated Execution of Strategy)
 import os
 import sys
 from pathlib import Path
 from functools import lru_cache
 from concurrent.futures import ThreadPoolExecutor
 
-<<<<<<< HEAD
-# Fix all paths
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)
 
-# Add to path
-sys.path.insert(0, project_root)
-sys.path.insert(0, current_dir)
-
-# Import config
-import config
-
-# Import strategy - add Core_Strategy to path directly
-core_strategy_dir = os.path.join(project_root, 'Core_Strategy')
-sys.path.insert(0, core_strategy_dir)
-=======
 # Add parent directory to path for imports
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
->>>>>>> 3db96387 (Updated Execution of Strategy)
 
-import config
+
+import Paper_Trading.config as config
 
 # Configure logging
 log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'

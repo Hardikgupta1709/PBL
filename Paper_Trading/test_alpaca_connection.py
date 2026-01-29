@@ -190,19 +190,21 @@ def test_connection():
             for name, pair_config in config.VALIDATED_PAIRS.items():
                 print(f"   • {name}: {pair_config['ticker_y']}/{pair_config['ticker_x']}")
                 print(f"     Position Size: {pair_config['position_size']:.1%}")
-                print(f"     Backtest Sharpe: {pair_config['backtest_sharpe']:.2f}")
+                print(f"     Entry Z (Normal): ±{pair_config['entry_z_normal']}")
+                print(f"     Exit Z (Normal): ±{pair_config['exit_z_normal']}")
         else:
             print(f"   ⚠️  No pairs configured yet")
         
         # ====================================================================
-        # TEST 8: Rate Limit Check
+        # TEST 8: Risk Management Settings
         # ====================================================================
-        print("\n✅ Test 8: Checking API rate limits...")
+        print("\n✅ Test 8: Checking risk management settings...")
         
-        print(f"   • Configured max requests/min: {config.MAX_REQUESTS_PER_MINUTE}")
-        print(f"   • Request timeout: {config.REQUEST_TIMEOUT}s")
-        print(f"   • Max retries: {config.MAX_RETRIES}")
-        print(f"   ✓ Rate limit settings configured")
+        print(f"   • Initial Capital: ${config.INITIAL_CAPITAL:,.0f}")
+        print(f"   • Max Position Size: {config.MAX_POSITION_SIZE:.0%}")
+        print(f"   • Max Drawdown: {config.MAX_DRAWDOWN:.0%}")
+        print(f"   • Daily Loss Limit: {config.DAILY_LOSS_LIMIT:.0%}")
+        print(f"   ✓ Risk management configured")
         
         # ====================================================================
         # FINAL SUMMARY
