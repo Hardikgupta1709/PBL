@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
-from ultra_conservative_strategy import UltraConservativeSystem, download_data
+from Core_Strategy.ultra_conservative_strategy import UltraConservativeSystem, download_data
 
 def validate_low_winrate_strategy(ticker_y, ticker_x, 
                                   start_date='2020-01-01', 

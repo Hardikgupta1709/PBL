@@ -57,8 +57,14 @@ def run_daily_trading() -> bool:
         # Run update
         success = trader.run_daily_update()
         
-        # Show performance
-        trader.get_performance_summary()
+        if hasattr(trader, 'get_performance_summary'):
+            trader.get_performance_summary()
+        else:
+    # Simple summary
+            print("\n📊 Performance Summary:")
+            account = trader.get_account_summary()
+            print(f"  Portfolio: ${account['portfolio_value']:,.2f}")
+            print(f"  Return: {account['total_return']:+.2%}")
         
         return success
         

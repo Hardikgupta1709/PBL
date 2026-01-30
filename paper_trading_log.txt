@@ -46,3 +46,6 @@ python: can't open file '/Users/hardik/PBL_Run/run_paper_trading.py': [Errno 2] 
 [2026-01-20 20:41:05] ================================================================================
 
 [2026-01-20 20:41:05] No trades logged yet
+[Thu Jan 29 21:10:03 IST 2026] Starting paper trading update...
+/Users/hardik/PBL_Run/run_paper_trading.sh: line 10: python: command not found
+[Thu Jan 29 21:10:03 IST 2026] ❌ Update failed
