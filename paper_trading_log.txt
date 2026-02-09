@@ -61,3 +61,56 @@ python: can't open file '/Users/hardik/PBL_Run/run_paper_trading.py': [Errno 2] 
 [Wed Feb  4 21:10:00 IST 2026] Starting paper trading update...
 /Users/hardik/PBL_Run/run_paper_trading.sh: line 10: python: command not found
 [Wed Feb  4 21:10:00 IST 2026] ❌ Update failed
+[Fri Feb  6 21:10:01 IST 2026] Starting paper trading update...
+/Users/hardik/PBL_Run/run_paper_trading.sh: line 10: python: command not found
+[Fri Feb  6 21:10:01 IST 2026] ❌ Update failed
+[Sun Feb  8 20:02:13 IST 2026] Starting paper trading update...
+[Sun Feb  8 20:02:23 IST 2026] ✅ Update completed successfully
+[Sun Feb  8 20:03:51 IST 2026] Starting paper trading update...
+2026-02-08 20:03:53,355 - INFO - Initializing FIXED Alpaca Paper Trader
+2026-02-08 20:03:53,357 - INFO - Initialized with 1 pair(s)
+2026-02-08 20:03:53,357 - INFO - ================================================================================
+2026-02-08 20:03:53,357 - INFO - 🚀 DAILY UPDATE (FIXED VERSION)
+2026-02-08 20:03:53,357 - INFO - ================================================================================
+2026-02-08 20:03:55,427 - INFO - 
+💰 Account:
+2026-02-08 20:03:55,427 - INFO - Portfolio: $99,455.96
+2026-02-08 20:03:55,427 - INFO - Cash: $99,455.96
+2026-02-08 20:03:55,427 - INFO - Return: -0.54%
+2026-02-08 20:03:55,427 - INFO - 
+Processing SO_SRE...
+2026-02-08 20:03:55,427 - INFO - Calculating signals for SO_SRE
+2026-02-08 20:04:00,960 - INFO - 
+============================================================
+2026-02-08 20:04:00,961 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-08 20:04:00,961 - INFO - Signal: 0 | Z: 0.58 | Confidence: 0.33
+2026-02-08 20:04:00,961 - INFO - Current: Y=0, X=0
+2026-02-08 20:04:03,314 - INFO - Prices: SO=$90.12, SRE=$87.36
+2026-02-08 20:04:03,315 - INFO - Current position: 0.0% of portfolio
+2026-02-08 20:04:03,315 - INFO - Already flat
+2026-02-08 20:04:03,315 - INFO - 
+================================================================================
+2026-02-08 20:04:03,315 - INFO - ✅ Complete! 0/1 pair(s)
+2026-02-08 20:04:03,315 - INFO - ================================================================================
+
+
+================================================================================
+📈 PAPER TRADING SYSTEM
+================================================================================
+Time: 2026-02-08 20:03:53
+Mode: Paper Trading
+================================================================================
+
+🚀 Running Daily Paper Trading Update...
+✅ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-02-10 00:00:00 to 2026-02-06 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 23, VOLATILE: 10, CRISIS: 92
+
+📊 Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Sun Feb  8 20:04:03 IST 2026] ✅ Update completed successfully

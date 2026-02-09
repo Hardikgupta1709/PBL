@@ -1,17 +1,9 @@
-"""
-Simple Monitoring Dashboard for Paper Trading
-Run this weekly to check performance
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import numpy as np
 
 class TradingMonitor:
-    """
-    Monitor paper trading performance vs backtest
-    """
     
     def __init__(self, log_file='paper_trades_log.csv', 
                  backtest_sharpe=0.30, backtest_return=6.24):
