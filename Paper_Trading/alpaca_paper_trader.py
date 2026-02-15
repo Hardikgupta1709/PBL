@@ -1,12 +1,3 @@
-"""
-FIXED Alpaca Paper Trader - Proper Gradual Entry
-Key fixes:
-1. Gradual position building (25% increments)
-2. Signal strength-based sizing  
-3. Maximum position enforcement
-4. Entry quality filters
-"""
-
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
@@ -40,12 +31,9 @@ logger = logging.getLogger(__name__)
 
 
 class AlpacaPaperTrader:
-    """
-    FIXED trader with gradual position entry
-    """
     
     def __init__(self):
-        logger.info("Initializing FIXED Alpaca Paper Trader")
+        logger.info("Initializing  Alpaca Paper Trader")
         
         self.trading_client = TradingClient(
             config.ALPACA_API_KEY,
@@ -68,7 +56,6 @@ class AlpacaPaperTrader:
         logger.info(f"Initialized with {len(self.pairs)} pair(s)")
     
     def get_account_summary(self) -> Dict:
-        """Get account status"""
         account = self.trading_client.get_account()
         
         return {
@@ -83,12 +70,10 @@ class AlpacaPaperTrader:
         }
     
     def get_current_positions(self) -> Dict[str, float]:
-        """Get current positions"""
         positions = self.trading_client.get_all_positions()
         return {pos.symbol: float(pos.qty) for pos in positions}
     
     def get_batch_prices(self, symbols: list) -> Dict[str, float]:
-        """Get prices for multiple symbols"""
         request = StockLatestTradeRequest(symbol_or_symbols=symbols)
         trades = self.data_client.get_stock_latest_trade(request)
         
@@ -101,15 +86,14 @@ class AlpacaPaperTrader:
         return prices
     
     def calculate_signals(self, pair_name: str, pair_config: Dict) -> Optional[Dict]:
-        """Calculate trading signals"""
         ticker_y = pair_config['ticker_y']
         ticker_x = pair_config['ticker_x']
         
         logger.info(f"Calculating signals for {pair_name}")
         
         try:
-            from Core_Strategy.ultra_conservative_strategy import (
-                UltraConservativeSystem,
+            from Core_Strategy.conservative_strategy import (
+                ConservativeSystem,
                 download_data
             )
             
@@ -126,7 +110,7 @@ class AlpacaPaperTrader:
                 logger.warning(f"Insufficient data: {len(stock_y)} points")
                 return None
             
-            system = UltraConservativeSystem()
+            system = ConservativeSystem()
             results = system.run_backtest(
                 stock_y, stock_x, market,
                 train_period=min(252, len(stock_y) // 2),
@@ -167,11 +151,6 @@ class AlpacaPaperTrader:
         max_position_pct: float,
         account_value: float
     ) -> float:
-        """
-        FIXED: Calculate proper position increment
-        
-        Strategy: Add 25% of max position per signal (gradual build-up)
-        """
         # Base increment: 25% of maximum position
         base_increment_pct = max_position_pct * 0.25
         
@@ -186,13 +165,12 @@ class AlpacaPaperTrader:
             max_position_pct
         )
         
-        # Convert to dollar value (THIS IS THE INCREMENT, not total)
+        # Converting to dollar value (THIS IS THE INCREMENT, not total)
         increment_value = account_value * increment_pct
         
         return increment_value
     
     def execute_order(self, symbol: str, qty: int, side: str) -> Optional[Dict]:
-        """Execute order"""
         if qty == 0:
             return None
         
@@ -211,12 +189,12 @@ class AlpacaPaperTrader:
             
             order = self.trading_client.submit_order(order_data)
             
-            logger.info(f"✅ Order: {side.upper()} {qty} {symbol} - ID: {order.id}")
+            logger.info(f" Order: {side.upper()} {qty} {symbol} - ID: {order.id}")
             
             return order
             
         except APIError as e:
-            logger.error(f"❌ Order failed for {symbol}: {e}")
+            logger.error(f" Order failed for {symbol}: {e}")
             return None
     
     def manage_pair_FIXED(
@@ -225,13 +203,10 @@ class AlpacaPaperTrader:
         pair_config: Dict,
         signal_data: Dict
     ) -> bool:
-        """
-        FIXED: Manage position with gradual entry
-        """
         ticker_y = pair_config['ticker_y']
         ticker_x = pair_config['ticker_x']
         
-        # Get current state
+        # Getting current state
         current_positions = self.get_current_positions()
         current_y = current_positions.get(ticker_y, 0)
         current_x = current_positions.get(ticker_x, 0)
@@ -245,14 +220,13 @@ class AlpacaPaperTrader:
         logger.info(f"Signal: {signal} | Z: {signal_data['z_score']:.2f} | Confidence: {confidence:.2f}")
         logger.info(f"Current: Y={current_y:.0f}, X={current_x:.0f}")
         
-        # Get account
         account = self.get_account_summary()
         
         if account['trading_blocked']:
             logger.warning("Trading blocked")
             return False
         
-        # Get prices
+        # Getting prices
         prices = self.get_batch_prices([ticker_y, ticker_x])
         price_y = prices[ticker_y]
         price_x = prices[ticker_x]
@@ -267,7 +241,7 @@ class AlpacaPaperTrader:
         
         logger.info(f"Current position: {current_position_pct:.1%} of portfolio")
         
-        # EXIT logic (always check first)
+        # EXIT logic 
         if signal == 0:
             if current_y != 0 or current_x != 0:
                 logger.info(f"🚪 EXIT signal - closing positions")
@@ -288,16 +262,15 @@ class AlpacaPaperTrader:
                 logger.info(f"Already flat")
                 return False
         
-        # ENTRY/ADD logic
-        max_position_pct = pair_config['position_size']  # 0.20 = 20%
+        # ENTRY logic
+        max_position_pct = pair_config['position_size']  
         
-        # Check if at max
-        if current_position_pct >= max_position_pct * 0.95:
-            logger.info(f"⚠️  At max position ({current_position_pct:.1%}), not adding")
+        if current_position_pct >= max_position_pct * 0.95:    # Checking for max
+            logger.info(f"  At max position ({current_position_pct:.1%}), not adding")
             logger.info(f"{'='*60}\n")
             return False
         
-        # Calculate increment (FIXED!)
+        # Calculating increment 
         increment_value = self.calculate_increment_size(
             signal_strength=confidence,
             current_position_pct=current_position_pct,
@@ -306,11 +279,11 @@ class AlpacaPaperTrader:
         )
         
         if increment_value < 100:
-            logger.info(f"⚠️  Increment too small (${increment_value:.0f})")
+            logger.info(f"  Increment too small (${increment_value:.0f})")
             logger.info(f"{'='*60}\n")
             return False
         
-        logger.info(f"📈 Adding ${increment_value:,.0f} to position (gradual entry)")
+        logger.info(f" Adding ${increment_value:,.0f} to position (gradual entry)")
         
         # Calculate share quantities for INCREMENT
         if signal == 1:  # LONG spread
@@ -361,7 +334,6 @@ class AlpacaPaperTrader:
     
     def log_trade(self, pair_name: str, signal_data: Dict, qty_y: int, qty_x: int,
                   price_y: float, price_x: float, orders: list):
-        """Log trade to CSV"""
         try:
             log_entry = {
                 'timestamp': datetime.now(),
@@ -392,20 +364,17 @@ class AlpacaPaperTrader:
             logger.error(f"Error logging trade: {e}")
     
     def run_daily_update(self) -> bool:
-        """Main daily update with FIXED logic"""
-        logger.info("="*80)
-        logger.info("🚀 DAILY UPDATE (FIXED VERSION)")
-        logger.info("="*80)
+        logger.info(" DAILY UPDATE")
         
         try:
             clock = self.trading_client.get_clock()
             
             if clock.is_open:
-                logger.warning("Market open. Best after 4 PM ET.")
+                logger.warning("Market open.")
             
             account = self.get_account_summary()
             
-            logger.info(f"\n💰 Account:")
+            logger.info(f"\n Account:")
             logger.info(f"Portfolio: ${account['portfolio_value']:,.2f}")
             logger.info(f"Cash: ${account['cash']:,.2f}")
             logger.info(f"Return: {account['total_return']:+.2%}")
@@ -414,7 +383,7 @@ class AlpacaPaperTrader:
                 logger.error("Trading blocked!")
                 return False
             
-            # Process pairs
+            # Processing pairs
             success_count = 0
             
             for pair_name, pair_config in self.pairs.items():
@@ -427,7 +396,6 @@ class AlpacaPaperTrader:
                         logger.warning(f"Skipping {pair_name}")
                         continue
                     
-                    # Use FIXED manage function
                     if self.manage_pair_FIXED(pair_name, pair_config, signal_data):
                         success_count += 1
                     
@@ -437,9 +405,11 @@ class AlpacaPaperTrader:
                     traceback.print_exc()
                     continue
             
-            logger.info("\n" + "="*80)
-            logger.info(f"✅ Complete! {success_count}/{len(self.pairs)} pair(s)")
-            logger.info("="*80 + "\n")
+            logger.info("\n")
+            logger.info("\n")
+            logger.info(f" Complete! {success_count}/{len(self.pairs)} pair(s)")
+            logger.info("\n")
+            logger.info("\n")
             
             return True
             
@@ -451,7 +421,6 @@ class AlpacaPaperTrader:
 
 
 def main():
-    """Main execution"""
     
     if not config.validate_config():
         logger.error("Config validation failed!")

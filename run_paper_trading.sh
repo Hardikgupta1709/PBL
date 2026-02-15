@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Navigate to project root
 cd /Users/hardik/PBL_Run
 
 # Log start
@@ -11,7 +10,7 @@ echo "[$(date)] Starting paper trading update..." >> paper_trading_log.txt
 
 # Check exit code
 if [ $? -eq 0 ]; then
-    echo "[$(date)] ✅ Update completed successfully" >> paper_trading_log.txt
+    echo "[$(date)]  Update completed successfully" >> paper_trading_log.txt
 else
-    echo "[$(date)] ❌ Update failed" >> paper_trading_log.txt
+    echo "[$(date)]  Update failed" >> paper_trading_log.txt
 fi

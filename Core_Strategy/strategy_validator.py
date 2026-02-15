@@ -1,8 +1,3 @@
-"""
-Comprehensive Validation Framework for Hybrid Pairs Trading Strategy
-Implements industry-standard validation methods to ensure robustness
-"""
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,44 +7,29 @@ from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
 
-# Import your trading system
-from  hybrid_pairs_trading import UltimateHybridSystem, download_data
+from  hybrid_pairs_trading import HybridSystem, download_data
 
 
 class StrategyValidator:
-    """
-    Comprehensive validation framework for pairs trading strategies.
-    Implements multiple validation methods used by quant funds.
-    """
     
     def __init__(self, system, results, ticker_y, ticker_x):
-        """
-        Args:
-            system: UltimateHybridSystem instance
-            results: Backtest results DataFrame
-            ticker_y: Stock Y ticker
-            ticker_x: Stock X ticker
-        """
+        
         self.system = system
         self.results = results
         self.ticker_y = ticker_y
         self.ticker_x = ticker_x
         self.validation_results = {}
     
-    # ========================================================================
     # 1. WALK-FORWARD ANALYSIS (Out-of-Sample Testing)
-    # ========================================================================
     
     def walk_forward_analysis(self, stock_y, stock_x, market_index,
                               train_period=252, test_period=126,
                               n_folds=5, entry_z=2.0, exit_z=0.5):
-        """
-        Walk-forward analysis: Train on period N, test on period N+1.
-        Most important validation - prevents overfitting.
-        """
-        print("="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("1. WALK-FORWARD ANALYSIS (Out-of-Sample Testing)")
-        print("="*80)
+        print("="*20)
         print("Purpose: Ensure strategy wasn't overfit to historical data")
         print(f"Method: Train on {train_period} days, test on {test_period} days")
         print(f"Number of folds: {n_folds}\n")
@@ -79,12 +59,11 @@ class StrategyValidator:
             
             try:
                 # Test on test period
-                test_system = UltimateHybridSystem()
+                test_system = HybridSystem()
                 test_results = test_system.run_backtest(test_y, test_x, test_market,
                                                         train_period=min(126, len(test_y)//2),
                                                         entry_z=entry_z, exit_z=exit_z)
                 
-                # Calculate metrics
                 test_returns = test_results['strategy_return'].dropna()
                 total_return = (1 + test_returns).prod() - 1
                 sharpe = (test_returns.mean() / test_returns.std() * np.sqrt(252)) if test_returns.std() > 0 else 0
@@ -109,64 +88,62 @@ class StrategyValidator:
         
         wf_results = pd.DataFrame(results)
         
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         print("WALK-FORWARD RESULTS")
-        print("="*80)
+        print("="*20)
         print(wf_results.to_string(index=False))
         
-        print("\n" + "="*80)
+        print("\n" )
+        print("\n" )
         print("STATISTICAL SUMMARY")
-        print("="*80)
+        print("="*20)
         print(f"Average Out-of-Sample Return: {wf_results['Return'].mean():.2f}%")
         print(f"Average Out-of-Sample Sharpe: {wf_results['Sharpe'].mean():.2f}")
         print(f"Std Dev of Returns: {wf_results['Return'].std():.2f}%")
         print(f"Consistency (% positive folds): {(wf_results['Return'] > 0).mean()*100:.1f}%")
         
         # Validation criteria
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         print("VALIDATION CRITERIA")
-        print("="*80)
+        print("="*20)
         avg_return = wf_results['Return'].mean()
         consistency = (wf_results['Return'] > 0).mean()
         avg_sharpe = wf_results['Sharpe'].mean()
         
         if avg_return > 0 and consistency >= 0.6 and avg_sharpe > 0.5:
-            print("✅ PASS: Strategy shows consistent out-of-sample performance")
+            print(" PASS: Strategy shows consistent out-of-sample performance")
         elif avg_return > 0 and consistency >= 0.5:
-            print("⚠️ MARGINAL: Strategy shows some out-of-sample performance")
+            print(" MARGINAL: Strategy shows some out-of-sample performance")
         else:
-            print("❌ FAIL: Strategy does not perform well out-of-sample")
+            print(" FAIL: Strategy does not perform well out-of-sample")
             print("   Likely overfit to historical data. DO NOT TRADE.")
         
         self.validation_results['walk_forward'] = wf_results
         return wf_results
     
-    # ========================================================================
     # 2. MONTE CARLO SIMULATION
-    # ========================================================================
     
     def monte_carlo_simulation(self, n_simulations=1000, confidence_level=0.95):
-        """
-        Monte Carlo simulation to assess strategy robustness.
-        Randomly shuffles returns to see if results are statistically significant.
-        """
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("2. MONTE CARLO SIMULATION")
-        print("="*80)
+        print("="*20)
         print("Purpose: Test if returns are due to skill or luck")
         print(f"Method: Shuffle trade returns {n_simulations} times\n")
         
         trades = self.system.get_trade_analysis()
         
         if len(trades) == 0:
-            print("❌ No trades to analyze")
+            print(" No trades to analyze")
             return None
         
         actual_returns = trades['pnl'].values
         actual_total = actual_returns.sum()
         actual_sharpe = actual_returns.mean() / actual_returns.std() * np.sqrt(252/trades['duration_days'].mean()) if actual_returns.std() > 0 else 0
         
-        # Run simulations
         simulated_returns = []
         simulated_sharpes = []
         
@@ -200,13 +177,13 @@ class StrategyValidator:
         print("="*80)
         
         if p_value_return < 0.05 and actual_total > ci_upper:
-            print("✅ PASS: Returns are statistically significant (p < 0.05)")
+            print(" PASS: Returns are statistically significant (p < 0.05)")
             print("   Strategy performance is unlikely due to random chance")
         elif p_value_return < 0.10:
-            print("⚠️ MARGINAL: Returns show some significance (p < 0.10)")
+            print("MARGINAL: Returns show some significance (p < 0.10)")
         else:
-            print("❌ FAIL: Returns not statistically significant")
-            print("   Performance may be due to luck. Use caution.")
+            print(" FAIL: Returns not statistically significant")
+            print("  Performance may be due to luck. Use caution.")
         
         self.validation_results['monte_carlo'] = {
             'actual_return': actual_total,
@@ -218,17 +195,14 @@ class StrategyValidator:
         
         return simulated_returns
     
-    # ========================================================================
     # 3. STRESS TESTING (Crisis Periods)
-    # ========================================================================
     
     def stress_test_crisis_periods(self):
-        """
-        Test strategy performance during known crisis periods.
-        """
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("3. STRESS TESTING (Crisis Period Analysis)")
-        print("="*80)
+        print("="*20)
         print("Purpose: Evaluate strategy behavior during market crashes\n")
         
         # Define crisis periods
@@ -266,44 +240,43 @@ class StrategyValidator:
             })
         
         if len(results) == 0:
-            print("⚠️ No crisis periods found in backtest timeframe")
+            print(" No crisis periods found in backtest timeframe")
             return None
         
         stress_results = pd.DataFrame(results)
         print(stress_results.to_string(index=False))
         
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("VALIDATION CRITERIA")
-        print("="*80)
+        print("="*20)
         
         avg_crisis_return = stress_results['Strategy_Return'].mean()
         avg_market_return = stress_results['Market_Return'].mean()
         avg_trade_rate = stress_results['Trade_Rate'].mean()
         
         if avg_crisis_return > avg_market_return and avg_crisis_return > -5:
-            print("✅ PASS: Strategy outperforms market during crises")
+            print(" PASS: Strategy outperforms market during crises")
         elif avg_trade_rate < 30:
-            print("✅ PASS: Strategy correctly avoids trading during crises")
+            print(" PASS: Strategy correctly avoids trading during crises")
         elif avg_crisis_return > -10:
-            print("⚠️ MARGINAL: Strategy shows moderate losses during crises")
+            print(" MARGINAL: Strategy shows moderate losses during crises")
         else:
-            print("❌ FAIL: Strategy performs poorly during crises")
+            print(" FAIL: Strategy performs poorly during crises")
             print("   Risk management may be inadequate")
         
         self.validation_results['stress_test'] = stress_results
         return stress_results
     
-    # ========================================================================
     # 4. SENSITIVITY ANALYSIS
-    # ========================================================================
     
     def sensitivity_analysis(self, stock_y, stock_x, market_index):
-        """
-        Test how sensitive strategy is to parameter changes.
-        """
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("4. SENSITIVITY ANALYSIS (Parameter Robustness)")
-        print("="*80)
+        print("="*20)
         print("Purpose: Ensure strategy isn't overfit to specific parameters\n")
         
         param_grid = {
@@ -318,7 +291,7 @@ class StrategyValidator:
                 print(f"Testing: entry_z={entry_z}, exit_z={exit_z}")
                 
                 try:
-                    system = UltimateHybridSystem()
+                    system = HybridSystem()
                     test_results = system.run_backtest(
                         stock_y, stock_x, market_index,
                         train_period=252,
@@ -345,42 +318,39 @@ class StrategyValidator:
         sensitivity_df = pd.DataFrame(results)
         print("\n" + sensitivity_df.to_string(index=False))
         
-        print("\n" + "="*80)
+        print("\n" )
+        print("\n" )
         print("VALIDATION CRITERIA")
-        print("="*80)
+        print("="*20)
         
         positive_returns = (sensitivity_df['Return_%'] > 0).mean()
         sharpe_std = sensitivity_df['Sharpe'].std()
         
         if positive_returns >= 0.75 and sharpe_std < 0.5:
-            print("✅ PASS: Strategy is robust across parameter ranges")
+            print(" PASS: Strategy is robust across parameter ranges")
         elif positive_returns >= 0.60:
-            print("⚠️ MARGINAL: Strategy shows some parameter sensitivity")
+            print(" MARGINAL: Strategy shows some parameter sensitivity")
         else:
-            print("❌ FAIL: Strategy is highly parameter-dependent")
+            print(" FAIL: Strategy is highly parameter-dependent")
             print("   Likely overfit. Results may not be repeatable.")
         
         self.validation_results['sensitivity'] = sensitivity_df
         return sensitivity_df
     
-    # ========================================================================
     # 5. TRANSACTION COST ANALYSIS
-    # ========================================================================
     
     def transaction_cost_analysis(self, slippage_bps=5, commission_per_trade=1):
-        """
-        Test strategy under realistic transaction costs.
-        """
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         print("5. TRANSACTION COST ANALYSIS")
-        print("="*80)
+        print("="*20)
         print(f"Purpose: Test if strategy remains profitable after costs")
         print(f"Slippage: {slippage_bps} bps, Commission: ${commission_per_trade} per trade\n")
         
         trades = self.system.get_trade_analysis()
         
         if len(trades) == 0:
-            print("❌ No trades to analyze")
+            print(" No trades to analyze")
             return None
         
         # Calculate costs
@@ -410,16 +380,17 @@ class StrategyValidator:
         print(f"Sharpe After Costs: {sharpe_after_costs:.3f}")
         print(f"Sharpe Degradation: {original_sharpe - sharpe_after_costs:.3f}")
         
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         print("VALIDATION CRITERIA")
-        print("="*80)
+        print("="*20)
         
         if return_after_costs > original_return * 0.7 and sharpe_after_costs > 0.5:
-            print("✅ PASS: Strategy remains profitable after transaction costs")
+            print(" PASS: Strategy remains profitable after transaction costs")
         elif return_after_costs > 0:
-            print("⚠️ MARGINAL: Strategy barely profitable after costs")
+            print(" MARGINAL: Strategy barely profitable after costs")
         else:
-            print("❌ FAIL: Strategy unprofitable after transaction costs")
+            print(" FAIL: Strategy unprofitable after transaction costs")
             print("   Strategy trades too frequently or margins too thin")
         
         self.validation_results['transaction_costs'] = {
@@ -430,17 +401,14 @@ class StrategyValidator:
         
         return trades_with_costs
     
-    # ========================================================================
     # 6. STATISTICAL TESTS
-    # ========================================================================
     
     def statistical_tests(self):
-        """
-        Run statistical tests on strategy returns.
-        """
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
+        print("\n")
         print("6. STATISTICAL TESTS")
-        print("="*80)
+        print("="*20)
         print("Purpose: Verify statistical properties of returns\n")
         
         returns = self.results['strategy_return'].dropna()
@@ -450,18 +418,18 @@ class StrategyValidator:
         print(f"Jarque-Bera Normality Test:")
         print(f"  Statistic: {jb_stat:.4f}, P-value: {jb_pval:.4f}")
         if jb_pval > 0.05:
-            print(f"  ✅ Returns appear normally distributed")
+            print(f"   Returns appear normally distributed")
         else:
-            print(f"  ⚠️ Returns are NOT normally distributed (fat tails likely)")
+            print(f"  Returns are NOT normally distributed (fat tails likely)")
         
         # 2. Mean Return Test
         t_stat, t_pval = stats.ttest_1samp(returns, 0)
         print(f"\nT-Test (Mean > 0):")
         print(f"  Statistic: {t_stat:.4f}, P-value: {t_pval/2:.4f}")
         if t_pval/2 < 0.05 and returns.mean() > 0:
-            print(f"  ✅ Mean return significantly positive")
+            print(f"   Mean return significantly positive")
         else:
-            print(f"  ❌ Mean return not significantly different from zero")
+            print(f"   Mean return not significantly different from zero")
         
         # 3. Autocorrelation
         try:
@@ -470,26 +438,24 @@ class StrategyValidator:
             print(f"\nLjung-Box Autocorrelation Test:")
             print(f"  P-value: {lb_stat['lb_pvalue'].iloc[0]:.4f}")
             if lb_stat['lb_pvalue'].iloc[0] > 0.05:
-                print(f"  ✅ No significant autocorrelation")
+                print(f"   No significant autocorrelation")
             else:
-                print(f"  ⚠️ Returns show autocorrelation")
+                print(f"   Returns show autocorrelation")
         except ImportError:
-            print("\n⚠️ Statsmodels not available for autocorrelation test")
+            print("\n Statsmodels not available for autocorrelation test")
         
         self.validation_results['statistical_tests'] = {
             'normality_pval': jb_pval,
             'mean_test_pval': t_pval/2
         }
     
-    # ========================================================================
     # 7. GENERATE VALIDATION REPORT
-    # ========================================================================
     
     def generate_report(self, save_path='validation_report.txt'):
-        """Generate comprehensive validation report."""
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         print("GENERATING COMPREHENSIVE VALIDATION REPORT")
-        print("="*80)
+        print("="*20)
         
         report = []
         report.append("="*80)
@@ -539,7 +505,7 @@ class StrategyValidator:
         report.append("VALIDATION SCORES")
         report.append("-" * 80)
         for test, score in scores.items():
-            status = "✅ PASS" if score >= 80 else ("⚠️ MARGINAL" if score >= 60 else "❌ FAIL")
+            status = " PASS" if score >= 80 else ("⚠️ MARGINAL" if score >= 60 else "❌ FAIL")
             report.append(f"{test:.<40} {score:>3.0f}/100  {status}")
         
         report.append("-" * 80)
@@ -552,55 +518,47 @@ class StrategyValidator:
         report.append("="*80)
         
         if overall_score >= 80:
-            report.append("✅ STRATEGY VALIDATED")
+            report.append(" STRATEGY VALIDATED")
             report.append("This strategy shows robust performance across multiple validation tests.")
             report.append("Proceed with paper trading, then small live allocation.")
         elif overall_score >= 60:
-            report.append("⚠️ MARGINAL - PROCEED WITH CAUTION")
+            report.append(" MARGINAL - PROCEED WITH CAUTION")
             report.append("Strategy shows some promise but has limitations.")
             report.append("Consider: Additional parameter tuning, longer backtest period,")
             report.append("or combining with other strategies.")
         else:
-            report.append("❌ STRATEGY NOT VALIDATED")
+            report.append(" STRATEGY NOT VALIDATED")
             report.append("Strategy fails critical validation tests.")
             report.append("DO NOT TRADE. Strategy likely overfit or fundamentally flawed.")
         
-        # Save report
         report_text = "\n".join(report)
         print(report_text)
         
         with open(save_path, 'w') as f:
             f.write(report_text)
         
-        print(f"\n📄 Report saved to: {save_path}")
+        print(f"\n Report saved to: {save_path}")
         
         return overall_score
-
-
-# ============================================================================
+    
 # COMPLETE VALIDATION WORKFLOW
-# ============================================================================
 
 def run_complete_validation(ticker_y='PEP', ticker_x='KO',
                            start_date='2018-01-01', end_date='2024-01-01',
                            entry_z=2.0, exit_z=0.5):
-    """
-    Run complete validation workflow for a pairs trading strategy.
-    """
-    print("="*80)
+    print("\n")
+    print("\n")
     print("COMPLETE PAIRS TRADING STRATEGY VALIDATION")
     print(f"Pair: {ticker_y} vs {ticker_x}")
-    print("="*80)
+    print("="*20)
     print()
     
-    # Download data
-    print("📥 Downloading data...")
+    print(" Downloading data")
     stock_y, stock_x, market = download_data(ticker_y, ticker_x, 'SPY',
                                              start_date, end_date)
     
-    # Run initial backtest
-    print("\n🔄 Running initial backtest...")
-    system = UltimateHybridSystem()
+    print("\n Running initial backtest")
+    system = HybridSystem()
     results = system.run_backtest(stock_y, stock_x, market,
                                   train_period=252,
                                   entry_z=entry_z,
@@ -609,10 +567,9 @@ def run_complete_validation(ticker_y='PEP', ticker_x='KO',
     # Create validator
     validator = StrategyValidator(system, results, ticker_y, ticker_x)
     
-    # Run all validation tests
-    print("\n" + "="*80)
+    print("\n") 
     print("STARTING VALIDATION TESTS")
-    print("="*80)
+    print("="*20)
     
     # 1. Walk-Forward Analysis
     validator.walk_forward_analysis(stock_y, stock_x, market,
@@ -643,7 +600,6 @@ def run_complete_validation(ticker_y='PEP', ticker_x='KO',
 
 
 if __name__ == "__main__":
-    # Validate a pairs trading strategy
     validator, score = run_complete_validation(
         ticker_y='PEP',
         ticker_x='KO',
@@ -653,6 +609,5 @@ if __name__ == "__main__":
         exit_z=0.5
     )
     
-    print("\n" + "="*80)
+    print("\n")
     print(f"FINAL VALIDATION SCORE: {score:.0f}/100")
-    print("="*80)

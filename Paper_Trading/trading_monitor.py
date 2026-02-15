@@ -12,7 +12,6 @@ class TradingMonitor:
         self.backtest_return = backtest_return
     
     def load_trades(self):
-        """Load trade log"""
         try:
             trades = pd.read_csv(self.log_file)
             trades['timestamp'] = pd.to_datetime(trades['timestamp'])
@@ -22,16 +21,12 @@ class TradingMonitor:
             return None
     
     def calculate_metrics(self, trades):
-        """Calculate current performance metrics"""
         if trades is None or len(trades) == 0:
             return None
         
         # Get unique days
         trades['date'] = trades['timestamp'].dt.date
         daily_signals = trades.groupby(['date', 'pair']).last()
-        
-        # Calculate daily returns (simplified - you'll need actual prices)
-        # This is a placeholder - integrate with Alpaca account history
         
         metrics = {
             'days_active': (trades['timestamp'].max() - trades['timestamp'].min()).days,
@@ -46,39 +41,37 @@ class TradingMonitor:
         return metrics
     
     def generate_report(self):
-        """Generate weekly monitoring report"""
         trades = self.load_trades()
         
-        print("="*80)
+        print("="*10)
         print(f"PAPER TRADING MONITOR - {datetime.now().strftime('%Y-%m-%d')}")
-        print("="*80)
+        print("="*10)
         
         if trades is None:
-            print("\n⚠️ No trading data available yet")
+            print("\n No trading data available yet")
             print("Paper trading system needs to run for at least 1 day")
             return
         
         metrics = self.calculate_metrics(trades)
         
-        print(f"\n📅 Trading Period:")
+        print(f"\n Trading Period:")
         print(f"  Start: {trades['timestamp'].min()}")
         print(f"  End: {trades['timestamp'].max()}")
         print(f"  Days Active: {metrics['days_active']}")
         print(f"  Days Remaining: {90 - metrics['days_active']}")
         print(f"  Progress: {(metrics['days_active']/90)*100:.1f}%")
         
-        print(f"\n📊 Signal Activity:")
+        print(f"\n Signal Activity:")
         print(f"  Total Signals: {metrics['total_signals']}")
         print(f"  Long: {metrics['long_signals']} ({(metrics['long_signals']/metrics['total_signals'])*100:.1f}%)")
         print(f"  Short: {metrics['short_signals']} ({(metrics['short_signals']/metrics['total_signals'])*100:.1f}%)")
         print(f"  Flat: {metrics['flat_signals']} ({(metrics['flat_signals']/metrics['total_signals'])*100:.1f}%)")
         
-        print(f"\n🎯 Entry Quality:")
+        print(f"\n Entry Quality:")
         print(f"  Avg |Z-score|: {metrics['avg_z_score']:.2f}")
         print(f"  Max |Z-score|: {metrics['max_z_score']:.2f}")
         
-        # By pair
-        print(f"\n💼 By Pair:")
+        print(f"\n By Pair:")
         for pair in trades['pair'].unique():
             pair_trades = trades[trades['pair'] == pair]
             print(f"\n  {pair}:")
@@ -87,15 +80,15 @@ class TradingMonitor:
             print(f"    Avg Z: {pair_trades['z_score'].abs().mean():.2f}")
         
         # Regime distribution
-        print(f"\n🌡️  Market Regime Distribution:")
+        print(f"\n Market Regime Distribution:")
         regime_counts = trades['regime'].value_counts()
         for regime, count in regime_counts.items():
             print(f"  {regime}: {count} ({(count/len(trades))*100:.1f}%)")
         
-        print(f"\n✅ Status: {'ON TRACK' if metrics['days_active'] >= 7 else 'JUST STARTED'}")
+        print(f"\n Status: {'ON TRACK' if metrics['days_active'] >= 7 else 'JUST STARTED'}")
         
         # Warnings
-        print(f"\n⚠️  Alerts:")
+        print(f"\n Alerts:")
         if metrics['avg_z_score'] < 1.5:
             print("  - Warning: Low average Z-scores (entries may be too conservative)")
         if metrics['flat_signals'] / metrics['total_signals'] > 0.9:
@@ -103,12 +96,10 @@ class TradingMonitor:
         if 'CRISIS' in regime_counts and regime_counts['CRISIS'] / len(trades) > 0.3:
             print("  - Info: High crisis regime % (this is normal defensive behavior)")
         
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
     
     def plot_performance(self):
-        """
-        Plot performance charts
-        """
         trades = self.load_trades()
         if trades is None:
             return
@@ -150,15 +141,13 @@ class TradingMonitor:
         
         plt.tight_layout()
         plt.savefig('paper_trading_monitor.png', dpi=300, bbox_inches='tight')
-        print(f"\n📊 Charts saved to: paper_trading_monitor.png")
+        print(f"\n Charts saved to: paper_trading_monitor.png")
         plt.show()
 
 
 if __name__ == "__main__":
     monitor = TradingMonitor()
     monitor.generate_report()
-    
-    # Generate charts if data available
     try:
         monitor.plot_performance()
     except Exception as e:

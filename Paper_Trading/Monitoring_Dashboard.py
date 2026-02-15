@@ -1,9 +1,3 @@
-"""
-Enhanced Monitoring Dashboard for Paper Trading
-Run this weekly to check performance with detailed analytics
-Optimized for best performance with caching and batch operations
-"""
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,13 +18,6 @@ import config
 
 
 class TradingMonitor:
-    """
-    High-performance monitoring dashboard with:
-    - Performance analytics
-    - Risk metrics
-    - Comparison to backtest
-    - Visual dashboards
-    """
     
     def __init__(
         self,
@@ -38,14 +25,6 @@ class TradingMonitor:
         backtest_sharpe: float = 0.30,
         backtest_return: float = 6.24
     ):
-        """
-        Initialize monitor
-        
-        Args:
-            log_file: Path to trade log CSV
-            backtest_sharpe: Expected Sharpe from backtest
-            backtest_return: Expected return from backtest
-        """
         self.log_file = Path(log_file or config.TRADE_LOG_FILE)
         self.backtest_sharpe = backtest_sharpe
         self.backtest_return = backtest_return
@@ -57,21 +36,15 @@ class TradingMonitor:
             self.backtest_return = first_pair.get('backtest_return', backtest_return)
     
     def load_trades(self) -> pd.DataFrame:
-        """
-        Load trade log with error handling
-        
-        Returns:
-            DataFrame with trades or None
-        """
         try:
             if not self.log_file.exists():
-                print(f"❌ Trade log not found: {self.log_file}")
+                print(f" Trade log not found: {self.log_file}")
                 return None
             
             trades = pd.read_csv(self.log_file)
             
             if len(trades) == 0:
-                print("⚠️  Trade log is empty")
+                print(" Trade log is empty")
                 return None
             
             trades['timestamp'] = pd.to_datetime(trades['timestamp'])
@@ -80,19 +53,11 @@ class TradingMonitor:
             return trades
             
         except Exception as e:
-            print(f"❌ Error loading trades: {e}")
+            print(f" Error loading trades: {e}")
             return None
     
     def calculate_metrics(self, trades: pd.DataFrame) -> dict:
-        """
-        Calculate comprehensive performance metrics
-        
-        Args:
-            trades: DataFrame with trade history
-            
-        Returns:
-            Dictionary with metrics
-        """
+
         if trades is None or len(trades) == 0:
             return None
         
@@ -158,15 +123,6 @@ class TradingMonitor:
         return metrics
     
     def calculate_pair_metrics(self, trades: pd.DataFrame) -> dict:
-        """
-        Calculate metrics by pair
-        
-        Args:
-            trades: DataFrame with trades
-            
-        Returns:
-            Dictionary with per-pair metrics
-        """
         pair_metrics = {}
         
         for pair in trades['pair'].unique():
@@ -191,29 +147,24 @@ class TradingMonitor:
         return pair_metrics
     
     def generate_report(self):
-        """Generate comprehensive weekly monitoring report"""
         
-        print("="*80)
-        print(f"📊 PAPER TRADING MONITOR - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print("="*80)
+        print("="*10)
+        print(f" PAPER TRADING MONITOR - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print("="*10)
         
-        # Load trades
+        # Loading of  trades
         trades = self.load_trades()
         
         if trades is None:
-            print("\n⚠️  No trading data available yet")
+            print("\n  No trading data available yet")
             print("Paper trading system needs to run for at least 1 day")
-            print("\n💡 Run: python alpaca_paper_trader.py")
             return
         
         # Calculate metrics
         metrics = self.calculate_metrics(trades)
         pair_metrics = self.calculate_pair_metrics(trades)
         
-        # ====================================================================
-        # PERIOD SUMMARY
-        # ====================================================================
-        print(f"\n📅 Trading Period:")
+        print(f"\n Trading Period:")
         print(f"  Start: {metrics['start_date'].strftime('%Y-%m-%d')}")
         print(f"  End: {metrics['end_date'].strftime('%Y-%m-%d')}")
         print(f"  Days Active: {metrics['days_active']}")
@@ -221,9 +172,7 @@ class TradingMonitor:
         print(f"  Progress: {metrics['progress_pct']:.1f}%")
         print(f"  Unique Trading Days: {metrics['unique_dates']}")
         
-        # ====================================================================
         # SIGNAL ACTIVITY
-        # ====================================================================
         print(f"\n📊 Signal Activity:")
         print(f"  Total Signals: {metrics['total_signals']}")
         print(f"  Signals/Day: {metrics['signals_per_day']:.2f}")
@@ -232,10 +181,8 @@ class TradingMonitor:
         print(f"  Flat: {metrics['flat_signals']} ({metrics['flat_pct']:.1f}%)")
         print(f"  Active Time: {metrics['active_pct']:.1f}%")
         
-        # ====================================================================
         # ENTRY QUALITY
-        # ====================================================================
-        print(f"\n🎯 Entry Quality:")
+        print(f"\n Entry Quality:")
         print(f"  Avg |Z-score|: {metrics['avg_z_score']:.2f}")
         print(f"  Max |Z-score|: {metrics['max_z_score']:.2f}")
         print(f"  Min |Z-score|: {metrics['min_z_score']:.2f}")
@@ -244,10 +191,7 @@ class TradingMonitor:
             print(f"  Avg Confidence: {metrics['avg_confidence']:.2f}")
             print(f"  High Confidence Trades: {metrics['high_confidence_pct']*100:.1f}%")
         
-        # ====================================================================
-        # BY PAIR ANALYSIS
-        # ====================================================================
-        print(f"\n💼 Performance by Pair:")
+        print(f"\n Performance by Pair:")
         
         for pair, pm in pair_metrics.items():
             print(f"\n  {pair}:")
@@ -262,87 +206,75 @@ class TradingMonitor:
             if 'avg_confidence' in pm:
                 print(f"    Avg Confidence: {pm['avg_confidence']:.2f}")
         
-        # ====================================================================
         # REGIME DISTRIBUTION
-        # ====================================================================
-        print(f"\n🌡️  Market Regime Distribution:")
+        print(f"\n  Market Regime Distribution:")
         
         for regime, count in metrics['regime_dist'].items():
             pct = (count / metrics['total_signals']) * 100
             print(f"  {regime}: {count} ({pct:.1f}%)")
         
-        # ====================================================================
-        # STATUS & PROGRESS
-        # ====================================================================
-        print(f"\n✅ Status:")
+        print(f"\n Status:")
         
         if metrics['days_active'] < 7:
             status = "JUST STARTED"
-            status_emoji = "🌱"
         elif metrics['days_active'] < 30:
             status = "EARLY STAGE"
-            status_emoji = "🚀"
         elif metrics['days_active'] < 60:
             status = "ON TRACK"
-            status_emoji = "✅"
         else:
             status = "FINAL STRETCH"
-            status_emoji = "🏁"
         
-        print(f"  {status_emoji} {status}")
         print(f"  {metrics['progress_pct']:.1f}% complete ({metrics['days_active']}/{90} days)")
         
-        # ====================================================================
-        # ALERTS & WARNINGS
-        # ====================================================================
-        print(f"\n⚠️  Alerts & Recommendations:")
+        # ALERTS 
+
+        print(f"\n  Alerts & Recommendations:")
         
         alerts = []
         
         # Check entry quality
         if metrics['avg_z_score'] < 1.5:
-            alerts.append("⚠️  Low average Z-scores - entries may be too conservative")
+            alerts.append("  Low average Z-scores - entries may be too conservative")
         
         if metrics['avg_z_score'] > 3.5:
-            alerts.append("⚠️  Very high Z-scores - may be overtrading")
+            alerts.append("  Very high Z-scores - may be overtrading")
         
         # Check activity
         if metrics['flat_pct'] > 90:
-            alerts.append("⚠️  Too much time flat (>90%) - strategy not trading enough")
+            alerts.append("  Too much time flat (>90%) - strategy not trading enough")
         
         if metrics['active_pct'] < 10:
-            alerts.append("⚠️  Very low activity - check if signals are generating correctly")
+            alerts.append("  Very low activity - check the generation of signals")
         
         # Check regime
         crisis_pct = 0
         if 'CRISIS' in metrics['regime_dist']:
             crisis_pct = (metrics['regime_dist']['CRISIS'] / metrics['total_signals']) * 100
             if crisis_pct > 50:
-                alerts.append(f"ℹ️  High crisis regime ({crisis_pct:.1f}%) - defensive behavior is normal")
+                alerts.append(f"ℹ  High crisis regime ({crisis_pct:.1f}%) - defensive behavior is normal")
         
         # Check data frequency
         if metrics['signals_per_day'] < 0.5:
-            alerts.append("⚠️  Low signal frequency - check if daily updates are running")
+            alerts.append("  Low signal frequency - check if daily updates are running")
         
         # Check balance
         if metrics['long_pct'] > 70 or metrics['short_pct'] > 70:
-            alerts.append("⚠️  Imbalanced long/short ratio - check for market bias")
+            alerts.append("  Imbalanced long/short ratio - check for market bias")
         
         if not alerts:
-            print("  ✅ No issues detected - system operating normally")
+            print("   No issues detected - system operating normally")
         else:
             for alert in alerts:
                 print(f"  {alert}")
         
-        # ====================================================================
-        # COMPARISON TO BACKTEST
-        # ====================================================================
-        print(f"\n📈 Expected vs Actual (Backtest Reference):")
+        # COMPARISON FROM BACKTEST
+        print(f"\n Expected vs Actual (Backtest Reference):")
         print(f"  Expected Sharpe: {self.backtest_sharpe:.2f}")
         print(f"  Expected Return: {self.backtest_return:.2f}%")
         print(f"  Note: Actual performance requires price data - see account summary")
         
-        print("\n" + "="*80)
+        print("\n")
+        print("\n")
         
         # Try to load account performance if available
         try:
@@ -358,7 +290,7 @@ class TradingMonitor:
             portfolio_value = float(account.portfolio_value)
             total_return = ((portfolio_value - config.INITIAL_CAPITAL) / config.INITIAL_CAPITAL) * 100
             
-            print(f"\n💰 Current Account Performance:")
+            print(f"\n Current Account Performance:")
             print(f"  Portfolio Value: ${portfolio_value:,.2f}")
             print(f"  Total Return: {total_return:+.2f}%")
             
@@ -366,31 +298,22 @@ class TradingMonitor:
                 annualized = (total_return / metrics['days_active']) * 365
                 print(f"  Annualized (est): {annualized:+.2f}%")
             
-            print("="*80)
+            print("\n")
+            print("\n")
+            print("\n")
             
         except Exception as e:
-            pass  # Silently skip if can't connect
+            pass  
     
     def plot_performance(self, save_path: str = 'paper_trading_monitor.png'):
-        """
-        Generate performance visualization dashboard
-        
-        Args:
-            save_path: Path to save the chart
-        """
         trades = self.load_trades()
         
         if trades is None or len(trades) < 2:
-            print("❌ Insufficient data for plotting")
+            print(" Insufficient data for plotting")
             return
         
-        # Create figure with subplots
         fig = plt.figure(figsize=(16, 12))
         gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
-        
-        # ====================================================================
-        # Plot 1: Z-Score Over Time
-        # ====================================================================
         ax1 = fig.add_subplot(gs[0, :2])
         
         for pair in trades['pair'].unique():
@@ -411,9 +334,6 @@ class TradingMonitor:
         ax1.grid(True, alpha=0.3)
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
         
-        # ====================================================================
-        # Plot 2: Signal Distribution
-        # ====================================================================
         ax2 = fig.add_subplot(gs[0, 2])
         
         signal_counts = trades['signal'].value_counts().sort_index()
@@ -430,16 +350,12 @@ class TradingMonitor:
         ax2.set_ylabel('Count')
         ax2.grid(True, alpha=0.3, axis='y')
         
-        # Add value labels on bars
         for bar in bars:
             height = bar.get_height()
             ax2.text(bar.get_x() + bar.get_width()/2., height,
                     f'{int(height)}',
                     ha='center', va='bottom')
         
-        # ====================================================================
-        # Plot 3: Regime Distribution (Pie Chart)
-        # ====================================================================
         ax3 = fig.add_subplot(gs[1, 0])
         
         regime_counts = trades['regime'].value_counts()
@@ -454,9 +370,6 @@ class TradingMonitor:
         )
         ax3.set_title('Regime Distribution', fontsize=12, fontweight='bold')
         
-        # ====================================================================
-        # Plot 4: Z-Score Distribution (Histogram)
-        # ====================================================================
         ax4 = fig.add_subplot(gs[1, 1])
         
         ax4.hist(trades['z_score'], bins=30, alpha=0.7, color='#3498db', edgecolor='black')
@@ -471,9 +384,6 @@ class TradingMonitor:
         ax4.legend()
         ax4.grid(True, alpha=0.3)
         
-        # ====================================================================
-        # Plot 5: Confidence Over Time (if available)
-        # ====================================================================
         ax5 = fig.add_subplot(gs[1, 2])
         
         if 'confidence' in trades.columns:
@@ -490,9 +400,6 @@ class TradingMonitor:
                     ha='center', va='center', fontsize=12)
             ax5.set_title('Signal Confidence', fontsize=12, fontweight='bold')
         
-        # ====================================================================
-        # Plot 6: Activity Timeline
-        # ====================================================================
         ax6 = fig.add_subplot(gs[2, :])
         
         # Group by date and count active signals
@@ -517,31 +424,24 @@ class TradingMonitor:
         ax6.legend(loc='upper left')
         ax6_twin.legend(loc='upper right')
         
-        # Format overall figure
         plt.suptitle('Paper Trading Performance Dashboard', 
                     fontsize=16, fontweight='bold', y=0.995)
         
-        # Save
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"\n📊 Dashboard saved to: {save_path}")
+        print(f"\n Dashboard saved to: {save_path}")
         
         plt.show()
 
 
 def main():
-    """Main execution"""
-    
     monitor = TradingMonitor()
     
-    # Generate report
     monitor.generate_report()
-    
-    # Generate charts
     try:
-        print("\n📊 Generating performance charts...")
+        print("\n Generating performance charts")
         monitor.plot_performance()
     except Exception as e:
-        print(f"\n⚠️  Could not generate charts: {e}")
+        print(f"\n  Could not generate charts: {e}")
         print("Charts require at least 2 days of trading data")
 
 

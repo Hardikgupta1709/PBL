@@ -1,22 +1,13 @@
-"""
-Test Top Discovered Pairs
-Tests the best pairs from auto_find_pairs.py results
-Run: python test_discovered_pairs.py
-"""
-
 import sys
 import os 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core_Strategy.ultra_conservative_strategy import UltraConservativeSystem, download_data
+from Core_Strategy.conservative_strategy import ConservativeSystem, download_data
 from Core_Strategy.strategy_validator import StrategyValidator
 import pandas as pd
 
-
-# Top pairs from your scan (score >= 85)
 TOP_PAIRS = [
-    # (Y, X, Score, Suggested Params)
-    ('BAC', 'PNC', 110, {'entry_z': 1.8, 'exit_z': 0.5, 'min_hold': 2}),  # Excellent
+    ('BAC', 'PNC', 110, {'entry_z': 1.8, 'exit_z': 0.5, 'min_hold': 2}),  
     ('WFC', 'MS', 100, {'entry_z': 2.0, 'exit_z': 0.5, 'min_hold': 3}),
     ('WFC', 'GS', 100, {'entry_z': 2.0, 'exit_z': 0.5, 'min_hold': 3}),
     ('VMC', 'MLM', 95, {'entry_z': 2.0, 'exit_z': 0.5, 'min_hold': 2}),
@@ -32,25 +23,20 @@ TOP_PAIRS = [
 def test_single_pair(ticker_y, ticker_x, params, score, 
                      start_date='2020-01-01', end_date='2024-01-01',
                      full_validation=False):
-    """
-    Test a single pair with validation
-    """
-    print(f"\n{'='*80}")
+    print(f"\n")
     print(f"Testing: {ticker_y} vs {ticker_x} (Quality Score: {score})")
-    print(f"{'='*80}")
+    print("\n")
     
-    # Download
-    print(f"📥 Downloading data...")
+    print(f" Downloading data")
     try:
         stock_y, stock_x, market = download_data(ticker_y, ticker_x, 'SPY', start_date, end_date)
     except Exception as e:
-        print(f"❌ Download failed: {e}")
+        print(f" Download failed: {e}")
         return None
     
-    # Backtest
-    print(f"🔄 Running backtest...")
+    print(f" Running backtest")
     try:
-        system = UltraConservativeSystem()
+        system = ConservativeSystem()
         results = system.run_backtest(
             stock_y, stock_x, market,
             train_period=252,
@@ -72,14 +58,13 @@ def test_single_pair(ticker_y, ticker_x, params, score,
         win_rate = float(hybrid['Win Rate'].rstrip('%'))
         total_trades = int(hybrid['Total Trades'])
         
-        print(f"\n📊 Performance Summary:")
+        print(f"\n Performance Summary:")
         print(f"   Total Return: {total_return:.2f}%")
         print(f"   Sharpe Ratio: {sharpe:.2f}")
         print(f"   Max Drawdown: {max_dd:.2f}%")
         print(f"   Win Rate: {win_rate:.1f}%")
         print(f"   Total Trades: {total_trades}")
         
-        # Quick validation
         result = {
             'Ticker_Y': ticker_y,
             'Ticker_X': ticker_x,
@@ -96,7 +81,7 @@ def test_single_pair(ticker_y, ticker_x, params, score,
         
         # Monte Carlo test
         if sharpe > 0 and total_trades >= 10:
-            print(f"\n🎲 Running Monte Carlo test...")
+            print(f"\n Running Monte Carlo test...")
             
             validator = StrategyValidator(system, results, ticker_y, ticker_x)
             
@@ -108,15 +93,15 @@ def test_single_pair(ticker_y, ticker_x, params, score,
                 result['MC_PValue'] = mc_pvalue
                 
                 if mc_pvalue < 0.05:
-                    print(f"   ✅ PASS: p-value = {mc_pvalue:.4f} < 0.05")
+                    print(f"    PASS: p-value = {mc_pvalue:.4f} < 0.05")
                     result['MC_Score'] = 100
                     result['Status'] = 'EXCELLENT'
                 elif mc_pvalue < 0.10:
-                    print(f"   ⚠️ MARGINAL: p-value = {mc_pvalue:.4f} < 0.10")
+                    print(f"    MARGINAL: p-value = {mc_pvalue:.4f} < 0.10")
                     result['MC_Score'] = 60
                     result['Status'] = 'MARGINAL'
                 else:
-                    print(f"   ❌ FAIL: p-value = {mc_pvalue:.4f} > 0.10")
+                    print(f"    FAIL: p-value = {mc_pvalue:.4f} > 0.10")
                     result['MC_Score'] = 0
                     result['Status'] = 'FAILED'
                 
@@ -140,11 +125,11 @@ def test_single_pair(ticker_y, ticker_x, params, score,
                         print(f"   Cost Retention: {retention*100:.1f}%")
                 
             except Exception as e:
-                print(f"   ⚠️ Validation error: {e}")
+                print(f"    Validation error: {e}")
                 result['Status'] = 'ERROR'
         
         else:
-            print(f"\n⚠️ Skipping validation (Sharpe={sharpe:.2f}, Trades={total_trades})")
+            print(f"\n Skipping validation (Sharpe={sharpe:.2f}, Trades={total_trades})")
             result['Status'] = 'SKIPPED'
         
         return result
@@ -157,12 +142,11 @@ def test_single_pair(ticker_y, ticker_x, params, score,
 
 
 def test_all_top_pairs(max_pairs=5, full_validation=False):
-    """
-    Test multiple top pairs
-    """
-    print("="*80)
-    print("🚀 TESTING TOP DISCOVERED PAIRS")
-    print("="*80)
+    print("\n")
+    print("\n")
+    print(" TESTING TOP DISCOVERED PAIRS")
+    print("\n")
+    print("\n")
     print(f"\nTesting top {max_pairs} pairs from auto_find_pairs.py results")
     print("This takes 5-10 minutes...\n")
     
@@ -176,61 +160,57 @@ def test_all_top_pairs(max_pairs=5, full_validation=False):
         
         if result:
             results.append(result)
-            
-            # Show status
             if result['Status'] == 'EXCELLENT':
-                print(f"\n✅ WINNER! This pair passed Monte Carlo!")
+                print(f"\n WINNER! This pair passed Monte Carlo!")
             elif result['Status'] == 'MARGINAL':
-                print(f"\n⚠️ Marginal - may work with tuning")
+                print(f"\n Marginal - may work with tuning")
             elif result['Status'] == 'FAILED':
-                print(f"\n❌ Failed Monte Carlo")
+                print(f"\n Failed Monte Carlo")
     
     return results
 
 
 def display_final_results(results):
-    """
-    Display final ranked results
-    """
     if not results:
-        print("\n❌ No results to display")
+        print("\n No results to display")
         return
     
     df = pd.DataFrame(results)
     df = df.sort_values(['MC_Score', 'Sharpe'], ascending=[False, False])
     
-    print("\n" + "="*80)
+    print("\n")
+    print("\n")
     print("FINAL RESULTS - RANKED BY VALIDATION")
-    print("="*80)
+    print("\n")
+    print("\n")
     
-    # Show all results
-    print("\n📊 All Tested Pairs:")
+    print("\n All Tested Pairs:")
     display_cols = ['Ticker_Y', 'Ticker_X', 'Quality_Score', 'Sharpe', 'Win_Rate', 
                     'MC_PValue', 'Status']
     print(df[display_cols].to_string(index=False))
     
-    # Find winners
+    # Finding Winners
     excellent = df[df['Status'] == 'EXCELLENT']
     marginal = df[df['Status'] == 'MARGINAL']
     
-    print("\n" + "="*80)
+    print("\n")
     print("RECOMMENDATION")
-    print("="*80)
+    print("\n")
     
     if len(excellent) > 0:
-        print(f"\n🎉 FOUND {len(excellent)} WINNING PAIR(S)!")
+        print(f"\n FOUND {len(excellent)} WINNING PAIR(S)!")
         
         best = excellent.iloc[0]
         
-        print(f"\n🏆 BEST VALIDATED PAIR:")
+        print(f"\n BEST VALIDATED PAIR:")
         print(f"   {best['Ticker_Y']} vs {best['Ticker_X']}")
         print(f"   Quality Score: {best['Quality_Score']}/110")
         print(f"   Sharpe Ratio: {best['Sharpe']:.2f}")
         print(f"   Win Rate: {best['Win_Rate']:.1f}%")
         print(f"   Total Return: {best['Total_Return']:.2f}%")
-        print(f"   Monte Carlo p-value: {best['MC_PValue']:.4f} ✅")
+        print(f"   Monte Carlo p-value: {best['MC_PValue']:.4f} ")
         
-        print(f"\n📝 Parameters Used:")
+        print(f"\n Parameters Used:")
         # Find params for this pair
         for y, x, score, params in TOP_PAIRS:
             if y == best['Ticker_Y'] and x == best['Ticker_X']:
@@ -239,8 +219,8 @@ def display_final_results(results):
                 print(f"   min_hold_days = {params['min_hold']}")
                 break
         
-        print(f"\n🚀 NEXT STEPS:")
-        print(f"   1. ✅ This pair has passed initial validation!")
+        print(f"\n NEXT STEPS:")
+        print(f"   1. This pair has passed initial validation!")
         print(f"   2. Run full validation with more tests:")
         print(f"      python test_discovered_pairs.py --full-validation")
         print(f"   3. If passes all tests, start paper trading:")
@@ -249,52 +229,49 @@ def display_final_results(results):
         print(f"      - Track actual vs expected performance")
         print(f"   4. Only go live after successful paper trading")
         
-        # Show alternatives
         if len(excellent) > 1:
-            print(f"\n💡 Other Validated Pairs:")
+            print(f"\n Other Validated Pairs:")
             for idx, row in excellent.iloc[1:].iterrows():
                 print(f"   • {row['Ticker_Y']} vs {row['Ticker_X']} (Sharpe: {row['Sharpe']:.2f}, p={row['MC_PValue']:.4f})")
         
     elif len(marginal) > 0:
-        print(f"\n⚠️ MARGINAL RESULTS")
+        print(f"\n MARGINAL RESULTS")
         print(f"\nFound {len(marginal)} pairs with p-value < 0.10 (but > 0.05)")
         
         best = marginal.iloc[0]
-        print(f"\n🎯 Best Available: {best['Ticker_Y']} vs {best['Ticker_X']}")
+        print(f"\n Best Available: {best['Ticker_Y']} vs {best['Ticker_X']}")
         print(f"   Sharpe: {best['Sharpe']:.2f}")
         print(f"   p-value: {best['MC_PValue']:.4f}")
         
-        print(f"\n💡 Options:")
+        print(f"\n Options:")
         print(f"   1. Try stricter parameters (entry_z=2.5, exit_z=0.3)")
         print(f"   2. Test more pairs from the list")
         print(f"   3. Use different time period")
         
     else:
-        print(f"\n❌ NO PAIRS PASSED VALIDATION")
+        print(f"\n NO PAIRS PASSED VALIDATION")
         
-        # Show best attempt
         if len(df) > 0:
             best_attempt = df.iloc[0]
-            print(f"\n📊 Best Attempt: {best_attempt['Ticker_Y']} vs {best_attempt['Ticker_X']}")
+            print(f"\n Best Attempt: {best_attempt['Ticker_Y']} vs {best_attempt['Ticker_X']}")
             print(f"   Sharpe: {best_attempt['Sharpe']:.2f}")
             print(f"   Status: {best_attempt['Status']}")
             
             if best_attempt['Sharpe'] < 0:
-                print(f"\n⚠️ Negative Sharpe suggests parameters are too conservative")
+                print(f"\n Negative Sharpe suggests parameters are too conservative")
                 print(f"   Try: entry_z=1.8, exit_z=0.6")
             elif best_attempt['MC_PValue'] > 0.10:
-                print(f"\n⚠️ Failed statistical significance")
+                print(f"\n Failed statistical significance")
                 print(f"   Try: More selective entries (higher entry_z)")
         
-        print(f"\n💡 Recommendations:")
+        print(f"\n Recommendations:")
         print(f"   1. Test next batch: python test_discovered_pairs.py --start 5")
         print(f"   2. Adjust time period (maybe 2019-2024 instead of 2020-2024)")
         print(f"   3. Current market may not favor pairs trading")
     
-    # Save results
     filename = 'validated_pairs_results.csv'
     df.to_csv(filename, index=False)
-    print(f"\n📄 Full results saved to: {filename}")
+    print(f"\n Full results saved to: {filename}")
     
     return df
 
@@ -309,32 +286,32 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Adjust TOP_PAIRS if start index specified
     if args.start > 0:
         TOP_PAIRS = TOP_PAIRS[args.start:]
         print(f"Starting from pair #{args.start + 1}")
     
-    print("\n" + "="*80)
+    print("\n")
+    print("\n")
     print("PAIR VALIDATION TESTING")
-    print("="*80)
+    print("\n")
+    print("\n")
     print(f"\nConfiguration:")
     print(f"   Testing: Top {args.max_pairs} pairs")
     print(f"   Full validation: {'Yes' if args.full_validation else 'No (quick test only)'}")
     print(f"   Period: 2020-01-01 to 2024-01-01")
     
-    # Test pairs
     results = test_all_top_pairs(max_pairs=args.max_pairs, 
                                  full_validation=args.full_validation)
     
-    # Display results
     df = display_final_results(results)
     
-    print("\n" + "="*80)
+    print("\n")
+    print("\n")
     print("TESTING COMPLETE!")
-    print("="*80)
+    print("\n")
+    print("\n")
     
     if df is not None and len(df[df['Status'] == 'EXCELLENT']) > 0:
-        print("\n🎊 SUCCESS! You have validated pairs ready for paper trading!")
+        print("\n validated pairs ready for paper trading!")
     else:
-        print("\n⚠️ Keep testing - the right pair is out there!")
-        print("   Try: python test_discovered_pairs.py --start 5 --max-pairs 5")
+        print("\ Keep testing - the right pair is out there!")

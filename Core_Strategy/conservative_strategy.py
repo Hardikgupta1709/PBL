@@ -1,12 +1,3 @@
-"""
-ULTRA-CONSERVATIVE STRATEGY - Designed to Pass Monte Carlo
-Key changes:
-1. Much higher entry thresholds (2.5+ z-score)
-2. Stricter regime filters
-3. Minimum trade duration enforcement
-4. Better risk-reward ratio enforcement
-"""
-
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -17,10 +8,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-class UltraConservativeKalman:
-    """
-    Kalman filter with strict outlier rejection
-    """
+class ConservativeKalman:
     
     def __init__(self, delta=1e-4, var_e=1e-3, var_eta=1e-4):
         self.delta = delta
@@ -88,9 +76,6 @@ class UltraConservativeKalman:
 
 
 class StrictRegimeClassifier:
-    """
-    Very conservative regime classifier
-    """
     
     def __init__(self):
         self.model = RandomForestClassifier(
@@ -132,7 +117,7 @@ class StrictRegimeClassifier:
         features['trend'] = (market_index - sma_20) / sma_20
         features['trend_strength'] = (sma_20 - sma_50) / sma_50
         
-        # Range expansion (measure of volatility spike)
+        # Range expansion 
         high_low_range = market_index.rolling(20).max() - market_index.rolling(20).min()
         features['range_expansion'] = high_low_range / market_index.rolling(60).mean()
         
@@ -152,12 +137,9 @@ class StrictRegimeClassifier:
     def label_regimes(self, features, 
                      vol_crisis=0.25, vol_volatile=0.18,
                      dd_crisis=-0.12, dd_volatile=-0.06):
-        """
-        More conservative thresholds
-        """
         labels = pd.Series(2, index=features.index)  # Default: NORMAL
         
-        # Mark VOLATILE (more aggressive detection)
+        # Mark VOLATILE 
         volatile_conditions = (
             (features['vol_20'] > vol_volatile) |
             (features['dd_60'] < dd_volatile) |
@@ -199,9 +181,6 @@ class StrictRegimeClassifier:
 
 
 def calculate_ultra_conservative_zscore(spread, window=60):
-    """
-    Longer window for more stable z-scores
-    """
     # Use expanding window for first 60 days
     if len(spread) < window:
         mean = spread.expanding(min_periods=10).mean()
@@ -218,13 +197,7 @@ def generate_ultra_conservative_signals(z_scores, regimes, spread_returns,
                                         entry_z_normal=2.5, exit_z_normal=0.3,
                                         entry_z_volatile=3.0, exit_z_volatile=0.2,
                                         min_hold_days=3):
-    """
-    Ultra-conservative signal generation:
-    - Very high entry thresholds
-    - Quick exits
-    - Minimum holding period
-    - Risk-reward filter
-    """
+
     signals = pd.Series(0, index=z_scores.index)
     position = 0
     entry_date_idx = None
@@ -322,13 +295,10 @@ def generate_ultra_conservative_signals(z_scores, regimes, spread_returns,
     return signals
 
 
-class UltraConservativeSystem:
-    """
-    Ultra-conservative system designed to pass Monte Carlo
-    """
+class ConservativeSystem:
     
     def __init__(self):
-        self.kalman = UltraConservativeKalman()
+        self.kalman = ConservativeKalman()
         self.regime_classifier = StrictRegimeClassifier()
         self.results = None
         
@@ -338,9 +308,6 @@ class UltraConservativeSystem:
                      entry_z_volatile=3.0, exit_z_volatile=0.2,
                      min_hold_days=3,
                      z_score_window=60):
-        """
-        Run ultra-conservative backtest
-        """
         data = pd.DataFrame({
             'Y': stock_y,
             'X': stock_x,
@@ -568,14 +535,15 @@ def download_data(ticker_y, ticker_x, market_ticker='SPY',
 
 
 if __name__ == "__main__":
-    print("="*80)
-    print("ULTRA-CONSERVATIVE PAIRS TRADING SYSTEM")
-    print("Optimized for Monte Carlo Statistical Significance")
-    print("="*80)
+    print("\n")
+    print("\n")
+    print("CONSERVATIVE PAIRS TRADING SYSTEM")
+    print("\n")
+    print("\n")
     
     pep, ko, spy = download_data('PEP', 'KO', 'SPY', '2018-01-01', '2024-01-01')
     
-    system = UltraConservativeSystem()
+    system = ConservativeSystem()
     results = system.run_backtest(
         pep, ko, spy,
         train_period=252,
@@ -589,9 +557,11 @@ if __name__ == "__main__":
     
     metrics = system.get_performance_metrics()
     
-    print("\n" + "="*80)
+    print("\n")
+    print("\n")
     print("PERFORMANCE METRICS")
-    print("="*80)
+    print("\n")
+    print("\n")
     
     for strategy_name, strategy_metrics in metrics.items():
         if strategy_name != 'Additional Info':
@@ -607,7 +577,7 @@ if __name__ == "__main__":
     
     trades = system.get_trade_analysis()
     if len(trades) > 0:
-        print(f"\n📊 Trade Analysis:")
+        print(f"\n Trade Analysis:")
         print(f"  Total Trades: {len(trades)}")
         print(f"  Win Rate: {trades['profitable'].mean()*100:.1f}%")
         print(f"  Avg Trade P&L: {trades['pnl_pct'].mean():.2f}%")

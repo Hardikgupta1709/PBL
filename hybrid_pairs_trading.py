@@ -1,24 +1,3 @@
-"""
-ULTIMATE HYBRID PAIRS TRADING SYSTEM
-Combines ALL improvements from the original + all critical fixes:
-
-FIXED WEAKNESSES:
-1. ✅ Adaptive parameters (regime-dependent)
-2. ✅ 3-tier regime detection (NORMAL/VOLATILE/CRISIS)
-3. ✅ Robust outlier handling (MAD-based)
-4. ✅ Minimum holding period enforcement
-5. ✅ Adaptive z-score window (60 days with expanding fallback)
-
-CRITICAL ADDITIONS:
-6. ✅ Cointegration health monitoring
-7. ✅ Correlation stability filter
-8. ✅ Dynamic position sizing
-9. ✅ Multiple timeframe confirmation
-10. ✅ Half-life based exit timing
-
-This is the PRODUCTION-READY version for conference paper and live trading.
-"""
-
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -32,18 +11,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-# ============================================================================
-# PART 1: ULTIMATE KALMAN FILTER (Adaptive + Outlier Detection)
-# ============================================================================
 
-class UltimateKalmanFilter:
-    """
-    Production-grade Kalman Filter with:
-    - Regime-adaptive process noise
-    - MAD-based outlier detection
-    - Innovation tracking
-    - Convergence monitoring
-    """
+class KalmanFilter:
+
     
     def __init__(self, delta=1e-4, var_e=1e-3, var_eta=1e-4):
         self.delta = delta
@@ -61,23 +31,10 @@ class UltimateKalmanFilter:
         self.max_history = 50
         
     def initialize(self, y0, x0):
-        """Initialize filter with first observation."""
         self.wt = y0 / x0 if x0 != 0 else 0
         self.Ct = self.delta
         
     def update(self, y, x, regime='normal'):
-        """
-        Update with regime-adaptive noise and outlier handling.
-        
-        Args:
-            y: Price of stock Y
-            x: Price of stock X
-            regime: 'normal', 'volatile', or 'crisis'
-            
-        Returns:
-            et: Prediction error (spread)
-            sqrt_Qt: Standard deviation of spread
-        """
         if self.wt is None:
             self.initialize(y, x)
             return 0, np.sqrt(self.var_e)
@@ -126,18 +83,10 @@ class UltimateKalmanFilter:
         return et, sqrt_Qt
     
     def get_hedge_ratio(self):
-        """Return current hedge ratio estimate."""
         return self.wt if self.wt is not None else 0
 
 
-# ============================================================================
-# PART 2: ULTIMATE 3-TIER REGIME CLASSIFIER
-# ============================================================================
-
-class UltimateRegimeClassifier:
-    """
-    Production-grade 3-tier regime classifier with enhanced features.
-    """
+class RegimeClassifier:
     
     def __init__(self):
         self.model = RandomForestClassifier(
@@ -152,7 +101,6 @@ class UltimateRegimeClassifier:
         self.is_trained = False
         
     def create_features(self, prices, market_index, vix=None):
-        """Create comprehensive feature set with 15+ features."""
         features = pd.DataFrame(index=prices.index)
         
         market_returns = market_index.pct_change()
@@ -199,12 +147,6 @@ class UltimateRegimeClassifier:
     def label_regimes(self, features, 
                      vol_crisis=0.25, vol_volatile=0.18,
                      dd_crisis=-0.12, dd_volatile=-0.06):
-        """
-        Create 3-tier labels:
-        0 = CRISIS (no trading)
-        1 = VOLATILE (conservative trading)
-        2 = NORMAL (standard trading)
-        """
         labels = pd.Series(2, index=features.index)  # Default: NORMAL
         
         # Mark VOLATILE
@@ -228,7 +170,6 @@ class UltimateRegimeClassifier:
         return labels
     
     def train(self, features, labels):
-        """Train the 3-tier regime classifier."""
         valid_idx = ~(features.isna().any(axis=1) | labels.isna())
         X = features[valid_idx]
         y = labels[valid_idx]
@@ -241,7 +182,6 @@ class UltimateRegimeClassifier:
         print(f"NORMAL: {(y==2).sum()}, VOLATILE: {(y==1).sum()}, CRISIS: {(y==0).sum()}")
         
     def predict(self, features):
-        """Predict regime for new data."""
         if not self.is_trained:
             raise ValueError("Model must be trained before prediction")
         
@@ -250,14 +190,9 @@ class UltimateRegimeClassifier:
         return pd.Series(predictions, index=features.index)
 
 
-# ============================================================================
 # PART 3: ADVANCED Z-SCORE CALCULATION
-# ============================================================================
 
 def calculate_robust_zscore(spread, base_window=60):
-    """
-    Calculate z-score with expanding window for warmup.
-    """
     # Use expanding window for first base_window days
     if len(spread) < base_window:
         mean = spread.expanding(min_periods=10).mean()
@@ -271,25 +206,15 @@ def calculate_robust_zscore(spread, base_window=60):
 
 
 def calculate_multi_timeframe_zscore(spread):
-    """
-    Calculate z-scores on multiple windows for confirmation.
-    Returns: z_30, z_60, z_90
-    """
     z_30 = calculate_robust_zscore(spread, base_window=30)
     z_60 = calculate_robust_zscore(spread, base_window=60)
     z_90 = calculate_robust_zscore(spread, base_window=90)
     
     return z_30, z_60, z_90
 
-
-# ============================================================================
 # PART 4: ADVANCED SIGNAL GENERATION
-# ============================================================================
 
 def calculate_position_size(z_score, volatility, base_size=1.0, max_size=1.5):
-    """
-    Dynamic position sizing based on signal strength and volatility.
-    """
     z_abs = abs(z_score)
     signal_factor = np.clip((z_abs - 2.0) / 2.0, 0.0, 0.5) + 1.0
     
@@ -300,7 +225,6 @@ def calculate_position_size(z_score, volatility, base_size=1.0, max_size=1.5):
 
 
 def calculate_half_life(spread):
-    """Calculate mean-reversion half-life for dynamic exit timing."""
     spread_lag = spread.shift(1).dropna()
     spread_diff = spread.diff().dropna()
     
@@ -327,16 +251,6 @@ def generate_ultimate_signals(z_scores, regimes, data,
                               min_hold_days=3,
                               min_correlation=0.5,
                               use_multi_timeframe=True):
-    """
-    Ultimate signal generation with all filters:
-    - Regime-adaptive thresholds
-    - Minimum holding period
-    - Correlation stability filter
-    - Trend confirmation
-    - Multiple timeframe confirmation
-    - Dynamic max holding period based on half-life
-    - Stop-loss logic
-    """
     signals = pd.Series(0, index=z_scores.index)
     position = 0
     entry_date_idx = None
@@ -479,34 +393,14 @@ def generate_ultimate_signals(z_scores, regimes, data,
     return signals
 
 
-# ============================================================================
-# PART 5: ULTIMATE HYBRID SYSTEM WITH ALL FEATURES
-# ============================================================================
-
-class UltimateHybridSystem:
-    """
-    Production-ready system with ALL improvements:
-    1. Adaptive Kalman filter
-    2. 3-tier regime detection
-    3. Outlier handling
-    4. Minimum holding period
-    5. Adaptive z-score window
-    6. Cointegration health monitoring
-    7. Correlation stability filter
-    8. Dynamic position sizing
-    9. Multiple timeframe confirmation
-    10. Half-life based exits
-    """
-    
+class HybridSystem:
+   
     def __init__(self):
-        self.kalman = UltimateKalmanFilter()
-        self.regime_classifier = UltimateRegimeClassifier()
+        self.kalman = KalmanFilter()
+        self.regime_classifier = RegimeClassifier()
         self.results = None
         
     def check_cointegration_health(self, stock_y, stock_x, window=60):
-        """
-        Rolling cointegration test - exits positions if breaks.
-        """
         recent_y = stock_y.iloc[-window:] if len(stock_y) >= window else stock_y
         recent_x = stock_x.iloc[-window:] if len(stock_x) >= window else stock_x
         
@@ -531,9 +425,7 @@ class UltimateHybridSystem:
                      use_dynamic_sizing=True,
                      use_multi_timeframe=True,
                      use_coint_monitoring=True):
-        """
-        Ultimate backtest with all features enabled.
-        """
+
         # Align data
         data = pd.DataFrame({
             'Y': stock_y,
@@ -543,22 +435,22 @@ class UltimateHybridSystem:
         
         print(f"Backtest period: {data.index[0]} to {data.index[-1]}")
         print(f"Total trading days: {len(data)}")
-        print(f"\n🚀 ULTIMATE SYSTEM FEATURES ENABLED:")
-        print(f"  ✅ Adaptive Kalman filter (regime-dependent)")
-        print(f"  ✅ 3-tier regime classification")
-        print(f"  ✅ MAD-based outlier detection")
-        print(f"  ✅ Minimum holding period ({min_hold_days} days)")
-        print(f"  ✅ Correlation stability filter (min {min_correlation})")
+        print(f"\n  SYSTEM FEATURES ENABLED:")
+        print(f"   Adaptive Kalman filter (regime-dependent)")
+        print(f"   3-tier regime classification")
+        print(f"   MAD-based outlier detection")
+        print(f"   Minimum holding period ({min_hold_days} days)")
+        print(f"   Correlation stability filter (min {min_correlation})")
         if use_dynamic_sizing:
-            print(f"  ✅ Dynamic position sizing")
+            print(f"   Dynamic position sizing")
         if use_multi_timeframe:
-            print(f"  ✅ Multiple timeframe confirmation (30/60/90 days)")
+            print(f"   Multiple timeframe confirmation (30/60/90 days)")
         if use_coint_monitoring:
-            print(f"  ✅ Cointegration health monitoring")
+            print(f"   Cointegration health monitoring")
         print()
         
         # Step 1: Train regime classifier
-        print("Training 3-tier regime classifier...")
+        print("Training 3-tier regime classifier")
         prices_df = pd.DataFrame({'Y': stock_y, 'X': stock_x})
         features = self.regime_classifier.create_features(prices_df, market_index)
         labels = self.regime_classifier.label_regimes(features)
@@ -572,7 +464,7 @@ class UltimateHybridSystem:
         data['regime'] = self.regime_classifier.predict(features)
         
         # Step 3: Run Kalman filter
-        print("Running adaptive Kalman filter with outlier detection...")
+        print("Running adaptive Kalman filter with outlier detection")
         spreads = []
         spread_stds = []
         hedge_ratios = []
@@ -606,7 +498,7 @@ class UltimateHybridSystem:
         data['coint_pvalue'] = 0.0
         
         if use_coint_monitoring:
-            print("Monitoring cointegration health...")
+            print("Monitoring cointegration health")
             for i in range(60, len(data), 20):  # Check every 20 days
                 health, p_value = self.check_cointegration_health(
                     data['Y'].iloc[:i],
@@ -618,7 +510,7 @@ class UltimateHybridSystem:
                 data.loc[data.index[i]:, 'coint_pvalue'] = p_value
                 
                 if health == 'BROKEN':
-                    print(f"  ⚠️ Cointegration broken at {data.index[i]} (p={p_value:.3f})")
+                    print(f"   Cointegration broken at {data.index[i]} (p={p_value:.3f})")
         
         # Step 6: Generate ultimate signals
         print("Generating ultimate trading signals...")
@@ -685,11 +577,10 @@ class UltimateHybridSystem:
         
         self.results = data
         
-        print("\n✅ Backtest complete!")
+        print("\n Backtest complete!")
         return data
     
     def get_performance_metrics(self):
-        """Calculate comprehensive performance metrics."""
         if self.results is None:
             raise ValueError("Must run backtest first")
         
@@ -728,7 +619,6 @@ class UltimateHybridSystem:
         return metrics
     
     def get_trade_analysis(self):
-        """Get detailed trade analysis."""
         if self.results is None:
             raise ValueError("Must run backtest first")
         
@@ -776,7 +666,6 @@ class UltimateHybridSystem:
         return pd.DataFrame(trades)
     
     def _calculate_metrics(self, returns):
-        """Calculate performance metrics."""
         if len(returns) == 0:
             return {
                 'Total Return': '0.00%',
@@ -810,14 +699,10 @@ class UltimateHybridSystem:
             'Total Trades': len(returns[returns != 0])
         }
 
-
-# ============================================================================
 # PART 6: DATA DOWNLOAD
-# ============================================================================
 
 def download_data(ticker_y, ticker_x, market_ticker='SPY',
                  start_date='2018-01-01', end_date='2024-01-01'):
-    """Download stock data from Yahoo Finance."""
     print(f"Downloading data for {ticker_y}, {ticker_x}, and {market_ticker}...")
     
     data_y = yf.download(ticker_y, start=start_date, end=end_date, progress=False, auto_adjust=True)
@@ -850,35 +735,28 @@ def download_data(ticker_y, ticker_x, market_ticker='SPY',
     if not isinstance(market, pd.Series):
         market = pd.Series(market)
     
-    print(f"✅ Downloaded {len(stock_y)} days of data")
+    print(f" Downloaded {len(stock_y)} days of data")
     print(f"Date range: {stock_y.index[0]} to {stock_y.index[-1]}\n")
     
     return stock_y, stock_x, market
 
-
-# ============================================================================
-# MAIN EXECUTION
-# ============================================================================
-
 if __name__ == "__main__":
-    print("="*80)
-    print("🚀 ULTIMATE HYBRID PAIRS TRADING SYSTEM")
-    print("Production-Ready with ALL Improvements")
-    print("="*80)
+    print("\n")
+    print("\n")
+    print(" HYBRID PAIRS TRADING SYSTEM")
+    print("="*20)
     print("""
     ALL FEATURES IMPLEMENTED:
-    1. ✅ Adaptive Kalman filter (regime-dependent process noise)
-    2. ✅ 3-tier regime classification (NORMAL/VOLATILE/CRISIS)
-    3. ✅ Robust outlier handling (MAD-based detection)
-    4. ✅ Minimum holding period (3 days default)
-    5. ✅ Adaptive z-score window (60 days with expanding fallback)
-    6. ✅ Cointegration health monitoring (exits if breaks)
-    7. ✅ Correlation stability filter (min 0.5 default)
-    8. ✅ Dynamic position sizing (based on signal + volatility)
-    9. ✅ Multiple timeframe confirmation (30/60/90 days)
-    10. ✅ Half-life based exit timing (dynamic max hold)
-    
-    THIS IS THE COMPLETE, PRODUCTION-READY SYSTEM! 🎯
+    1.  Adaptive Kalman filter (regime-dependent process noise)
+    2.  3-tier regime classification (NORMAL/VOLATILE/CRISIS)
+    3.  Robust outlier handling (MAD-based detection)
+    4.  Minimum holding period (3 days default)
+    5.  Adaptive z-score window (60 days with expanding fallback)
+    6.  Cointegration health monitoring (exits if breaks)
+    7.  Correlation stability filter (min 0.5 default)
+    8.  Dynamic position sizing (based on signal + volatility)
+    9.  Multiple timeframe confirmation (30/60/90 days)
+    10.  Half-life based exit timing (dynamic max hold)
     """)
     
     # Test on GOOD pair (critical!)
@@ -887,7 +765,7 @@ if __name__ == "__main__":
     
     bac, pnc, spy = download_data('BAC', 'PNC', 'SPY', '2018-01-01', '2024-01-01')
     
-    system = UltimateHybridSystem()
+    system = HybridSystem()
     results = system.run_backtest(
         bac, pnc, spy,
         train_period=252,
@@ -902,9 +780,11 @@ if __name__ == "__main__":
         use_coint_monitoring=True
     )
     
-    print("\n" + "="*80)
-    print("📊 PERFORMANCE METRICS")
-    print("="*80)
+    print("\n")
+    print("\n")
+    print("\n")
+    print(" PERFORMANCE METRICS")
+    print("="*20)
     
     metrics = system.get_performance_metrics()
     
@@ -916,16 +796,18 @@ if __name__ == "__main__":
                 print(f"  {metric:.<30} {value}")
     
     print(f"\n{'System Statistics':}")
-    print("-" * 40)
+    print("-" * 30)
     for key, value in metrics['System Statistics'].items():
         print(f"  {key:.<30} {value}")
     
     # Trade analysis
     trades = system.get_trade_analysis()
     if len(trades) > 0:
-        print(f"\n" + "="*80)
-        print("💼 TRADE ANALYSIS")
-        print("="*80)
+        print(f"\n")
+        print(f"\n")
+        print(f"\n")
+        print(" TRADE ANALYSIS")
+        print("="*20)
         print(f"Total Trades: {len(trades)}")
         print(f"Win Rate: {trades['profitable'].mean()*100:.1f}%")
         print(f"Avg Trade P&L: {trades['pnl_pct'].mean():.2f}%")
@@ -949,9 +831,11 @@ if __name__ == "__main__":
                       f"Win Rate: {health_trades['profitable'].mean()*100:.1f}%")
     
     # Improvement analysis
-    print(f"\n" + "="*80)
-    print("📈 IMPROVEMENTS OVER BASELINE")
-    print("="*80)
+    print(f"\n")
+    print(f"\n")
+    print(f"\n")
+    print(" IMPROVEMENTS OVER BASELINE")
+    print("="*20)
     
     ultimate_sharpe = float(metrics['Ultimate Strategy']['Sharpe Ratio'])
     baseline_sharpe = float(metrics['Baseline (Simple)']['Sharpe Ratio'])
@@ -963,24 +847,3 @@ if __name__ == "__main__":
     ultimate_return = float(metrics['Ultimate Strategy']['Total Return'].rstrip('%'))
     baseline_return = float(metrics['Baseline (Simple)']['Total Return'].rstrip('%'))
     print(f"Total Return: {ultimate_return:.1f}% vs {baseline_return:.1f}%")
-    
-    print("""
-    🎉 ALL IMPROVEMENTS SUCCESSFULLY INTEGRATED!
-    
-    This system is now PRODUCTION-READY for:
-    ✅ Conference paper submission
-    ✅ Paper trading deployment
-    ✅ Live trading (after paper trading validation)
-    
-    Next Steps:
-    1. Run validation tests: python test_discovered_pairs.py
-    2. Test on top 5 pairs from scanner
-    3. Start paper trading for 90 days
-    4. Write conference paper with results
-    
-    Expected Results on Good Pairs:
-    - Monte Carlo p-value: < 0.05 ✅
-    - Sharpe Ratio: 1.2-1.8 ✅
-    - Win Rate: 60-65% ✅
-    - Max Drawdown: < 10% ✅
-    """)
