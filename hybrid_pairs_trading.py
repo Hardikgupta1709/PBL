@@ -145,25 +145,25 @@ class RegimeClassifier:
         return features.ffill().fillna(0)
     
     def label_regimes(self, features, 
-                     vol_crisis=0.25, vol_volatile=0.18,
-                     dd_crisis=-0.12, dd_volatile=-0.06):
+                     vol_crisis=0.35, vol_volatile=0.22,
+                     dd_crisis=-0.20, dd_volatile=-0.10):
         labels = pd.Series(2, index=features.index)  # Default: NORMAL
         
         # Mark VOLATILE
         volatile_conditions = (
             (features['vol_20'] > vol_volatile) |
             (features['dd_60'] < dd_volatile) |
-            (features.get('vol_accel', 1) > 1.5) |
-            (features.get('pair_vol_spike', 1) > 1.3)
+            (features.get('vol_accel', 1) > 1.8) |
+            (features.get('pair_vol_spike', 1) > 1.5)
         )
         labels[volatile_conditions] = 1
         
-        # Mark CRISIS (overrides volatile)
+        # Mark CRISIS (overrides volatile) — relaxed to avoid over-classification
         crisis_conditions = (
             (features['vol_20'] > vol_crisis) |
             (features['dd_60'] < dd_crisis) |
-            (features.get('vol_accel', 1) > 2.0) |
-            (features.get('pair_corr', 1) < 0.2)
+            (features.get('vol_accel', 1) > 2.5) |
+            (features.get('pair_corr', 1) < -0.1)
         )
         labels[crisis_conditions] = 0
         

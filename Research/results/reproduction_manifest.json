@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-03-26T20:38:48.521483",
+  "python_version": "3.12.9 | packaged by conda-forge | (main, Mar  4 2025, 22:44:42) [Clang 18.1.8 ]",
+  "numpy_version": "2.3.5",
+  "pandas_version": "2.3.3",
+  "random_seed": 42,
+  "pairs": [
+    "BAC/PNC",
+    "WFC/MS",
+    "CVX/OXY"
+  ],
+  "train_end": "2020-12-31",
+  "elapsed_seconds": 315.8,
+  "results_csv": 40,
+  "results_json": 6,
+  "figures_pdf": 26,
+  "tables_tex": 14,
+  "mode": "full"
+}

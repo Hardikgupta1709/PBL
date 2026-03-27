@@ -1,0 +1,15 @@
+{
+  "n_pairs": 12,
+  "dd_wilcoxon_stat": 78.0,
+  "dd_pvalue": 0.000244140625,
+  "dd_significant_005": true,
+  "sharpe_wilcoxon_stat": 48.0,
+  "sharpe_pvalue": 0.25927734375,
+  "sharpe_significant_005": false,
+  "median_uf_dd": 0.34522180551115644,
+  "median_f_dd": 0.05682462632125351,
+  "median_uf_sharpe": -0.133906670830857,
+  "median_f_sharpe": -0.08450704812188535,
+  "pairs_dd_helped": 12,
+  "pairs_sharpe_helped": 7
+}

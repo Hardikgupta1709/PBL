@@ -1,5 +1,3 @@
+from .auto_find_pairs import scan_all_sectors, scan_sector
 
-from .auto_find_pairs import *
-from .test_discovered_pairs import *
-
-__all__ = []
+__all__ = ['scan_all_sectors', 'scan_sector']

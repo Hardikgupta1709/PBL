@@ -1,0 +1,323 @@
+2026-03-11 22:42:59,873 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+
+######################################################################
+  FINAL PAPER IMPROVEMENTS — FULL MODE
+  2026-03-11 22:33:53
+######################################################################
+
+======================================================================
+  ITEM 1: FULL BACKTEST ON SUCCESS PAIRS (AEP/SRE, CVX/COP)
+======================================================================
+
+  ── AEP/SRE ──
+    Running filtered backtest...
+    Unfiltered: Sharpe=0.220, Return=10.7%, MaxDD=-19.2%
+    Filtered:   Sharpe=0.281, Return=5.0%, MaxDD=-5.6%
+    Healthy: 6.4%
+  ⏱  full_backtest_AEP_SRE: 6.9s
+    Running walk-forward (32 folds)...
+  ⏱  walkforward_AEP_SRE: 129.3s
+    Running bootstrap CI (10,000 resamples)...
+    Bootstrap failed: BootstrapAnalyzer.__init__() got an unexpected keyword argument 'n_bootstrap'
+  ⏱  bootstrap_AEP_SRE: 0.0s
+    Running Monte Carlo (10,000 trials)...
+    MC failed: 'MonteCarloValidator' object has no attribute 'run_full_monte_carlo'
+  ⏱  montecarlo_AEP_SRE: 0.0s
+
+  ── CVX/COP ──
+    Running filtered backtest...
+    Unfiltered: Sharpe=-0.391, Return=-29.8%, MaxDD=-51.1%
+    Filtered:   Sharpe=0.445, Return=7.2%, MaxDD=-1.7%
+    Healthy: 1.8%
+  ⏱  full_backtest_CVX_COP: 5.8s
+    Running walk-forward (32 folds)...
+  ⏱  walkforward_CVX_COP: 128.7s
+    Running bootstrap CI (10,000 resamples)...
+    Bootstrap failed: BootstrapAnalyzer.__init__() got an unexpected keyword argument 'n_bootstrap'
+  ⏱  bootstrap_CVX_COP: 0.0s
+    Running Monte Carlo (10,000 trials)...
+    MC failed: 'MonteCarloValidator' object has no attribute 'run_full_monte_carlo'
+  ⏱  montecarlo_CVX_COP: 0.0s
+
+  ✓ Saved success_pairs_full.csv
+
+  Generating fig15_success_pairs...
+    ✓ Saved fig15_success_pairs.pdf/png
+
+======================================================================
+  ITEM 2: WILCOXON SIGNED-RANK TEST ON FILTER DD IMPROVEMENT
+======================================================================
+
+  Testing BAC/PNC... UF_DD=-34.1% → F_DD=-6.7%
+  ⏱  wilcoxon_BAC_PNC: 5.4s
+
+  Testing WFC/MS... UF_DD=-37.5% → F_DD=-1.7%
+  ⏱  wilcoxon_WFC_MS: 5.6s
+
+  Testing CVX/OXY... UF_DD=-95.5% → F_DD=-23.9%
+  ⏱  wilcoxon_CVX_OXY: 4.7s
+
+  Testing AEP/SRE... UF_DD=-19.2% → F_DD=-5.6%
+  ⏱  wilcoxon_AEP_SRE: 4.1s
+
+  Testing CVX/COP... UF_DD=-51.1% → F_DD=-1.7%
+  ⏱  wilcoxon_CVX_COP: 4.1s
+
+  Testing VMC/MLM... UF_DD=-10.7% → F_DD=-5.8%
+  ⏱  wilcoxon_VMC_MLM: 5.5s
+
+  Testing LIN/VMC... UF_DD=-49.9% → F_DD=-14.2%
+  ⏱  wilcoxon_LIN_VMC: 5.5s
+
+  Testing JNJ/UNH... UF_DD=-15.3% → F_DD=-10.2%
+  ⏱  wilcoxon_JNJ_UNH: 5.8s
+
+  Testing GOOGL/AMD... UF_DD=-62.3% → F_DD=-35.0%
+  ⏱  wilcoxon_GOOGL_AMD: 5.0s
+
+  Testing KO/COST... UF_DD=-20.7% → F_DD=-0.8%
+  ⏱  wilcoxon_KO_COST: 7.7s
+
+  Testing HON/DE... UF_DD=-35.0% → F_DD=-0.9%
+  ⏱  wilcoxon_HON_DE: 5.4s
+
+  Testing USB/TFC... UF_DD=-21.6% → F_DD=-4.9%
+  ⏱  wilcoxon_USB_TFC: 10.2s
+
+  ============================================================
+  WILCOXON SIGNED-RANK: MaxDD Reduction
+  ============================================================
+  N pairs: 12
+  Median UF |MaxDD|: 34.5%
+  Median F  |MaxDD|: 5.7%
+  Wilcoxon statistic: 78.0
+  p-value (one-sided): 0.000244
+  Significant at α=0.05: YES ✅
+  Significant at α=0.01: YES ✅
+
+  WILCOXON SIGNED-RANK: Sharpe Improvement
+  Median UF Sharpe: -0.134
+  Median F  Sharpe: -0.085
+  Wilcoxon statistic: 48.0
+  p-value (one-sided): 0.259277
+  Significant at α=0.05: NO ❌
+
+  Filter helped DD for 12/12 pairs
+  Filter helped Sharpe for 7/12 pairs
+
+  ✓ Saved wilcoxon_filter_test.csv + wilcoxon_summary.json
+
+  Generating fig16_wilcoxon_filter...
+    ✓ Saved fig16_wilcoxon_filter.pdf/png
+
+======================================================================
+  ITEM 3: RL ON MULTIPLE PAIRS
+======================================================================
+
+  ── RL Agent: BAC/PNC ──
+    Baseline Sharpe: -0.126
+    RL OOS Sharpe:   0.000 (delta: +0.126)
+    RL Trades:       147 | Val Sharpe: 0.379
+  ⏱  rl_BAC_PNC: 53.9s
+
+  ── RL Agent: WFC/MS ──
+    Baseline Sharpe: -0.045
+    RL OOS Sharpe:   0.000 (delta: +0.045)
+    RL Trades:       22 | Val Sharpe: 0.631
+  ⏱  rl_WFC_MS: 52.8s
+
+  ── RL Agent: CVX/OXY ──
+    Baseline Sharpe: -0.613
+    RL OOS Sharpe:   0.000 (delta: +0.613)
+    RL Trades:       8 | Val Sharpe: 0.785
+  ⏱  rl_CVX_OXY: 49.7s
+
+  ── RL Agent: AEP/SRE ──
+    Baseline Sharpe: 0.220
+    RL OOS Sharpe:   0.000 (delta: -0.220)
+    RL Trades:       16 | Val Sharpe: 1.178
+  ⏱  rl_AEP_SRE: 47.5s
+
+  RL Multi-Pair Summary:
+   Pair  Baseline_Sharpe  RL_Sharpe  Sharpe_Delta  RL_Trades  Baseline_Trades  RL_Return  BL_Return  RL_MaxDD  BL_MaxDD  Val_Sharpe  Episodes  RL_Improved
+BAC/PNC        -0.125818          0      0.125818        147               58          0  -0.074180         0 -0.340844    0.379402        28         True
+ WFC/MS        -0.045360          0      0.045360         22               54          0  -0.027132         0 -0.374598    0.630506        28         True
+CVX/OXY        -0.613455          0      0.613455          8               55          0  -0.907810         0 -0.955290    0.784581        26         True
+AEP/SRE         0.219678          0     -0.219678         16               56          0   0.106942         0 -0.191615    1.178197        25        False
+
+  ✓ Saved rl_multi_pair.csv
+
+======================================================================
+  ITEM 4: ROTATION SYSTEM DATA
+======================================================================
+
+  Universe: 38 pairs across 10 sectors
+
+======================================================================
+  PAIR UNIVERSE HEALTH SCAN — 2026-03-11
+  Scanning 38 pairs across 10 sectors
+======================================================================
+
+  Scanning BAC_PNC (BAC/PNC, Banking)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning USB_TFC (USB/TFC, Banking)... UNHEALTHY (score=0.183, recent=0%)
+
+  Scanning JPM_BAC (JPM/BAC, Banking)... HEALTHY (score=0.546, recent=33%)
+
+  Scanning GS_MS (GS/MS, Banking)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning C_WFC (C/WFC, Banking)... UNHEALTHY (score=0.000, recent=8%)
+
+  Scanning LIN_VMC (LIN/VMC, Materials)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning VMC_MLM (VMC/MLM, Materials)... UNHEALTHY (score=0.000, recent=8%)
+
+  Scanning LIN_APD (LIN/APD, Materials)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning FCX_NEM (FCX/NEM, Materials)... UNHEALTHY (score=0.292, recent=0%)
+
+  Scanning GOOGL_AMD (GOOGL/AMD, Tech)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning MSFT_ORCL (MSFT/ORCL, Tech)... UNHEALTHY (score=0.004, recent=0%)
+
+  Scanning NVDA_AMD (NVDA/AMD, Tech)... UNHEALTHY (score=0.318, recent=0%)
+
+  Scanning INTC_AMD (INTC/AMD, Tech)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning JNJ_UNH (JNJ/UNH, Healthcare)... UNHEALTHY (score=0.100, recent=0%)
+
+  Scanning PFE_MRK (PFE/MRK, Healthcare)... UNHEALTHY (score=0.182, recent=27%)
+
+  Scanning ABBV_LLY (ABBV/LLY, Healthcare)... UNHEALTHY (score=0.308, recent=0%)
+
+  Scanning ABT_TMO (ABT/TMO, Healthcare)... UNHEALTHY (score=0.000, recent=19%)
+
+  Scanning AEP_SRE (AEP/SRE, Utilities)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning NEE_DUK (NEE/DUK, Utilities)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning SO_D (SO/D, Utilities)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning EXC_XEL (EXC/XEL, Utilities)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning KO_COST (KO/COST, Consumer)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning KO_PEP (KO/PEP, Consumer)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning WMT_TGT (WMT/TGT, Consumer)... UNHEALTHY (score=0.375, recent=8%)
+
+  Scanning MCD_SBUX (MCD/SBUX, Consumer)... UNHEALTHY (score=0.078, recent=8%)
+
+  Scanning CVX_COP (CVX/COP, Energy)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning XOM_CVX (XOM/CVX, Energy)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning EOG_OXY (EOG/OXY, Energy)... HEALTHY (score=0.568, recent=10%)
+
+  Scanning SLB_HAL (SLB/HAL, Energy)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning HON_DE (HON/DE, Industrials)... HEALTHY (score=0.603, recent=49%)
+
+  Scanning CAT_DE (CAT/DE, Industrials)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning UPS_GE (UPS/GE, Industrials)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning BA_LMT (BA/LMT, Industrials)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning T_VZ (T/VZ, Telecom)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning TMUS_CHTR (TMUS/CHTR, Telecom)... UNHEALTHY (score=0.054, recent=0%)
+
+  Scanning HD_LOW (HD/LOW, Retail)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning TJX_ROST (TJX/ROST, Retail)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanning DG_DLTR (DG/DLTR, Retail)... UNHEALTHY (score=0.000, recent=0%)
+
+  Scanned: 38/38 pairs
+
+  Top-3 Selected: HON_DE, EOG_OXY, JPM_BAC
+  Total eligible: 3
+  Total scanned: 38
+
+  Current rotation state:
+    Active pairs: ['HON_DE', 'EOG_OXY', 'JPM_BAC']
+    Last rotation: 2026-03-11
+
+  Generating fig17_rotation_rankings...
+    ✓ Saved fig17_rotation_rankings.pdf/png
+
+  ✓ Saved rotation_38pair_scan.csv
+
+######################################################################
+  ALL IMPROVEMENTS COMPLETE — 9.8 min total
+######################################################################
+
+  Results saved to Research/results/:
+    attribution_BAC_PNC.png
+    attribution_CVX_OXY.png
+    attribution_WFC_MS.png
+    computational_costs.csv
+    expanded_discovered_pairs.csv
+    expanded_universe_report.txt
+    expanded_universe_summary.csv
+    filter_ablation_summary.csv
+    filter_deep_analysis.csv
+    final_timing.json
+    full_run_log.txt
+    regime_eval_BAC_PNC.png
+    rl_ablation_summary.csv
+    rl_multi_pair.csv
+    rl_reward_variants.csv
+    rotation_38pair_scan.csv
+    sensitivity_heatmap.png
+    success_pairs_full.csv
+    timing_summary.json
+    wilcoxon_filter_test.csv
+    wilcoxon_summary.json
+
+  Figures saved to Paper/figures/:
+    fig10_walkforward.pdf
+    fig10_walkforward.png
+    fig11_filter_equity.pdf
+    fig11_filter_equity.png
+    fig12_rl_training.pdf
+    fig12_rl_training.png
+    fig13_expanded_universe.pdf
+    fig13_expanded_universe.png
+    fig14_rl_variants.pdf
+    fig14_rl_variants.png
+    fig15_success_pairs.pdf
+    fig15_success_pairs.png
+    fig16_wilcoxon_filter.pdf
+    fig16_wilcoxon_filter.png
+    fig17_rotation_rankings.pdf
+    fig17_rotation_rankings.png
+    fig1_architecture.pdf
+    fig1_architecture.png
+
+  TIMING:
+    bootstrap_AEP_SRE                   0.0s
+    bootstrap_CVX_COP                   0.0s
+    full_backtest_AEP_SRE               6.9s
+    full_backtest_CVX_COP               5.8s
+    montecarlo_AEP_SRE                  0.0s
+    montecarlo_CVX_COP                  0.0s
+    rl_AEP_SRE                          47.5s
+    rl_BAC_PNC                          53.9s
+    rl_CVX_OXY                          49.7s
+    rl_WFC_MS                           52.8s
+    walkforward_AEP_SRE                 129.3s
+    walkforward_CVX_COP                 128.7s
+    wilcoxon_AEP_SRE                    4.1s
+    wilcoxon_BAC_PNC                    5.4s
+    wilcoxon_CVX_COP                    4.1s
+    wilcoxon_CVX_OXY                    4.7s
+    wilcoxon_GOOGL_AMD                  5.0s
+    wilcoxon_HON_DE                     5.4s
+    wilcoxon_JNJ_UNH                    5.8s
+    wilcoxon_KO_COST                    7.7s
+    wilcoxon_LIN_VMC                    5.5s
+    wilcoxon_USB_TFC                    10.2s
+    wilcoxon_VMC_MLM                    5.5s
+    wilcoxon_WFC_MS                     5.6s

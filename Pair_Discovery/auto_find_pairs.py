@@ -9,16 +9,34 @@ import warnings
 warnings.filterwarnings('ignore')
 
 STOCK_UNIVERSE = {
-    'Banking': ['JPM', 'BAC', 'WFC', 'C', 'GS', 'MS', 'USB', 'PNC', 'TFC'],
-    'Tech': ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'AMD', 'INTC', 'ORCL', 'CRM'],
-    'Consumer': ['PG', 'KO', 'PEP', 'WMT', 'TGT', 'COST', 'MCD', 'SBUX'],
-    'Energy': ['XOM', 'CVX', 'COP', 'SLB', 'EOG', 'OXY', 'HAL', 'PSX'],
-    'Healthcare': ['JNJ', 'UNH', 'PFE', 'ABBV', 'MRK', 'TMO', 'ABT', 'LLY'],
-    'Industrials': ['BA', 'HON', 'UPS', 'CAT', 'MMM', 'GE', 'DE', 'LMT'],
-    'Materials': ['LIN', 'APD', 'ECL', 'DD', 'NEM', 'FCX', 'VMC', 'MLM'],
-    'Utilities': ['NEE', 'DUK', 'SO', 'D', 'AEP', 'EXC', 'SRE', 'XEL'],
-    'Telecom': ['T', 'VZ', 'TMUS', 'CHTR', 'CMCSA'],
-    'Retail': ['HD', 'LOW', 'TJX', 'ROST', 'DG', 'DLTR']
+    'Banking': ['JPM', 'BAC', 'WFC', 'C', 'GS', 'MS', 'USB', 'PNC', 'TFC',
+                'BK', 'SCHW', 'STT', 'BLK', 'AXP', 'COF', 'FITB', 'RF',
+                'KEY', 'CFG', 'MTB', 'HBAN', 'CMA'],
+    'Tech': ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'AMD', 'INTC', 'ORCL', 'CRM',
+             'ADBE', 'AVGO', 'QCOM', 'CSCO', 'IBM', 'META', 'NFLX', 'INTU',
+             'TXN', 'ADSK', 'NOW', 'TSLA'],
+    'Consumer': ['PG', 'KO', 'PEP', 'WMT', 'TGT', 'COST', 'MCD', 'SBUX',
+                 'CL', 'KMB', 'MDLZ', 'PM', 'MO', 'AMZN', 'NKE', 'DIS',
+                 'CMG', 'DPZ', 'KHC', 'GIS'],
+    'Energy': ['XOM', 'CVX', 'COP', 'SLB', 'EOG', 'OXY', 'HAL', 'PSX',
+               'MPC', 'VLO', 'DVN', 'KMI', 'WMB', 'EQT', 'FANG', 'MRO',
+               'OKE', 'HES'],
+    'Healthcare': ['JNJ', 'UNH', 'PFE', 'ABBV', 'MRK', 'TMO', 'ABT', 'LLY',
+                   'BMY', 'GILD', 'AMGN', 'CVS', 'HUM', 'MDT', 'SYK',
+                   'ISRG', 'BIIB', 'ZTS'],
+    'Industrials': ['BA', 'HON', 'UPS', 'CAT', 'MMM', 'GE', 'DE', 'LMT',
+                    'GD', 'RTX', 'NOC', 'EMR', 'ITW', 'CSX', 'NSC',
+                    'ETN', 'WM', 'CTAS'],
+    'Materials': ['LIN', 'APD', 'ECL', 'DD', 'NEM', 'FCX', 'VMC', 'MLM',
+                  'DOW', 'NUE', 'ALB', 'SHW', 'PPG', 'IP', 'CF',
+                  'STLD', 'X'],
+    'Utilities': ['NEE', 'DUK', 'SO', 'D', 'AEP', 'EXC', 'SRE', 'XEL',
+                  'ED', 'ETR', 'FE', 'PEG', 'PCG', 'PPL', 'AES',
+                  'NRG', 'EIX'],
+    'Telecom': ['T', 'VZ', 'TMUS', 'CHTR', 'CMCSA', 'DISH', 'AMT', 'CCI',
+                'SBAC', 'LUMN', 'ATUS', 'SIRI'],
+    'Retail': ['HD', 'LOW', 'TJX', 'ROST', 'DG', 'DLTR', 'BBY', 'GPS',
+               'KSS', 'M', 'KR', 'WBA', 'ORLY', 'AZO', 'ULTA', 'AAP']
 }
 
 

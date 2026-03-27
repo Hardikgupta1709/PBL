@@ -1,0 +1,28 @@
+Sharpe,Total_Return_%,Ann_Return_%,Ann_Vol_%,Max_DD_%,Win_Rate_%,Trades,Config,Sharpe_Delta,Pair
+-0.1258,-7.42,-1.71,13.59,-34.08,14.2,58,Full System,0.0,BAC/PNC
+0.1642,9.36,2.02,12.32,-21.29,16.6,72,−MAD Outlier Detection,0.29,BAC/PNC
+-0.4933,-26.26,-6.59,13.36,-40.27,13.9,67,−Regime Classification,-0.3675,BAC/PNC
+0.6175,45.02,8.68,14.05,-27.88,24.5,44,−Adaptive Kalman (→OLS),0.7433,BAC/PNC
+-0.1537,-8.8,-2.04,13.28,-25.02,16.3,65,−Z-Score Window (40→20),-0.0279,BAC/PNC
+-0.184,-10.73,-2.51,13.63,-33.89,14.1,50,−Stop-Loss,-0.0582,BAC/PNC
+-0.4318,-22.33,-5.5,12.73,-33.49,10.9,63,−Minimum Hold Period,-0.306,BAC/PNC
+-0.0305,-1.84,-0.41,13.58,-32.21,14.2,58,−Transaction Costs,0.0953,BAC/PNC
+-0.5074,-26.92,-6.78,13.36,-40.6,13.9,67,−Volatile Param Adjust,-0.3816,BAC/PNC
+-0.0449,-2.69,-0.61,13.53,-37.45,15.5,54,Full System,0.0,WFC/MS
+-0.3048,-17.06,-4.1,13.45,-37.13,12.5,61,−MAD Outlier Detection,-0.2599,WFC/MS
+-0.017,-0.97,-0.22,12.88,-34.0,14.0,58,−Regime Classification,0.0279,WFC/MS
+-0.2604,-23.97,-5.95,22.84,-34.58,24.2,39,−Adaptive Kalman (→OLS),-0.2155,WFC/MS
+-0.3046,-18.35,-4.44,14.56,-46.41,16.9,55,−Z-Score Window (40→20),-0.2597,WFC/MS
+-0.0258,-1.56,-0.35,13.59,-37.02,15.8,45,−Stop-Loss,0.0191,WFC/MS
+0.0421,2.48,0.55,13.08,-32.95,14.5,57,−Minimum Hold Period,0.087,WFC/MS
+0.0448,2.73,0.6,13.5,-35.67,15.6,54,−Transaction Costs,0.0897,WFC/MS
+-0.0976,-5.72,-1.31,13.41,-39.1,14.7,57,−Volatile Param Adjust,-0.0527,WFC/MS
+-0.6135,-90.78,-41.35,67.4,-95.53,14.5,55,Full System,0.0,CVX/OXY
+-0.3937,-77.45,-28.34,71.99,-84.18,15.2,70,−MAD Outlier Detection,0.2198,CVX/OXY
+-0.1989,-46.94,-13.22,66.49,-77.96,13.9,61,−Regime Classification,0.4146,CVX/OXY
+0.3664,26.13,5.33,14.55,-26.45,26.6,40,−Adaptive Kalman (→OLS),0.9799,CVX/OXY
+-0.2753,-65.43,-21.16,76.85,-92.98,21.3,71,−Z-Score Window (40→20),0.3382,CVX/OXY
+-0.5808,-89.5,-39.61,68.2,-94.91,14.9,51,−Stop-Loss,0.0327,CVX/OXY
+-0.4985,-81.41,-31.37,62.94,-94.33,12.8,61,−Minimum Hold Period,0.115,CVX/OXY
+-0.6026,-90.25,-40.61,67.39,-95.3,14.6,55,−Transaction Costs,0.0109,CVX/OXY
+-0.1769,-43.2,-11.89,67.22,-77.45,13.8,57,−Volatile Param Adjust,0.4366,CVX/OXY

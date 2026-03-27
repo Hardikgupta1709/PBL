@@ -1,0 +1,9 @@
+# Docker
+output/
+*.pyc
+__pycache__/
+.git/
+.env
+venv/
+.vscode/
+*.egg-info/

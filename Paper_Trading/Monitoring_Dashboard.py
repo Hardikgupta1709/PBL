@@ -5,6 +5,7 @@ import matplotlib.dates as mdates
 from datetime import datetime, timedelta
 from pathlib import Path
 import warnings
+import csv
 warnings.filterwarnings('ignore')
 
 try:
@@ -36,49 +37,147 @@ class TradingMonitor:
             self.backtest_return = first_pair.get('backtest_return', backtest_return)
     
     def load_trades(self) -> pd.DataFrame:
+        """Load trades CSV with robust handling for any quoting style."""
         try:
             if not self.log_file.exists():
                 print(f" Trade log not found: {self.log_file}")
                 return None
             
-            trades = pd.read_csv(self.log_file)
-            
-            if len(trades) == 0:
+            # Try multiple loading strategies in order of preference
+            trades = None
+
+            # Strategy 1: Standard CSV with QUOTE_NONNUMERIC (new format)
+            try:
+                trades = pd.read_csv(
+                    self.log_file,
+                    quoting=csv.QUOTE_NONNUMERIC,
+                    on_bad_lines='skip'
+                )
+            except Exception:
+                pass
+
+            # Strategy 2: Default pandas CSV reader with bad line skipping
+            if trades is None or len(trades) == 0:
+                try:
+                    trades = pd.read_csv(self.log_file, on_bad_lines='skip')
+                except Exception:
+                    pass
+
+            # Strategy 3: Read line by line, keep only rows with expected field count
+            if trades is None or len(trades) == 0:
+                try:
+                    expected_cols = [
+                        'timestamp', 'pair', 'signal', 'z_score', 'regime',
+                        'confidence', 'qty_y', 'qty_x', 'price_y', 'price_x',
+                        'hedge_ratio'
+                    ]
+                    rows = []
+                    with open(self.log_file, 'r') as f:
+                        reader = csv.reader(f)
+                        header = next(reader, None)
+                        if header:
+                            for row in reader:
+                                # Accept rows that match expected cols OR the header length
+                                if len(row) >= len(expected_cols):
+                                    rows.append(row[:len(expected_cols)])
+                    if rows:
+                        trades = pd.DataFrame(rows, columns=expected_cols)
+                except Exception as e:
+                    print(f" Could not parse trade log: {e}")
+                    return None
+
+            if trades is None or len(trades) == 0:
                 print(" Trade log is empty")
                 return None
-            
-            trades['timestamp'] = pd.to_datetime(trades['timestamp'])
+
+            # Keep only the core columns we need (handles old wide files too)
+            core_cols = ['timestamp', 'pair', 'signal', 'z_score', 'regime',
+                         'confidence', 'qty_y', 'qty_x', 'price_y', 'price_x', 'hedge_ratio']
+            trades = trades[[c for c in core_cols if c in trades.columns]]
+
+            # Type coercion
+            trades['timestamp'] = pd.to_datetime(trades['timestamp'], errors='coerce')
+            trades = trades.dropna(subset=['timestamp'])
+
+            for col in ['signal', 'z_score', 'confidence', 'qty_y', 'qty_x',
+                        'price_y', 'price_x', 'hedge_ratio']:
+                if col in trades.columns:
+                    trades[col] = pd.to_numeric(trades[col], errors='coerce')
+
             trades['date'] = trades['timestamp'].dt.date
+            trades = trades.dropna(subset=['z_score', 'signal'])
             
+            print(f" Loaded {len(trades)} trade records from log")
             return trades
             
         except Exception as e:
             print(f" Error loading trades: {e}")
             return None
-    
-    def calculate_metrics(self, trades: pd.DataFrame) -> dict:
 
+    def rebuild_clean_csv(self):
+        """
+        Utility: rebuild a clean CSV from a corrupted one.
+        Call this once if your existing trades.csv is broken.
+        """
+        raw_path = self.log_file
+        backup_path = raw_path.with_suffix('.csv.bak')
+        clean_path = raw_path
+
+        if not raw_path.exists():
+            print("No trade log to rebuild.")
+            return
+
+        expected_cols = [
+            'timestamp', 'pair', 'signal', 'z_score', 'regime',
+            'confidence', 'qty_y', 'qty_x', 'price_y', 'price_x', 'hedge_ratio'
+        ]
+
+        rows = []
+        with open(raw_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                # Parse the line using csv
+                parsed = list(csv.reader([line]))[0]
+                # Strip whitespace from each field
+                parsed = [p.strip().strip('"') for p in parsed]
+                if parsed == expected_cols:
+                    continue  # skip header
+                if len(parsed) >= len(expected_cols):
+                    rows.append(parsed[:len(expected_cols)])
+
+        # Back up old file
+        import shutil
+        shutil.copy(raw_path, backup_path)
+        print(f" Backed up old log to {backup_path}")
+
+        # Write clean file
+        with open(clean_path, 'w', newline='') as f:
+            writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(expected_cols)
+            writer.writerows(rows)
+
+        print(f" Rebuilt clean CSV with {len(rows)} rows at {clean_path}")
+
+    def calculate_metrics(self, trades: pd.DataFrame) -> dict:
         if trades is None or len(trades) == 0:
             return None
         
-        # Time metrics
         start_date = trades['timestamp'].min()
         end_date = trades['timestamp'].max()
         days_active = (end_date - start_date).days
         days_remaining = max(0, 90 - days_active)
         
-        # Signal metrics
         total_signals = len(trades)
         long_signals = (trades['signal'] == 1).sum()
         short_signals = (trades['signal'] == -1).sum()
         flat_signals = (trades['signal'] == 0).sum()
         
-        # Z-score metrics
         avg_z = trades['z_score'].abs().mean()
         max_z = trades['z_score'].abs().max()
         min_z = trades['z_score'].abs().min()
         
-        # Confidence metrics
         if 'confidence' in trades.columns:
             avg_confidence = trades['confidence'].mean()
             high_confidence_pct = (trades['confidence'] > 1.5).sum() / len(trades)
@@ -86,14 +185,9 @@ class TradingMonitor:
             avg_confidence = None
             high_confidence_pct = None
         
-        # Regime distribution
         regime_dist = trades['regime'].value_counts()
-        
-        # Trading frequency
         unique_dates = trades['date'].nunique()
         signals_per_day = total_signals / max(unique_dates, 1)
-        
-        # Active trading percentage
         active_pct = (trades['signal'] != 0).sum() / total_signals if total_signals > 0 else 0
         
         metrics = {
@@ -147,12 +241,10 @@ class TradingMonitor:
         return pair_metrics
     
     def generate_report(self):
-        
         print("="*10)
         print(f" PAPER TRADING MONITOR - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("="*10)
         
-        # Loading of  trades
         trades = self.load_trades()
         
         if trades is None:
@@ -160,7 +252,6 @@ class TradingMonitor:
             print("Paper trading system needs to run for at least 1 day")
             return
         
-        # Calculate metrics
         metrics = self.calculate_metrics(trades)
         pair_metrics = self.calculate_pair_metrics(trades)
         
@@ -172,8 +263,7 @@ class TradingMonitor:
         print(f"  Progress: {metrics['progress_pct']:.1f}%")
         print(f"  Unique Trading Days: {metrics['unique_dates']}")
         
-        # SIGNAL ACTIVITY
-        print(f"\n📊 Signal Activity:")
+        print(f"\n Signal Activity:")
         print(f"  Total Signals: {metrics['total_signals']}")
         print(f"  Signals/Day: {metrics['signals_per_day']:.2f}")
         print(f"  Long: {metrics['long_signals']} ({metrics['long_pct']:.1f}%)")
@@ -181,7 +271,6 @@ class TradingMonitor:
         print(f"  Flat: {metrics['flat_signals']} ({metrics['flat_pct']:.1f}%)")
         print(f"  Active Time: {metrics['active_pct']:.1f}%")
         
-        # ENTRY QUALITY
         print(f"\n Entry Quality:")
         print(f"  Avg |Z-score|: {metrics['avg_z_score']:.2f}")
         print(f"  Max |Z-score|: {metrics['max_z_score']:.2f}")
@@ -192,29 +281,23 @@ class TradingMonitor:
             print(f"  High Confidence Trades: {metrics['high_confidence_pct']*100:.1f}%")
         
         print(f"\n Performance by Pair:")
-        
         for pair, pm in pair_metrics.items():
             print(f"\n  {pair}:")
             print(f"    Signals: {pm['total_signals']}")
             print(f"    Long/Short/Flat: {pm['long']}/{pm['short']}/{pm['flat']}")
             print(f"    Active: {pm['active_pct']:.1f}%")
             print(f"    Avg |Z|: {pm['avg_z']:.2f} (Max: {pm['max_z']:.2f})")
-            
             if pm['avg_hedge_ratio']:
                 print(f"    Avg Hedge Ratio: {pm['avg_hedge_ratio']:.3f}")
-            
             if 'avg_confidence' in pm:
                 print(f"    Avg Confidence: {pm['avg_confidence']:.2f}")
         
-        # REGIME DISTRIBUTION
         print(f"\n  Market Regime Distribution:")
-        
         for regime, count in metrics['regime_dist'].items():
             pct = (count / metrics['total_signals']) * 100
             print(f"  {regime}: {count} ({pct:.1f}%)")
         
         print(f"\n Status:")
-        
         if metrics['days_active'] < 7:
             status = "JUST STARTED"
         elif metrics['days_active'] < 30:
@@ -223,41 +306,28 @@ class TradingMonitor:
             status = "ON TRACK"
         else:
             status = "FINAL STRETCH"
+        print(f"  {status} - {metrics['progress_pct']:.1f}% complete ({metrics['days_active']}/{90} days)")
         
-        print(f"  {metrics['progress_pct']:.1f}% complete ({metrics['days_active']}/{90} days)")
-        
-        # ALERTS 
-
         print(f"\n  Alerts & Recommendations:")
-        
         alerts = []
         
-        # Check entry quality
         if metrics['avg_z_score'] < 1.5:
             alerts.append("  Low average Z-scores - entries may be too conservative")
-        
         if metrics['avg_z_score'] > 3.5:
             alerts.append("  Very high Z-scores - may be overtrading")
-        
-        # Check activity
         if metrics['flat_pct'] > 90:
             alerts.append("  Too much time flat (>90%) - strategy not trading enough")
-        
         if metrics['active_pct'] < 10:
             alerts.append("  Very low activity - check the generation of signals")
         
-        # Check regime
         crisis_pct = 0
         if 'CRISIS' in metrics['regime_dist']:
             crisis_pct = (metrics['regime_dist']['CRISIS'] / metrics['total_signals']) * 100
             if crisis_pct > 50:
-                alerts.append(f"ℹ  High crisis regime ({crisis_pct:.1f}%) - defensive behavior is normal")
+                alerts.append(f"  High crisis regime ({crisis_pct:.1f}%) - defensive behavior is normal")
         
-        # Check data frequency
         if metrics['signals_per_day'] < 0.5:
             alerts.append("  Low signal frequency - check if daily updates are running")
-        
-        # Check balance
         if metrics['long_pct'] > 70 or metrics['short_pct'] > 70:
             alerts.append("  Imbalanced long/short ratio - check for market bias")
         
@@ -267,7 +337,6 @@ class TradingMonitor:
             for alert in alerts:
                 print(f"  {alert}")
         
-        # COMPARISON FROM BACKTEST
         print(f"\n Expected vs Actual (Backtest Reference):")
         print(f"  Expected Sharpe: {self.backtest_sharpe:.2f}")
         print(f"  Expected Return: {self.backtest_return:.2f}%")
@@ -276,16 +345,13 @@ class TradingMonitor:
         print("\n")
         print("\n")
         
-        # Try to load account performance if available
         try:
             from alpaca.trading.client import TradingClient
-            
             trading_client = TradingClient(
                 config.ALPACA_API_KEY,
                 config.ALPACA_SECRET_KEY,
                 paper=config.PAPER_TRADING
             )
-            
             account = trading_client.get_account()
             portfolio_value = float(account.portfolio_value)
             total_return = ((portfolio_value - config.INITIAL_CAPITAL) / config.INITIAL_CAPITAL) * 100
@@ -297,13 +363,8 @@ class TradingMonitor:
             if metrics['days_active'] > 30:
                 annualized = (total_return / metrics['days_active']) * 365
                 print(f"  Annualized (est): {annualized:+.2f}%")
-            
-            print("\n")
-            print("\n")
-            print("\n")
-            
-        except Exception as e:
-            pass  
+        except Exception:
+            pass
     
     def plot_performance(self, save_path: str = 'paper_trading_monitor.png'):
         trades = self.load_trades()
@@ -318,7 +379,7 @@ class TradingMonitor:
         
         for pair in trades['pair'].unique():
             pair_data = trades[trades['pair'] == pair]
-            ax1.plot(pair_data['timestamp'], pair_data['z_score'], 
+            ax1.plot(pair_data['timestamp'], pair_data['z_score'],
                     label=pair, alpha=0.7, linewidth=1.5)
         
         ax1.axhline(y=2.0, color='r', linestyle='--', alpha=0.5, label='Entry threshold')
@@ -326,7 +387,6 @@ class TradingMonitor:
         ax1.axhline(y=0.5, color='g', linestyle='--', alpha=0.5, label='Exit threshold')
         ax1.axhline(y=-0.5, color='g', linestyle='--', alpha=0.5)
         ax1.axhline(y=0, color='k', linestyle='-', alpha=0.3, linewidth=0.5)
-        
         ax1.set_title('Z-Score Evolution Over Time', fontsize=12, fontweight='bold')
         ax1.set_xlabel('Date')
         ax1.set_ylabel('Z-Score')
@@ -335,32 +395,25 @@ class TradingMonitor:
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
         
         ax2 = fig.add_subplot(gs[0, 2])
-        
         signal_counts = trades['signal'].value_counts().sort_index()
         signal_labels = {-1: 'Short', 0: 'Flat', 1: 'Long'}
         colors = {-1: '#ff6b6b', 0: '#95a5a6', 1: '#51cf66'}
-        
         bars = ax2.bar(
             [signal_labels.get(s, s) for s in signal_counts.index],
             signal_counts.values,
             color=[colors.get(s, '#3498db') for s in signal_counts.index]
         )
-        
         ax2.set_title('Signal Distribution', fontsize=12, fontweight='bold')
         ax2.set_ylabel('Count')
         ax2.grid(True, alpha=0.3, axis='y')
-        
         for bar in bars:
             height = bar.get_height()
             ax2.text(bar.get_x() + bar.get_width()/2., height,
-                    f'{int(height)}',
-                    ha='center', va='bottom')
+                    f'{int(height)}', ha='center', va='bottom')
         
         ax3 = fig.add_subplot(gs[1, 0])
-        
         regime_counts = trades['regime'].value_counts()
         colors_regime = {'CRISIS': '#e74c3c', 'VOLATILE': '#f39c12', 'NORMAL': '#27ae60'}
-        
         ax3.pie(
             regime_counts.values,
             labels=regime_counts.index,
@@ -371,13 +424,11 @@ class TradingMonitor:
         ax3.set_title('Regime Distribution', fontsize=12, fontweight='bold')
         
         ax4 = fig.add_subplot(gs[1, 1])
-        
         ax4.hist(trades['z_score'], bins=30, alpha=0.7, color='#3498db', edgecolor='black')
         ax4.axvline(x=2.0, color='r', linestyle='--', alpha=0.7, label='Entry')
         ax4.axvline(x=-2.0, color='r', linestyle='--', alpha=0.7)
         ax4.axvline(x=0.5, color='g', linestyle='--', alpha=0.7, label='Exit')
         ax4.axvline(x=-0.5, color='g', linestyle='--', alpha=0.7)
-        
         ax4.set_title('Z-Score Distribution', fontsize=12, fontweight='bold')
         ax4.set_xlabel('Z-Score')
         ax4.set_ylabel('Frequency')
@@ -385,9 +436,8 @@ class TradingMonitor:
         ax4.grid(True, alpha=0.3)
         
         ax5 = fig.add_subplot(gs[1, 2])
-        
         if 'confidence' in trades.columns:
-            ax5.scatter(trades['timestamp'], trades['confidence'], 
+            sc = ax5.scatter(trades['timestamp'], trades['confidence'],
                        alpha=0.5, c=trades['signal'], cmap='RdYlGn', s=50)
             ax5.axhline(y=1.0, color='orange', linestyle='--', alpha=0.5)
             ax5.set_title('Signal Confidence Over Time', fontsize=12, fontweight='bold')
@@ -396,26 +446,21 @@ class TradingMonitor:
             ax5.grid(True, alpha=0.3)
             ax5.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
         else:
-            ax5.text(0.5, 0.5, 'Confidence data\nnot available', 
+            ax5.text(0.5, 0.5, 'Confidence data\nnot available',
                     ha='center', va='center', fontsize=12)
             ax5.set_title('Signal Confidence', fontsize=12, fontweight='bold')
         
         ax6 = fig.add_subplot(gs[2, :])
-        
-        # Group by date and count active signals
         daily_activity = trades.groupby('date').agg({
             'signal': lambda x: (x != 0).sum(),
             'z_score': lambda x: x.abs().mean()
         }).reset_index()
-        
         ax6_twin = ax6.twinx()
-        
-        ax6.bar(daily_activity['date'], daily_activity['signal'], 
+        ax6.bar(daily_activity['date'], daily_activity['signal'],
                alpha=0.6, color='#3498db', label='Active Signals')
-        ax6_twin.plot(daily_activity['date'], daily_activity['z_score'], 
-                     color='#e74c3c', marker='o', linewidth=2, 
+        ax6_twin.plot(daily_activity['date'], daily_activity['z_score'],
+                     color='#e74c3c', marker='o', linewidth=2,
                      label='Avg |Z-Score|', markersize=4)
-        
         ax6.set_title('Daily Activity Timeline', fontsize=12, fontweight='bold')
         ax6.set_xlabel('Date')
         ax6.set_ylabel('Active Signals', color='#3498db')
@@ -424,18 +469,23 @@ class TradingMonitor:
         ax6.legend(loc='upper left')
         ax6_twin.legend(loc='upper right')
         
-        plt.suptitle('Paper Trading Performance Dashboard', 
+        plt.suptitle('Paper Trading Performance Dashboard',
                     fontsize=16, fontweight='bold', y=0.995)
-        
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"\n Dashboard saved to: {save_path}")
-        
         plt.show()
 
 
 def main():
     monitor = TradingMonitor()
     
+    # Attempt to rebuild corrupted CSV if needed
+    trades = monitor.load_trades()
+    if trades is None:
+        print("\n Attempting to rebuild corrupted trade log...")
+        monitor.rebuild_clean_csv()
+        trades = monitor.load_trades()
+
     monitor.generate_report()
     try:
         print("\n Generating performance charts")

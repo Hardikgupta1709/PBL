@@ -9,6 +9,7 @@ import Paper_Trading.config as config
 from Paper_Trading.test_alpaca_connection import test_connection, quick_test
 from Paper_Trading.alpaca_paper_trader import AlpacaPaperTrader
 from Paper_Trading.Monitoring_Dashboard import TradingMonitor
+from Paper_Trading.pair_rotation import PairRotationManager, get_rotated_pairs
 
 
 def run_connection_test(quick: bool = False) -> bool:
@@ -20,10 +21,60 @@ def run_connection_test(quick: bool = False) -> bool:
         return test_connection()
 
 
-def run_daily_trading() -> bool:
+def run_pair_rotation(top_k: int = 3, force: bool = False) -> bool:
+    """Run automatic pair rotation — scan universe, select healthiest pairs."""
+    print("\n Running Automatic Pair Rotation")
+    
+    try:
+        manager = PairRotationManager(top_k=top_k)
+        result = manager.run_rotation(force=force, verbose=True)
+        
+        if result is None:
+            print("  Rotation not needed yet (using existing pairs).")
+            if manager.current_pairs:
+                print(f"  Active pairs: {', '.join(manager.current_pairs)}")
+            return True
+        
+        # Update config.VALIDATED_PAIRS with new pairs
+        scan = manager.scan_universe(verbose=False)
+        new_config = manager.build_validated_pairs_config(
+            result.selected_pairs, scan
+        )
+        config.VALIDATED_PAIRS = new_config
+        
+        print(f"\n  Config updated with {len(new_config)} pairs:")
+        for name, cfg in new_config.items():
+            print(f"    {name}: {cfg['ticker_y']}/{cfg['ticker_x']} "
+                  f"(health={cfg.get('health_score', 0):.3f})")
+        
+        return True
+        
+    except Exception as e:
+        print(f" Error in pair rotation: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def run_daily_trading(with_rotation: bool = True, top_k: int = 3) -> bool:
     print("\n Running Daily Paper Trading Update")
     
     try:
+        # Step 0: Check if pair rotation is needed
+        if with_rotation:
+            manager = PairRotationManager(top_k=top_k)
+            if manager.needs_rotation():
+                print("  Monthly rotation check triggered...")
+                run_pair_rotation(top_k=top_k)
+            elif manager.current_pairs:
+                # Load rotated pairs into config
+                scan = manager.scan_universe(verbose=False)
+                new_config = manager.build_validated_pairs_config(
+                    manager.current_pairs, scan
+                )
+                config.VALIDATED_PAIRS = new_config
+                print(f"  Using rotated pairs: {', '.join(manager.current_pairs)}")
+        
         if not config.validate_config():
             print(" Configuration validation failed!")
             return False
@@ -157,6 +208,31 @@ Examples:
     )
     
     parser.add_argument(
+        '--rotate',
+        action='store_true',
+        help='Run pair rotation (scan universe, select healthiest)'
+    )
+    
+    parser.add_argument(
+        '--top-k',
+        type=int,
+        default=3,
+        help='Number of top pairs to trade (default: 3)'
+    )
+    
+    parser.add_argument(
+        '--force-rotate',
+        action='store_true',
+        help='Force pair rotation regardless of interval'
+    )
+    
+    parser.add_argument(
+        '--no-rotation',
+        action='store_true',
+        help='Skip pair rotation, use config pairs only'
+    )
+    
+    parser.add_argument(
         '--config-summary',
         action='store_true',
         help='Print configuration summary'
@@ -186,8 +262,14 @@ Examples:
     elif args.quick_test:
         success = run_connection_test(quick=True)
     
+    elif args.rotate:
+        success = run_pair_rotation(top_k=args.top_k, force=args.force_rotate)
+    
     elif args.trade:
-        success = run_daily_trading()
+        success = run_daily_trading(
+            with_rotation=not args.no_rotation,
+            top_k=args.top_k,
+        )
     
     elif args.monitor:
         success = run_monitoring()
@@ -198,15 +280,17 @@ Examples:
     else:
         print("\n Interactive Mode")
         print("  1. Test connection")
-        print("  2. Run daily trading")
+        print("  2. Run daily trading (with rotation)")
         print("  3. View monitoring dashboard")
         print("  4. Run full suite")
         print("  5. View configuration")
+        print("  6. Force pair rotation NOW")
+        print("  7. Scan-only (preview rankings)")
         print("  0. Exit")
         
         while True:
             try:
-                choice = input("\nEnter choice (0-5): ").strip()
+                choice = input("\nEnter choice (0-7): ").strip()
                 
                 if choice == '0':
                     print("\n Goodbye!")
@@ -216,7 +300,7 @@ Examples:
                     run_connection_test(quick=False)
                     
                 elif choice == '2':
-                    run_daily_trading()
+                    run_daily_trading(with_rotation=True)
                     
                 elif choice == '3':
                     run_monitoring()
@@ -227,9 +311,22 @@ Examples:
                     
                 elif choice == '5':
                     config.print_config_summary()
+                
+                elif choice == '6':
+                    run_pair_rotation(top_k=3, force=True)
+                
+                elif choice == '7':
+                    manager = PairRotationManager(top_k=3)
+                    scan = manager.scan_universe(verbose=True)
+                    rankings = manager.rank_pairs(scan)
+                    print(f"\n  Rankings (top-{manager.top_k} selected):")
+                    for i, (name, score, elig) in enumerate(rankings, 1):
+                        marker = ' <-- ACTIVE' if i <= manager.top_k and elig else ''
+                        status = 'eligible' if elig else 'excluded'
+                        print(f"  {i}. {name:<15} score={score:.3f}  {status}{marker}")
                     
                 else:
-                    print(" Invalid choice. Please enter 0-5.")
+                    print(" Invalid choice. Please enter 0-7.")
                     
             except KeyboardInterrupt:
                 print("\n\nInterrupted by user. Goodbye!")

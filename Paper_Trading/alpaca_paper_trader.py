@@ -111,15 +111,19 @@ class AlpacaPaperTrader:
                 return None
             
             system = ConservativeSystem()
+            # Use the first half of the lookback window as training data
+            train_days = min(252, len(stock_y) // 2)
+            train_end = stock_y.index[train_days - 1].strftime('%Y-%m-%d')
             results = system.run_backtest(
                 stock_y, stock_x, market,
-                train_period=min(252, len(stock_y) // 2),
+                train_end_date=train_end,
                 entry_z_normal=pair_config['entry_z_normal'],
                 exit_z_normal=pair_config['exit_z_normal'],
                 entry_z_volatile=pair_config['entry_z_volatile'],
                 exit_z_volatile=pair_config['exit_z_volatile'],
                 min_hold_days=pair_config['min_hold_days'],
-                z_score_window=pair_config['z_score_window']
+                z_score_window=pair_config['z_score_window'],
+                verbose=False,
             )
             
             latest_signal = int(results['final_signal'].iloc[-1])
@@ -151,21 +155,19 @@ class AlpacaPaperTrader:
         max_position_pct: float,
         account_value: float
     ) -> float:
-        # Base increment: 25% of maximum position
-        base_increment_pct = max_position_pct * 0.25
+        # Base increment: 50% of maximum position (was 25% — too slow to build)
+        base_increment_pct = max_position_pct * 0.50
         
-        # Adjust by signal strength (1.0 = at threshold, 2.0 = 2x threshold)
-        strength_multiplier = min(signal_strength / 1.5, 1.0)
+        # Scale by signal strength (confidence). Minimum 0.5x, max 1.0x
+        strength_multiplier = max(min(signal_strength, 1.0), 0.5)
         
         increment_pct = base_increment_pct * strength_multiplier
         
-        # Calculate new target (not exceeding max)
-        new_target_pct = min(
-            current_position_pct + increment_pct,
-            max_position_pct
-        )
+        # Cap so we don't overshoot max position
+        remaining_pct = max_position_pct - current_position_pct
+        increment_pct = min(increment_pct, remaining_pct)
         
-        # Converting to dollar value (THIS IS THE INCREMENT, not total)
+        # Converting to dollar value
         increment_value = account_value * increment_pct
         
         return increment_value
@@ -196,7 +198,45 @@ class AlpacaPaperTrader:
         except APIError as e:
             logger.error(f" Order failed for {symbol}: {e}")
             return None
-    
+
+    def log_signal(self, pair_name: str, signal_data: Dict,
+                   qty_y: int, qty_x: int,
+                   price_y: float, price_x: float,
+                   orders: list = None):
+        try:
+            log_entry = {
+                'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'pair': pair_name,
+                'signal': signal_data['signal'],
+                'z_score': round(signal_data['z_score'], 4),
+                'regime': signal_data['regime'],
+                'confidence': round(signal_data.get('confidence', 0), 4),
+                'qty_y': int(qty_y),
+                'qty_x': int(qty_x),
+                'price_y': round(price_y, 2),
+                'price_x': round(price_x, 2),
+                'hedge_ratio': round(signal_data.get('hedge_ratio', 0), 4),
+                'orders_placed': len(orders) if orders else 0,
+                'order_ids': ','.join(str(o.id) for o in orders) if orders else ''
+            }
+
+            df = pd.DataFrame([log_entry])
+
+            if self.log_file.exists():
+                df.to_csv(self.log_file, mode='a', header=False, index=False)
+            else:
+                df.to_csv(self.log_file, index=False)
+
+            logger.info(
+                f"Logged to trades.csv -> "
+                f"signal={signal_data['signal']}, "
+                f"z={signal_data['z_score']:.2f}, "
+                f"regime={signal_data['regime']}"
+            )
+
+        except Exception as e:
+            logger.error(f"Error logging signal: {e}")
+
     def manage_pair_FIXED(
         self,
         pair_name: str,
@@ -241,10 +281,10 @@ class AlpacaPaperTrader:
         
         logger.info(f"Current position: {current_position_pct:.1%} of portfolio")
         
-        # EXIT logic 
+        # ── EXIT / FLAT logic ────────────────────────────────────────
         if signal == 0:
             if current_y != 0 or current_x != 0:
-                logger.info(f"🚪 EXIT signal - closing positions")
+                logger.info(f" EXIT signal - closing positions")
                 
                 # Close Y
                 if abs(current_y) > 0:
@@ -256,21 +296,30 @@ class AlpacaPaperTrader:
                     side_x = 'sell' if current_x > 0 else 'buy'
                     self.execute_order(ticker_x, abs(current_x), side_x)
                 
+                self.log_signal(pair_name, signal_data,
+                                current_y, current_x,
+                                price_y, price_x)
                 logger.info(f"{'='*60}\n")
                 return True
             else:
                 logger.info(f"Already flat")
+                self.log_signal(pair_name, signal_data,
+                                0, 0,
+                                price_y, price_x)
+                logger.info(f"{'='*60}\n")
                 return False
         
-        # ENTRY logic
-        max_position_pct = pair_config['position_size']  
+        max_position_pct = pair_config['position_size']
         
-        if current_position_pct >= max_position_pct * 0.95:    # Checking for max
+        if current_position_pct >= max_position_pct * 0.95:
             logger.info(f"  At max position ({current_position_pct:.1%}), not adding")
+            self.log_signal(pair_name, signal_data,
+                            current_y, current_x,
+                            price_y, price_x)
             logger.info(f"{'='*60}\n")
             return False
         
-        # Calculating increment 
+        # Calculating increment
         increment_value = self.calculate_increment_size(
             signal_strength=confidence,
             current_position_pct=current_position_pct,
@@ -280,12 +329,14 @@ class AlpacaPaperTrader:
         
         if increment_value < 100:
             logger.info(f"  Increment too small (${increment_value:.0f})")
+            self.log_signal(pair_name, signal_data,
+                            current_y, current_x,
+                            price_y, price_x)
             logger.info(f"{'='*60}\n")
             return False
         
         logger.info(f" Adding ${increment_value:,.0f} to position (gradual entry)")
         
-        # Calculate share quantities for INCREMENT
         if signal == 1:  # LONG spread
             add_y = int(increment_value / price_y)
             add_x = -int(add_y * hedge_ratio)
@@ -304,7 +355,7 @@ class AlpacaPaperTrader:
         
         logger.info(f"New targets: Y={target_y}, X={target_x}")
         
-        # Execute
+        # Execute orders
         orders_placed = []
         
         if abs(add_y) > 0:
@@ -319,14 +370,10 @@ class AlpacaPaperTrader:
             if order_x:
                 orders_placed.append(order_x)
         
-        # Log trade
-        if orders_placed:
-            self.log_trade(
-                pair_name, signal_data,
-                target_y, target_x,
-                price_y, price_x,
-                orders_placed
-            )
+        self.log_signal(pair_name, signal_data,
+                        target_y, target_x,
+                        price_y, price_x,
+                        orders=orders_placed)
         
         logger.info(f"{'='*60}\n")
         
@@ -334,6 +381,7 @@ class AlpacaPaperTrader:
     
     def log_trade(self, pair_name: str, signal_data: Dict, qty_y: int, qty_x: int,
                   price_y: float, price_x: float, orders: list):
+        """Original method kept for backward compatibility."""
         try:
             log_entry = {
                 'timestamp': datetime.now(),

@@ -1,0 +1,15 @@
+{
+  "filter_BAC_PNC": 6.526759147644043,
+  "filter_WFC_MS": 5.223729133605957,
+  "filter_CVX_OXY": 5.197013854980469,
+  "rl_raw_pnl_BAC_PNC": 34.48805594444275,
+  "rl_sharpe_reward_BAC_PNC": 20.691547870635986,
+  "rl_risk_adjusted_BAC_PNC": 24.345100164413452,
+  "universe_discovery": 69.0508782863617,
+  "universe_backtest": 57.31108283996582,
+  "component_backtest": 0.8732988834381104,
+  "component_health": 3.2931320667266846,
+  "component_rl_train_10ep": 16.15444302558899,
+  "component_rl_inference": 0.1792771816253662,
+  "total_pipeline": 250.6303231716156
+}

@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{Pair universe summary.  Cointegration percentage is the fraction of
+rolling 126-day windows with Engle-Granger $p < 0.05$.
+Half-life (days) estimated on the training spread.
+Hurst exponent computed on the OOS spread ($H < 0.5$: mean-reverting).}
+\label{tab:pair_summary}
+\small
+\begin{tabular}{llrrrrrl}
+\toprule
+Pair & Sector & \begin{tabular}[c]{@{}c@{}}Train\\Days\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}OOS\\Days\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Train\\Coint\%\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}OOS\\Coint\%\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Half\\Life\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}OOS\\Hurst\end{tabular} \\
+\midrule
+BAC/PNC & Banking & 1511 & 1126 & 11.6 & 9.7 & 97.5 & 0.975 \\
+WFC/MS & Fin. Services & 1511 & 1126 & 9.7 & 2.7 & — & 0.991 \\
+CVX/OXY & Energy & 1511 & 1126 & 10.5 & 6.2 & — & 0.992 \\
+\bottomrule
+\end{tabular}
+\end{table}

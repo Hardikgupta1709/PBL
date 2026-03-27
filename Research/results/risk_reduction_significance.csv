@@ -1,0 +1,2 @@
+n_pairs,median_uf_maxdd_%,median_f_maxdd_%,median_dd_reduction_%,wilcoxon_stat,wilcoxon_p_one_sided,ks_stat,ks_p_two_sided,median_uf_return_%,median_f_return_%,median_return_shift_%,uf_cvar_10%,f_cvar_10%,cvar_improvement_%
+60,34.389429412216856,8.72927121775398,25.660158194462873,1827.0,9.482182806690414e-12,0.4,0.00011232089959429449,-11.889899009882381,-1.954286029044755,9.935612980837625,-58.159013352248735,-24.323462052213085,33.83555130003565

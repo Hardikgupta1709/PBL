@@ -1,0 +1,41 @@
+\begin{table*}[t]
+\centering
+\caption{Out-of-sample performance comparison across all pairs and methods (2021--2025, net of 5\,bps slippage $+$ \$1 commission $+$ market impact).
+Bold indicates best Sharpe per pair among active strategies.
+95\% bootstrap CI shown for our method.}
+\label{tab:full_baselines}
+\small
+\begin{tabular}{ll rrrrrr}
+\toprule
+Pair & Method & Sharpe & \begin{tabular}[c]{@{}c@{}}Total\\Ret.\%\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Ann.\\Ret.\%\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Max\\DD\%\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Win\\Rate\%\end{tabular}
+     & Trades \\
+\midrule
+BAC/PNC & Ours (Kalman+Regime) & $-0.126$ [-0.96, 0.86] & $-7.42$ & $-1.71$ & $-34.1$ & $14.2$ & 58 \\
+ & Gatev Distance & \textbf{+0.669} & $+41.82$ & $+8.13$ & $-12.4$ & $28.0$ & 5 \\
+ & OLS Cointegration & $+0.131$ & $+8.82$ & $+1.91$ & $-32.3$ & $25.6$ & 51 \\
+ & Kalman-Only (No Regime) & $-0.493$ & $-26.26$ & $-6.59$ & $-40.3$ & $13.9$ & 68 \\
+ & Regime-Only (No Kalman) & $+0.463$ & $+32.02$ & $+6.41$ & $-27.9$ & $23.9$ & 44 \\
+ & B&H Stocks (50/50) & $+0.428$ & $+62.15$ & $+11.42$ & $-45.9$ & $52.0$ & 0 \\
+ & SPY Buy-and-Hold & $+0.755$ & $+75.18$ & $+13.37$ & $-24.5$ & $54.4$ & 0 \\
+\midrule
+WFC/MS & Ours (Kalman+Regime) & $-0.045$ [-0.84, 1.04] & $-2.69$ & $-0.61$ & $-37.5$ & $15.5$ & 54 \\
+ & Gatev Distance & \textbf{+0.116} & $+12.56$ & $+2.68$ & $-31.9$ & $49.8$ & 0 \\
+ & OLS Cointegration & $-0.246$ & $-23.40$ & $-5.79$ & $-36.5$ & $26.8$ & 46 \\
+ & Kalman-Only (No Regime) & $-0.017$ & $-0.97$ & $-0.22$ & $-34.0$ & $14.0$ & 58 \\
+ & Regime-Only (No Kalman) & $-0.283$ & $-25.79$ & $-6.46$ & $-34.6$ & $24.2$ & 39 \\
+ & B&H Stocks (50/50) & $+0.897$ & $+171.61$ & $+25.06$ & $-33.5$ & $52.2$ & 0 \\
+ & SPY Buy-and-Hold & $+0.755$ & $+75.18$ & $+13.37$ & $-24.5$ & $54.4$ & 0 \\
+\midrule
+CVX/OXY & Ours (Kalman+Regime) & $-0.613$ [-0.83, 0.63] & $-90.78$ & $-41.35$ & $-95.5$ & $14.5$ & 55 \\
+ & Gatev Distance & $+0.218$ & $+33.55$ & $+6.69$ & $-46.3$ & $47.5$ & 0 \\
+ & OLS Cointegration & $+0.326$ & $+24.25$ & $+4.98$ & $-26.5$ & $28.1$ & 49 \\
+ & Kalman-Only (No Regime) & $-0.199$ & $-46.94$ & $-13.22$ & $-78.0$ & $13.9$ & 61 \\
+ & Regime-Only (No Kalman) & \textbf{+0.371} & $+26.45$ & $+5.39$ & $-26.4$ & $26.4$ & 41 \\
+ & B&H Stocks (50/50) & $+0.677$ & $+142.70$ & $+21.95$ & $-36.1$ & $51.9$ & 0 \\
+ & SPY Buy-and-Hold & $+0.755$ & $+75.18$ & $+13.37$ & $-24.5$ & $54.4$ & 0 \\
+\bottomrule
+\end{tabular}
+\end{table*}

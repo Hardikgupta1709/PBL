@@ -1,0 +1,1044 @@
+[Mon Feb 16 21:10:01 IST 2026] Starting paper trading update...
+2026-02-16 21:10:07,090 - INFO - Initializing  Alpaca Paper Trader
+2026-02-16 21:10:07,091 - INFO - Initialized with 1 pair(s)
+2026-02-16 21:10:07,091 - INFO -  DAILY UPDATE
+2026-02-16 21:10:09,375 - INFO - 
+ Account:
+2026-02-16 21:10:09,375 - INFO - Portfolio: $99,455.96
+2026-02-16 21:10:09,376 - INFO - Cash: $99,455.96
+2026-02-16 21:10:09,376 - INFO - Return: -0.54%
+2026-02-16 21:10:09,376 - INFO - 
+Processing SO_SRE...
+2026-02-16 21:10:09,376 - INFO - Calculating signals for SO_SRE
+2026-02-16 21:10:13,359 - INFO - 
+============================================================
+2026-02-16 21:10:13,360 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-16 21:10:13,361 - INFO - Signal: 0 | Z: -0.58 | Confidence: 0.33
+2026-02-16 21:10:13,361 - INFO - Current: Y=0, X=0
+2026-02-16 21:10:15,398 - INFO - Prices: SO=$94.94, SRE=$94.77
+2026-02-16 21:10:15,398 - INFO - Current position: 0.0% of portfolio
+2026-02-16 21:10:15,398 - INFO - Already flat
+2026-02-16 21:10:15,398 - INFO - 
+
+2026-02-16 21:10:15,398 - INFO - 
+
+2026-02-16 21:10:15,399 - INFO -  Complete! 0/1 pair(s)
+2026-02-16 21:10:15,399 - INFO - 
+
+2026-02-16 21:10:15,399 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-16 21:10:07
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-02-18 00:00:00 to 2026-02-13 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 28, VOLATILE: 10, CRISIS: 87
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Mon Feb 16 21:10:16 IST 2026]  Update completed successfully
+[Tue Feb 17 21:10:00 IST 2026] Starting paper trading update...
+2026-02-17 21:10:05,958 - INFO - Initializing  Alpaca Paper Trader
+2026-02-17 21:10:05,959 - INFO - Initialized with 1 pair(s)
+2026-02-17 21:10:05,960 - INFO -  DAILY UPDATE
+2026-02-17 21:10:07,385 - WARNING - Market open.
+2026-02-17 21:10:07,838 - INFO - 
+ Account:
+2026-02-17 21:10:07,839 - INFO - Portfolio: $99,455.96
+2026-02-17 21:10:07,839 - INFO - Cash: $99,455.96
+2026-02-17 21:10:07,839 - INFO - Return: -0.54%
+2026-02-17 21:10:07,839 - INFO - 
+Processing SO_SRE...
+2026-02-17 21:10:07,840 - INFO - Calculating signals for SO_SRE
+2026-02-17 21:10:13,736 - INFO - 
+============================================================
+2026-02-17 21:10:13,738 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-17 21:10:13,739 - INFO - Signal: 0 | Z: -0.58 | Confidence: 0.33
+2026-02-17 21:10:13,739 - INFO - Current: Y=0, X=0
+2026-02-17 21:10:16,041 - INFO - Prices: SO=$93.88, SRE=$93.75
+2026-02-17 21:10:16,041 - INFO - Current position: 0.0% of portfolio
+2026-02-17 21:10:16,041 - INFO - Already flat
+2026-02-17 21:10:16,049 - INFO - Logged to trades.csv -> signal=0, z=-0.58, regime=CRISIS
+2026-02-17 21:10:16,050 - INFO - ============================================================
+
+2026-02-17 21:10:16,050 - INFO - 
+
+2026-02-17 21:10:16,050 - INFO - 
+
+2026-02-17 21:10:16,050 - INFO -  Complete! 0/1 pair(s)
+2026-02-17 21:10:16,050 - INFO - 
+
+2026-02-17 21:10:16,050 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-17 21:10:05
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-02-18 00:00:00 to 2026-02-13 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 28, VOLATILE: 10, CRISIS: 87
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Tue Feb 17 21:10:18 IST 2026]  Update completed successfully
+[Wed Feb 18 21:10:00 IST 2026] Starting paper trading update...
+2026-02-18 21:10:05,505 - INFO - Initializing  Alpaca Paper Trader
+2026-02-18 21:10:05,506 - INFO - Initialized with 1 pair(s)
+2026-02-18 21:10:05,506 - INFO -  DAILY UPDATE
+2026-02-18 21:10:06,900 - WARNING - Market open.
+2026-02-18 21:10:07,328 - INFO - 
+ Account:
+2026-02-18 21:10:07,328 - INFO - Portfolio: $99,455.96
+2026-02-18 21:10:07,329 - INFO - Cash: $99,455.96
+2026-02-18 21:10:07,329 - INFO - Return: -0.54%
+2026-02-18 21:10:07,329 - INFO - 
+Processing SO_SRE...
+2026-02-18 21:10:07,329 - INFO - Calculating signals for SO_SRE
+2026-02-18 21:10:11,266 - INFO - 
+============================================================
+2026-02-18 21:10:11,267 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-18 21:10:11,267 - INFO - Signal: 0 | Z: -1.20 | Confidence: 0.69
+2026-02-18 21:10:11,267 - INFO - Current: Y=0, X=0
+2026-02-18 21:10:12,948 - INFO - Prices: SO=$91.52, SRE=$92.52
+2026-02-18 21:10:12,949 - INFO - Current position: 0.0% of portfolio
+2026-02-18 21:10:12,949 - INFO - Already flat
+2026-02-18 21:10:12,959 - INFO - Logged to trades.csv -> signal=0, z=-1.20, regime=NORMAL
+2026-02-18 21:10:12,959 - INFO - ============================================================
+
+2026-02-18 21:10:12,959 - INFO - 
+
+2026-02-18 21:10:12,959 - INFO - 
+
+2026-02-18 21:10:12,959 - INFO -  Complete! 0/1 pair(s)
+2026-02-18 21:10:12,959 - INFO - 
+
+2026-02-18 21:10:12,959 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-18 21:10:05
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-18 00:00:00 to 2026-02-17 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 28, VOLATILE: 10, CRISIS: 87
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Wed Feb 18 21:10:14 IST 2026]  Update completed successfully
+[Thu Feb 19 21:10:00 IST 2026] Starting paper trading update...
+2026-02-19 21:10:05,794 - INFO - Initializing  Alpaca Paper Trader
+2026-02-19 21:10:05,795 - INFO - Initialized with 1 pair(s)
+2026-02-19 21:10:05,795 - INFO -  DAILY UPDATE
+2026-02-19 21:10:07,138 - WARNING - Market open.
+2026-02-19 21:10:07,546 - INFO - 
+ Account:
+2026-02-19 21:10:07,546 - INFO - Portfolio: $99,455.96
+2026-02-19 21:10:07,546 - INFO - Cash: $99,455.96
+2026-02-19 21:10:07,547 - INFO - Return: -0.54%
+2026-02-19 21:10:07,547 - INFO - 
+Processing SO_SRE...
+2026-02-19 21:10:07,547 - INFO - Calculating signals for SO_SRE
+2026-02-19 21:10:12,361 - INFO - 
+============================================================
+2026-02-19 21:10:12,361 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-19 21:10:12,361 - INFO - Signal: 0 | Z: -0.63 | Confidence: 0.36
+2026-02-19 21:10:12,361 - INFO - Current: Y=0, X=0
+2026-02-19 21:10:13,909 - INFO - Prices: SO=$94.39, SRE=$92.47
+2026-02-19 21:10:13,910 - INFO - Current position: 0.0% of portfolio
+2026-02-19 21:10:13,910 - INFO - Already flat
+2026-02-19 21:10:13,920 - INFO - Logged to trades.csv -> signal=0, z=-0.63, regime=VOLATILE
+2026-02-19 21:10:13,921 - INFO - ============================================================
+
+2026-02-19 21:10:13,921 - INFO - 
+
+2026-02-19 21:10:13,921 - INFO - 
+
+2026-02-19 21:10:13,921 - INFO -  Complete! 0/1 pair(s)
+2026-02-19 21:10:13,921 - INFO - 
+
+2026-02-19 21:10:13,921 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-19 21:10:05
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-19 00:00:00 to 2026-02-18 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 29, VOLATILE: 10, CRISIS: 86
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Thu Feb 19 21:10:15 IST 2026]  Update completed successfully
+[Fri Feb 20 21:10:00 IST 2026] Starting paper trading update...
+2026-02-20 21:10:07,241 - INFO - Initializing  Alpaca Paper Trader
+2026-02-20 21:10:07,242 - INFO - Initialized with 1 pair(s)
+2026-02-20 21:10:07,242 - INFO -  DAILY UPDATE
+2026-02-20 21:10:08,910 - WARNING - Market open.
+2026-02-20 21:10:09,212 - INFO - 
+ Account:
+2026-02-20 21:10:09,213 - INFO - Portfolio: $99,455.96
+2026-02-20 21:10:09,213 - INFO - Cash: $99,455.96
+2026-02-20 21:10:09,213 - INFO - Return: -0.54%
+2026-02-20 21:10:09,213 - INFO - 
+Processing SO_SRE...
+2026-02-20 21:10:09,213 - INFO - Calculating signals for SO_SRE
+2026-02-20 21:10:13,215 - INFO - 
+============================================================
+2026-02-20 21:10:13,216 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-20 21:10:13,216 - INFO - Signal: 0 | Z: 0.37 | Confidence: 0.21
+2026-02-20 21:10:13,217 - INFO - Current: Y=0, X=0
+2026-02-20 21:10:14,607 - INFO - Prices: SO=$94.44, SRE=$93.07
+2026-02-20 21:10:14,607 - INFO - Current position: 0.0% of portfolio
+2026-02-20 21:10:14,608 - INFO - Already flat
+2026-02-20 21:10:14,624 - INFO - Logged to trades.csv -> signal=0, z=0.37, regime=VOLATILE
+2026-02-20 21:10:14,624 - INFO - ============================================================
+
+2026-02-20 21:10:14,624 - INFO - 
+
+2026-02-20 21:10:14,624 - INFO - 
+
+2026-02-20 21:10:14,625 - INFO -  Complete! 0/1 pair(s)
+2026-02-20 21:10:14,625 - INFO - 
+
+2026-02-20 21:10:14,625 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-20 21:10:07
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-20 00:00:00 to 2026-02-19 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 30, VOLATILE: 10, CRISIS: 85
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Fri Feb 20 21:10:15 IST 2026]  Update completed successfully
+[Mon Feb 23 21:10:00 IST 2026] Starting paper trading update...
+2026-02-23 21:10:06,660 - INFO - Initializing  Alpaca Paper Trader
+2026-02-23 21:10:06,661 - INFO - Initialized with 2 pair(s)
+2026-02-23 21:10:06,661 - INFO -  DAILY UPDATE
+2026-02-23 21:10:07,982 - WARNING - Market open.
+2026-02-23 21:10:08,771 - INFO - 
+ Account:
+2026-02-23 21:10:08,771 - INFO - Portfolio: $99,455.96
+2026-02-23 21:10:08,771 - INFO - Cash: $99,455.96
+2026-02-23 21:10:08,771 - INFO - Return: -0.54%
+2026-02-23 21:10:08,771 - INFO - 
+Processing BAC_PNC...
+2026-02-23 21:10:08,771 - INFO - Calculating signals for BAC_PNC
+2026-02-23 21:10:13,636 - INFO - 
+============================================================
+2026-02-23 21:10:13,636 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-02-23 21:10:13,637 - INFO - Signal: 0 | Z: 0.48 | Confidence: 0.24
+2026-02-23 21:10:13,637 - INFO - Current: Y=0, X=0
+2026-02-23 21:10:15,201 - INFO - Prices: BAC=$51.55, PNC=$221.96
+2026-02-23 21:10:15,202 - INFO - Current position: 0.0% of portfolio
+2026-02-23 21:10:15,202 - INFO - Already flat
+2026-02-23 21:10:15,212 - INFO - Logged to trades.csv -> signal=0, z=0.48, regime=VOLATILE
+2026-02-23 21:10:15,213 - INFO - ============================================================
+
+2026-02-23 21:10:15,213 - INFO - 
+Processing SO_SRE...
+2026-02-23 21:10:15,213 - INFO - Calculating signals for SO_SRE
+2026-02-23 21:10:19,144 - INFO - 
+============================================================
+2026-02-23 21:10:19,144 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-23 21:10:19,144 - INFO - Signal: 0 | Z: -1.13 | Confidence: 0.57
+2026-02-23 21:10:19,144 - INFO - Current: Y=0, X=0
+2026-02-23 21:10:19,809 - INFO - Prices: SO=$95.32, SRE=$93.82
+2026-02-23 21:10:19,810 - INFO - Current position: 0.0% of portfolio
+2026-02-23 21:10:19,810 - INFO - Already flat
+2026-02-23 21:10:19,815 - INFO - Logged to trades.csv -> signal=0, z=-1.13, regime=NORMAL
+2026-02-23 21:10:19,815 - INFO - ============================================================
+
+2026-02-23 21:10:19,815 - INFO - 
+
+2026-02-23 21:10:19,815 - INFO - 
+
+2026-02-23 21:10:19,815 - INFO -  Complete! 0/2 pair(s)
+2026-02-23 21:10:19,815 - INFO - 
+
+2026-02-23 21:10:19,816 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-23 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-02-24 00:00:00 to 2026-02-20 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 55, VOLATILE: 17, CRISIS: 53
+Downloading data for SO, SRE, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-02-24 00:00:00 to 2026-02-20 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 32, VOLATILE: 10, CRISIS: 83
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Mon Feb 23 21:10:21 IST 2026]  Update completed successfully
+[Tue Feb 24 21:10:00 IST 2026] Starting paper trading update...
+2026-02-24 21:10:09,012 - INFO - Initializing  Alpaca Paper Trader
+2026-02-24 21:10:09,013 - INFO - Initialized with 2 pair(s)
+2026-02-24 21:10:09,013 - INFO -  DAILY UPDATE
+2026-02-24 21:10:10,172 - WARNING - Market open.
+2026-02-24 21:10:10,783 - INFO - 
+ Account:
+2026-02-24 21:10:10,784 - INFO - Portfolio: $99,455.96
+2026-02-24 21:10:10,784 - INFO - Cash: $99,455.96
+2026-02-24 21:10:10,784 - INFO - Return: -0.54%
+2026-02-24 21:10:10,784 - INFO - 
+Processing BAC_PNC...
+2026-02-24 21:10:10,784 - INFO - Calculating signals for BAC_PNC
+2026-02-24 21:10:17,718 - INFO - 
+============================================================
+2026-02-24 21:10:17,719 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-02-24 21:10:17,720 - INFO - Signal: 0 | Z: 1.13 | Confidence: 0.56
+2026-02-24 21:10:17,720 - INFO - Current: Y=0, X=0
+2026-02-24 21:10:21,842 - INFO - Prices: BAC=$49.88, PNC=$218.12
+2026-02-24 21:10:21,843 - INFO - Current position: 0.0% of portfolio
+2026-02-24 21:10:21,843 - INFO - Already flat
+2026-02-24 21:10:21,856 - INFO - Logged to trades.csv -> signal=0, z=1.13, regime=VOLATILE
+2026-02-24 21:10:21,856 - INFO - ============================================================
+
+2026-02-24 21:10:21,856 - INFO - 
+Processing SO_SRE...
+2026-02-24 21:10:21,856 - INFO - Calculating signals for SO_SRE
+2026-02-24 21:10:23,994 - INFO - 
+============================================================
+2026-02-24 21:10:23,994 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-24 21:10:23,995 - INFO - Signal: 0 | Z: -0.11 | Confidence: 0.05
+2026-02-24 21:10:23,995 - INFO - Current: Y=0, X=0
+2026-02-24 21:10:25,024 - INFO - Prices: SO=$94.83, SRE=$92.96
+2026-02-24 21:10:25,024 - INFO - Current position: 0.0% of portfolio
+2026-02-24 21:10:25,024 - INFO - Already flat
+2026-02-24 21:10:25,029 - INFO - Logged to trades.csv -> signal=0, z=-0.11, regime=NORMAL
+2026-02-24 21:10:25,030 - INFO - ============================================================
+
+2026-02-24 21:10:25,030 - INFO - 
+
+2026-02-24 21:10:25,030 - INFO - 
+
+2026-02-24 21:10:25,030 - INFO -  Complete! 0/2 pair(s)
+2026-02-24 21:10:25,030 - INFO - 
+
+2026-02-24 21:10:25,030 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-24 21:10:09
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-24 00:00:00 to 2026-02-23 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 55, VOLATILE: 17, CRISIS: 53
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-24 00:00:00 to 2026-02-23 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 32, VOLATILE: 10, CRISIS: 83
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Tue Feb 24 21:10:26 IST 2026]  Update completed successfully
+[Wed Feb 25 21:10:00 IST 2026] Starting paper trading update...
+2026-02-25 21:10:05,758 - INFO - Initializing  Alpaca Paper Trader
+2026-02-25 21:10:05,758 - INFO - Initialized with 2 pair(s)
+2026-02-25 21:10:05,758 - INFO -  DAILY UPDATE
+2026-02-25 21:10:06,989 - WARNING - Market open.
+2026-02-25 21:10:07,303 - INFO - 
+ Account:
+2026-02-25 21:10:07,303 - INFO - Portfolio: $99,455.96
+2026-02-25 21:10:07,303 - INFO - Cash: $99,455.96
+2026-02-25 21:10:07,304 - INFO - Return: -0.54%
+2026-02-25 21:10:07,304 - INFO - 
+Processing BAC_PNC...
+2026-02-25 21:10:07,304 - INFO - Calculating signals for BAC_PNC
+2026-02-25 21:10:11,841 - INFO - 
+============================================================
+2026-02-25 21:10:11,842 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-02-25 21:10:11,842 - INFO - Signal: 0 | Z: 0.65 | Confidence: 0.33
+2026-02-25 21:10:11,842 - INFO - Current: Y=0, X=0
+2026-02-25 21:10:13,649 - INFO - Prices: BAC=$51.30, PNC=$220.37
+2026-02-25 21:10:13,649 - INFO - Current position: 0.0% of portfolio
+2026-02-25 21:10:13,650 - INFO - Already flat
+2026-02-25 21:10:13,655 - INFO - Logged to trades.csv -> signal=0, z=0.65, regime=VOLATILE
+2026-02-25 21:10:13,655 - INFO - ============================================================
+
+2026-02-25 21:10:13,655 - INFO - 
+Processing SO_SRE...
+2026-02-25 21:10:13,655 - INFO - Calculating signals for SO_SRE
+2026-02-25 21:10:15,300 - INFO - 
+============================================================
+2026-02-25 21:10:15,300 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-25 21:10:15,301 - INFO - Signal: 0 | Z: -0.38 | Confidence: 0.19
+2026-02-25 21:10:15,301 - INFO - Current: Y=0, X=0
+2026-02-25 21:10:15,979 - INFO - Prices: SO=$94.49, SRE=$93.02
+2026-02-25 21:10:15,980 - INFO - Current position: 0.0% of portfolio
+2026-02-25 21:10:15,980 - INFO - Already flat
+2026-02-25 21:10:15,985 - INFO - Logged to trades.csv -> signal=0, z=-0.38, regime=VOLATILE
+2026-02-25 21:10:15,985 - INFO - ============================================================
+
+2026-02-25 21:10:15,985 - INFO - 
+
+2026-02-25 21:10:15,985 - INFO - 
+
+2026-02-25 21:10:15,985 - INFO -  Complete! 0/2 pair(s)
+2026-02-25 21:10:15,985 - INFO - 
+
+2026-02-25 21:10:15,986 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-25 21:10:05
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-25 00:00:00 to 2026-02-24 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 56, VOLATILE: 17, CRISIS: 52
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-25 00:00:00 to 2026-02-24 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 33, VOLATILE: 10, CRISIS: 82
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Wed Feb 25 21:10:17 IST 2026]  Update completed successfully
+[Thu Feb 26 21:10:00 IST 2026] Starting paper trading update...
+2026-02-26 21:10:05,534 - INFO - Initializing  Alpaca Paper Trader
+2026-02-26 21:10:05,535 - INFO - Initialized with 2 pair(s)
+2026-02-26 21:10:05,535 - INFO -  DAILY UPDATE
+2026-02-26 21:10:06,800 - WARNING - Market open.
+2026-02-26 21:10:07,209 - INFO - 
+ Account:
+2026-02-26 21:10:07,210 - INFO - Portfolio: $99,455.96
+2026-02-26 21:10:07,210 - INFO - Cash: $99,455.96
+2026-02-26 21:10:07,210 - INFO - Return: -0.54%
+2026-02-26 21:10:07,210 - INFO - 
+Processing BAC_PNC...
+2026-02-26 21:10:07,211 - INFO - Calculating signals for BAC_PNC
+2026-02-26 21:10:11,233 - INFO - 
+============================================================
+2026-02-26 21:10:11,234 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-02-26 21:10:11,234 - INFO - Signal: 0 | Z: 0.86 | Confidence: 0.43
+2026-02-26 21:10:11,234 - INFO - Current: Y=0, X=0
+2026-02-26 21:10:12,664 - INFO - Prices: BAC=$52.22, PNC=$224.00
+2026-02-26 21:10:12,664 - INFO - Current position: 0.0% of portfolio
+2026-02-26 21:10:12,665 - INFO - Already flat
+2026-02-26 21:10:12,676 - INFO - Logged to trades.csv -> signal=0, z=0.86, regime=VOLATILE
+2026-02-26 21:10:12,676 - INFO - ============================================================
+
+2026-02-26 21:10:12,676 - INFO - 
+Processing SO_SRE...
+2026-02-26 21:10:12,676 - INFO - Calculating signals for SO_SRE
+2026-02-26 21:10:14,368 - INFO - 
+============================================================
+2026-02-26 21:10:14,369 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-26 21:10:14,369 - INFO - Signal: 0 | Z: -0.71 | Confidence: 0.36
+2026-02-26 21:10:14,369 - INFO - Current: Y=0, X=0
+2026-02-26 21:10:15,149 - INFO - Prices: SO=$95.86, SRE=$96.33
+2026-02-26 21:10:15,150 - INFO - Current position: 0.0% of portfolio
+2026-02-26 21:10:15,150 - INFO - Already flat
+2026-02-26 21:10:15,155 - INFO - Logged to trades.csv -> signal=0, z=-0.71, regime=VOLATILE
+2026-02-26 21:10:15,156 - INFO - ============================================================
+
+2026-02-26 21:10:15,156 - INFO - 
+
+2026-02-26 21:10:15,156 - INFO - 
+
+2026-02-26 21:10:15,156 - INFO -  Complete! 0/2 pair(s)
+2026-02-26 21:10:15,156 - INFO - 
+
+2026-02-26 21:10:15,156 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-26 21:10:05
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-26 00:00:00 to 2026-02-25 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 57, VOLATILE: 17, CRISIS: 51
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-26 00:00:00 to 2026-02-25 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 34, VOLATILE: 10, CRISIS: 81
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Thu Feb 26 21:10:16 IST 2026]  Update completed successfully
+[Fri Feb 27 21:10:17 IST 2026] Starting paper trading update...
+2026-02-27 21:10:20,706 - INFO - Initializing  Alpaca Paper Trader
+2026-02-27 21:10:20,707 - INFO - Initialized with 2 pair(s)
+2026-02-27 21:10:20,707 - INFO -  DAILY UPDATE
+2026-02-27 21:10:22,105 - WARNING - Market open.
+2026-02-27 21:10:22,466 - INFO - 
+ Account:
+2026-02-27 21:10:22,466 - INFO - Portfolio: $99,455.96
+2026-02-27 21:10:22,466 - INFO - Cash: $99,455.96
+2026-02-27 21:10:22,466 - INFO - Return: -0.54%
+2026-02-27 21:10:22,466 - INFO - 
+Processing BAC_PNC...
+2026-02-27 21:10:22,467 - INFO - Calculating signals for BAC_PNC
+2026-02-27 21:10:27,664 - INFO - 
+============================================================
+2026-02-27 21:10:27,665 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-02-27 21:10:27,665 - INFO - Signal: 0 | Z: 0.91 | Confidence: 0.46
+2026-02-27 21:10:27,665 - INFO - Current: Y=0, X=0
+2026-02-27 21:10:29,136 - INFO - Prices: BAC=$50.09, PNC=$214.20
+2026-02-27 21:10:29,137 - INFO - Current position: 0.0% of portfolio
+2026-02-27 21:10:29,137 - INFO - Already flat
+2026-02-27 21:10:29,147 - INFO - Logged to trades.csv -> signal=0, z=0.91, regime=VOLATILE
+2026-02-27 21:10:29,147 - INFO - ============================================================
+
+2026-02-27 21:10:29,147 - INFO - 
+Processing SO_SRE...
+2026-02-27 21:10:29,147 - INFO - Calculating signals for SO_SRE
+2026-02-27 21:10:31,583 - INFO - 
+============================================================
+2026-02-27 21:10:31,584 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-02-27 21:10:31,584 - INFO - Signal: 0 | Z: -0.64 | Confidence: 0.32
+2026-02-27 21:10:31,585 - INFO - Current: Y=0, X=0
+2026-02-27 21:10:32,518 - INFO - Prices: SO=$97.09, SRE=$95.30
+2026-02-27 21:10:32,518 - INFO - Current position: 0.0% of portfolio
+2026-02-27 21:10:32,518 - INFO - Already flat
+2026-02-27 21:10:32,523 - INFO - Logged to trades.csv -> signal=0, z=-0.64, regime=VOLATILE
+2026-02-27 21:10:32,524 - INFO - ============================================================
+
+2026-02-27 21:10:32,524 - INFO - 
+
+2026-02-27 21:10:32,524 - INFO - 
+
+2026-02-27 21:10:32,524 - INFO -  Complete! 0/2 pair(s)
+2026-02-27 21:10:32,524 - INFO - 
+
+2026-02-27 21:10:32,524 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-02-27 21:10:20
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-27 00:00:00 to 2026-02-26 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 58, VOLATILE: 17, CRISIS: 50
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-02-27 00:00:00 to 2026-02-26 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 35, VOLATILE: 10, CRISIS: 80
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Fri Feb 27 21:10:33 IST 2026]  Update completed successfully
+[Mon Mar  2 21:10:00 IST 2026] Starting paper trading update...
+2026-03-02 21:10:06,186 - INFO - Initializing  Alpaca Paper Trader
+2026-03-02 21:10:06,188 - INFO - Initialized with 2 pair(s)
+2026-03-02 21:10:06,188 - INFO -  DAILY UPDATE
+2026-03-02 21:10:07,522 - WARNING - Market open.
+2026-03-02 21:10:07,933 - INFO - 
+ Account:
+2026-03-02 21:10:07,934 - INFO - Portfolio: $99,455.96
+2026-03-02 21:10:07,934 - INFO - Cash: $99,455.96
+2026-03-02 21:10:07,934 - INFO - Return: -0.54%
+2026-03-02 21:10:07,934 - INFO - 
+Processing BAC_PNC...
+2026-03-02 21:10:07,934 - INFO - Calculating signals for BAC_PNC
+2026-03-02 21:10:12,338 - INFO - 
+============================================================
+2026-03-02 21:10:12,338 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-03-02 21:10:12,338 - INFO - Signal: 0 | Z: 0.65 | Confidence: 0.32
+2026-03-02 21:10:12,338 - INFO - Current: Y=0, X=0
+2026-03-02 21:10:13,726 - INFO - Prices: BAC=$49.74, PNC=$211.69
+2026-03-02 21:10:13,727 - INFO - Current position: 0.0% of portfolio
+2026-03-02 21:10:13,727 - INFO - Already flat
+2026-03-02 21:10:13,735 - INFO - Logged to trades.csv -> signal=0, z=0.65, regime=CRISIS
+2026-03-02 21:10:13,735 - INFO - ============================================================
+
+2026-03-02 21:10:13,736 - INFO - 
+Processing SO_SRE...
+2026-03-02 21:10:13,736 - INFO - Calculating signals for SO_SRE
+2026-03-02 21:10:15,125 - INFO - 
+============================================================
+2026-03-02 21:10:15,126 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-03-02 21:10:15,126 - INFO - Signal: 0 | Z: -0.52 | Confidence: 0.26
+2026-03-02 21:10:15,126 - INFO - Current: Y=0, X=0
+2026-03-02 21:10:15,918 - INFO - Prices: SO=$97.75, SRE=$96.03
+2026-03-02 21:10:15,920 - INFO - Current position: 0.0% of portfolio
+2026-03-02 21:10:15,920 - INFO - Already flat
+2026-03-02 21:10:15,926 - INFO - Logged to trades.csv -> signal=0, z=-0.52, regime=NORMAL
+2026-03-02 21:10:15,926 - INFO - ============================================================
+
+2026-03-02 21:10:15,927 - INFO - 
+
+2026-03-02 21:10:15,927 - INFO - 
+
+2026-03-02 21:10:15,927 - INFO -  Complete! 0/2 pair(s)
+2026-03-02 21:10:15,927 - INFO - 
+
+2026-03-02 21:10:15,927 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-02 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-03-03 00:00:00 to 2026-02-27 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 60, VOLATILE: 17, CRISIS: 48
+Downloading data for SO, SRE, and SPY...
+Downloaded 250 days of data
+Backtest period: 2025-03-03 00:00:00 to 2026-02-27 00:00:00
+Total trading days: 250
+Regime classifier trained on 125 samples
+NORMAL: 36, VOLATILE: 10, CRISIS: 79
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Mon Mar  2 21:10:17 IST 2026]  Update completed successfully
+[Tue Mar  3 21:10:00 IST 2026] Starting paper trading update...
+2026-03-03 21:10:08,622 - INFO - Initializing  Alpaca Paper Trader
+2026-03-03 21:10:08,627 - INFO - Initialized with 2 pair(s)
+2026-03-03 21:10:08,627 - INFO -  DAILY UPDATE
+2026-03-03 21:10:10,030 - WARNING - Market open.
+2026-03-03 21:10:10,398 - INFO - 
+ Account:
+2026-03-03 21:10:10,399 - INFO - Portfolio: $99,455.96
+2026-03-03 21:10:10,399 - INFO - Cash: $99,455.96
+2026-03-03 21:10:10,399 - INFO - Return: -0.54%
+2026-03-03 21:10:10,399 - INFO - 
+Processing BAC_PNC...
+2026-03-03 21:10:10,399 - INFO - Calculating signals for BAC_PNC
+2026-03-03 21:10:15,852 - INFO - 
+============================================================
+2026-03-03 21:10:15,853 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-03-03 21:10:15,853 - INFO - Signal: 0 | Z: 0.39 | Confidence: 0.19
+2026-03-03 21:10:15,853 - INFO - Current: Y=0, X=0
+2026-03-03 21:10:17,221 - INFO - Prices: BAC=$49.00, PNC=$210.65
+2026-03-03 21:10:17,222 - INFO - Current position: 0.0% of portfolio
+2026-03-03 21:10:17,222 - INFO - Already flat
+2026-03-03 21:10:17,342 - INFO - Logged to trades.csv -> signal=0, z=0.39, regime=CRISIS
+2026-03-03 21:10:17,343 - INFO - ============================================================
+
+2026-03-03 21:10:17,343 - INFO - 
+Processing SO_SRE...
+2026-03-03 21:10:17,343 - INFO - Calculating signals for SO_SRE
+2026-03-03 21:10:18,905 - INFO - 
+============================================================
+2026-03-03 21:10:18,907 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-03-03 21:10:18,907 - INFO - Signal: 0 | Z: -0.27 | Confidence: 0.13
+2026-03-03 21:10:18,907 - INFO - Current: Y=0, X=0
+2026-03-03 21:10:19,596 - INFO - Prices: SO=$95.88, SRE=$94.02
+2026-03-03 21:10:19,596 - INFO - Current position: 0.0% of portfolio
+2026-03-03 21:10:19,596 - INFO - Already flat
+2026-03-03 21:10:19,600 - INFO - Logged to trades.csv -> signal=0, z=-0.27, regime=NORMAL
+2026-03-03 21:10:19,600 - INFO - ============================================================
+
+2026-03-03 21:10:19,600 - INFO - 
+
+2026-03-03 21:10:19,601 - INFO - 
+
+2026-03-03 21:10:19,601 - INFO -  Complete! 0/2 pair(s)
+2026-03-03 21:10:19,601 - INFO - 
+
+2026-03-03 21:10:19,601 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-03 21:10:08
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-03 00:00:00 to 2026-03-02 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 60, VOLATILE: 17, CRISIS: 48
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-03 00:00:00 to 2026-03-02 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 36, VOLATILE: 10, CRISIS: 79
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Tue Mar  3 21:10:20 IST 2026]  Update completed successfully
+[Wed Mar  4 21:10:01 IST 2026] Starting paper trading update...
+2026-03-04 21:10:06,383 - INFO - Initializing  Alpaca Paper Trader
+2026-03-04 21:10:06,384 - INFO - Initialized with 2 pair(s)
+2026-03-04 21:10:06,384 - INFO -  DAILY UPDATE
+2026-03-04 21:10:07,717 - WARNING - Market open.
+2026-03-04 21:10:08,158 - INFO - 
+ Account:
+2026-03-04 21:10:08,158 - INFO - Portfolio: $99,455.96
+2026-03-04 21:10:08,158 - INFO - Cash: $99,455.96
+2026-03-04 21:10:08,158 - INFO - Return: -0.54%
+2026-03-04 21:10:08,159 - INFO - 
+Processing BAC_PNC...
+2026-03-04 21:10:08,159 - INFO - Calculating signals for BAC_PNC
+2026-03-04 21:10:12,325 - INFO - 
+============================================================
+2026-03-04 21:10:12,325 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-03-04 21:10:12,325 - INFO - Signal: 0 | Z: 0.91 | Confidence: 0.45
+2026-03-04 21:10:12,326 - INFO - Current: Y=0, X=0
+2026-03-04 21:10:13,742 - INFO - Prices: BAC=$49.86, PNC=$214.24
+2026-03-04 21:10:13,742 - INFO - Current position: 0.0% of portfolio
+2026-03-04 21:10:13,743 - INFO - Already flat
+2026-03-04 21:10:13,753 - INFO - Logged to trades.csv -> signal=0, z=0.91, regime=CRISIS
+2026-03-04 21:10:13,754 - INFO - ============================================================
+
+2026-03-04 21:10:13,754 - INFO - 
+Processing SO_SRE...
+2026-03-04 21:10:13,754 - INFO - Calculating signals for SO_SRE
+2026-03-04 21:10:15,294 - INFO - 
+============================================================
+2026-03-04 21:10:15,294 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-03-04 21:10:15,295 - INFO - Signal: 0 | Z: -0.56 | Confidence: 0.28
+2026-03-04 21:10:15,295 - INFO - Current: Y=0, X=0
+2026-03-04 21:10:16,008 - INFO - Prices: SO=$97.10, SRE=$95.44
+2026-03-04 21:10:16,009 - INFO - Current position: 0.0% of portfolio
+2026-03-04 21:10:16,010 - INFO - Already flat
+2026-03-04 21:10:16,015 - INFO - Logged to trades.csv -> signal=0, z=-0.56, regime=NORMAL
+2026-03-04 21:10:16,015 - INFO - ============================================================
+
+2026-03-04 21:10:16,015 - INFO - 
+
+2026-03-04 21:10:16,015 - INFO - 
+
+2026-03-04 21:10:16,015 - INFO -  Complete! 0/2 pair(s)
+2026-03-04 21:10:16,015 - INFO - 
+
+2026-03-04 21:10:16,015 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-04 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-04 00:00:00 to 2026-03-03 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 61, VOLATILE: 17, CRISIS: 47
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-04 00:00:00 to 2026-03-03 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 36, VOLATILE: 10, CRISIS: 79
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Wed Mar  4 21:10:17 IST 2026]  Update completed successfully
+[Fri Mar  6 21:10:00 IST 2026] Starting paper trading update...
+2026-03-06 21:10:07,585 - INFO - Initializing  Alpaca Paper Trader
+2026-03-06 21:10:07,587 - INFO - Initialized with 2 pair(s)
+2026-03-06 21:10:07,587 - INFO -  DAILY UPDATE
+2026-03-06 21:10:08,614 - WARNING - Market open.
+2026-03-06 21:10:09,021 - INFO - 
+ Account:
+2026-03-06 21:10:09,021 - INFO - Portfolio: $99,455.96
+2026-03-06 21:10:09,022 - INFO - Cash: $99,455.96
+2026-03-06 21:10:09,022 - INFO - Return: -0.54%
+2026-03-06 21:10:09,022 - INFO - 
+Processing BAC_PNC...
+2026-03-06 21:10:09,022 - INFO - Calculating signals for BAC_PNC
+2026-03-06 21:10:14,747 - INFO - 
+============================================================
+2026-03-06 21:10:14,748 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-03-06 21:10:14,749 - INFO - Signal: 0 | Z: 0.57 | Confidence: 0.28
+2026-03-06 21:10:14,749 - INFO - Current: Y=0, X=0
+2026-03-06 21:10:16,067 - INFO - Prices: BAC=$48.31, PNC=$206.56
+2026-03-06 21:10:16,068 - INFO - Current position: 0.0% of portfolio
+2026-03-06 21:10:16,068 - INFO - Already flat
+2026-03-06 21:10:16,077 - INFO - Logged to trades.csv -> signal=0, z=0.57, regime=CRISIS
+2026-03-06 21:10:16,077 - INFO - ============================================================
+
+2026-03-06 21:10:16,077 - INFO - 
+Processing SO_SRE...
+2026-03-06 21:10:16,077 - INFO - Calculating signals for SO_SRE
+2026-03-06 21:10:18,265 - INFO - 
+============================================================
+2026-03-06 21:10:18,265 - INFO - Managing SO_SRE (FIXED VERSION)
+2026-03-06 21:10:18,265 - INFO - Signal: 0 | Z: 0.00 | Confidence: 0.00
+2026-03-06 21:10:18,265 - INFO - Current: Y=0, X=0
+2026-03-06 21:10:19,229 - INFO - Prices: SO=$96.83, SRE=$91.89
+2026-03-06 21:10:19,230 - INFO - Current position: 0.0% of portfolio
+2026-03-06 21:10:19,230 - INFO - Already flat
+2026-03-06 21:10:19,236 - INFO - Logged to trades.csv -> signal=0, z=0.00, regime=NORMAL
+2026-03-06 21:10:19,236 - INFO - ============================================================
+
+2026-03-06 21:10:19,236 - INFO - 
+
+2026-03-06 21:10:19,237 - INFO - 
+
+2026-03-06 21:10:19,237 - INFO -  Complete! 0/2 pair(s)
+2026-03-06 21:10:19,237 - INFO - 
+
+2026-03-06 21:10:19,237 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-06 21:10:07
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+ Configuration validation passed
+Downloading data for BAC, PNC, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-06 00:00:00 to 2026-03-05 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 63, VOLATILE: 17, CRISIS: 45
+Downloading data for SO, SRE, and SPY...
+Downloaded 251 days of data
+Backtest period: 2025-03-06 00:00:00 to 2026-03-05 00:00:00
+Total trading days: 251
+Regime classifier trained on 125 samples
+NORMAL: 36, VOLATILE: 10, CRISIS: 79
+
+ Performance Summary:
+  Portfolio: $99,455.96
+  Return: -0.54%
+[Fri Mar  6 21:10:20 IST 2026]  Update completed successfully

@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{Top-10 features for RF regime classifier ranked by consensus of
+SHAP, Gini importance, and permutation importance (BAC/PNC).
+Avg.\ Rank is the mean rank across three methods (lower = more important).}
+\label{tab:feature_importance}
+\small
+\begin{tabular}{rlrrrr}
+\toprule
+Rank & Feature & \begin{tabular}[c]{@{}c@{}}Mean\\|SHAP|\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Gini\\Imp.\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Perm.\\Imp.\end{tabular}
+     & \begin{tabular}[c]{@{}c@{}}Avg.\\Rank\end{tabular} \\
+\midrule
+1 & vol\_20 & 0.0813 & 0.1877 & 0.0558 & 1.0 \\
+2 & pair\_vol & 0.0242 & 0.0494 & 0.0194 & 6.0 \\
+3 & pair\_vol\_spike & 0.0212 & 0.0477 & 0.0411 & 7.0 \\
+4 & range\_expansion & 0.0390 & 0.1122 & -0.0054 & 7.7 \\
+5 & vol\_10 & 0.0482 & 0.1135 & -0.0154 & 8.3 \\
+6 & dd\_60 & 0.0356 & 0.0997 & -0.0075 & 9.3 \\
+7 & vol\_60 & 0.0213 & 0.0635 & -0.0024 & 9.7 \\
+8 & vol\_40 & 0.0274 & 0.0796 & -0.0065 & 9.7 \\
+9 & vol\_accel & 0.0096 & 0.0214 & 0.0102 & 9.7 \\
+10 & vol\_5 & 0.0217 & 0.0506 & -0.0043 & 10.3 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,5 @@
+Pair,BL_Sharpe,RL_Sharpe,Sharpe_Delta,Val_Sharpe,RL_Trades,Flat_Pct,Long_Days,Short_Days,Avg_Hold_Days,RL_Return,RL_MaxDD,BL_Trades,Episodes
+BAC/PNC,-0.1258,0,0.1258,0.4475,0,100.0,0,0,0,0,0,58,29
+WFC/MS,-0.0449,0,0.0449,0.614,0,100.0,0,0,0,0,0,54,49
+CVX/OXY,-0.6135,0,0.6135,1.4019,0,100.0,0,0,0,0,0,55,24
+AEP/SRE,0.2197,0,-0.2197,0.4862,0,100.0,0,0,0,0,0,56,30

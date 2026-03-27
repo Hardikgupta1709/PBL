@@ -1,0 +1,22 @@
+========================================================================
+RISK REDUCTION SIGNIFICANCE (CROSS-SECTIONAL)
+Generated: 2026-03-25 10:53:07
+Pairs: 60
+========================================================================
+
+MAX DRAWDOWN (ABS)
+  Median UF MaxDD:  34.39%
+  Median F MaxDD:   8.73%
+  Median Reduction: 25.66%
+  Wilcoxon (one-sided): stat=1827.000, p=0.0000
+
+RETURN DISTRIBUTION
+  Median UF Return: -11.89%
+  Median F Return:  -1.95%
+  Median Shift:     9.94%
+  KS test: stat=0.400, p=0.0001
+
+TAIL RISK (CVaR 10%)
+  UF CVaR 10%: -58.16%
+  F CVaR 10%:  -24.32%
+  CVaR Improvement: 33.84%

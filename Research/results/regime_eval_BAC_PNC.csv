@@ -1,0 +1,2 @@
+rf_accuracy,rf_f1_macro,rf_kappa,hmm_accuracy,hmm_kappa,simple_accuracy,simple_kappa,rf_sharpe,hmm_sharpe,simple_sharpe,no_regime_sharpe
+0.8943,0.7616,0.7331,0.2975,0.0158,0.9298,0.7814,-0.1132,-0.4479,-0.3085,-0.4933

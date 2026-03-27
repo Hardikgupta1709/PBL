@@ -1,0 +1,22 @@
+Method,Total_Return_%,Ann_Return_%,Ann_Vol_%,Sharpe,Max_DD_%,Win_Rate_%,Days,Trades,Pair
+Ours (Kalman+Regime),-7.42,-1.71,13.59,-0.126,-34.08,14.2,1126,58,BAC/PNC
+Gatev Distance,41.82,8.13,12.16,0.669,-12.36,28.0,1126,5,BAC/PNC
+OLS Cointegration,8.82,1.91,14.59,0.131,-32.34,25.6,1126,51,BAC/PNC
+Kalman-Only (No Regime),-26.26,-6.59,13.36,-0.493,-40.27,13.9,1126,68,BAC/PNC
+Regime-Only (No Kalman),32.02,6.41,13.86,0.463,-27.88,23.9,1126,44,BAC/PNC
+B&H Stocks (50/50),62.15,11.42,26.7,0.428,-45.9,52.0,1126,0,BAC/PNC
+SPY Buy-and-Hold,75.18,13.37,17.7,0.755,-24.5,54.4,1126,0,BAC/PNC
+Ours (Kalman+Regime),-2.69,-0.61,13.53,-0.045,-37.45,15.5,1126,54,WFC/MS
+Gatev Distance,12.56,2.68,23.16,0.116,-31.95,49.8,1126,0,WFC/MS
+OLS Cointegration,-23.4,-5.79,23.52,-0.246,-36.46,26.8,1126,46,WFC/MS
+Kalman-Only (No Regime),-0.97,-0.22,12.88,-0.017,-34.0,14.0,1126,58,WFC/MS
+Regime-Only (No Kalman),-25.79,-6.46,22.8,-0.283,-34.58,24.2,1126,39,WFC/MS
+B&H Stocks (50/50),171.61,25.06,27.95,0.897,-33.52,52.2,1126,0,WFC/MS
+SPY Buy-and-Hold,75.18,13.37,17.7,0.755,-24.5,54.4,1126,0,WFC/MS
+Ours (Kalman+Regime),-90.78,-41.35,67.4,-0.613,-95.53,14.5,1126,55,CVX/OXY
+Gatev Distance,33.55,6.69,30.65,0.218,-46.31,47.5,1126,0,CVX/OXY
+OLS Cointegration,24.25,4.98,15.26,0.326,-26.46,28.1,1126,49,CVX/OXY
+Kalman-Only (No Regime),-46.94,-13.22,66.49,-0.199,-77.96,13.9,1126,61,CVX/OXY
+Regime-Only (No Kalman),26.45,5.39,14.53,0.371,-26.45,26.4,1126,41,CVX/OXY
+B&H Stocks (50/50),142.7,21.95,32.4,0.677,-36.14,51.9,1126,0,CVX/OXY
+SPY Buy-and-Hold,75.18,13.37,17.7,0.755,-24.5,54.4,1126,0,CVX/OXY

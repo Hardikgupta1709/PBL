@@ -1,0 +1,636 @@
+[Fri Mar 13 21:12:55 IST 2026] Starting paper trading update...
+2026-03-13 21:19:23,983 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-13 21:23:35,950 - ERROR - 
+1 Failed download:
+2026-03-13 21:23:35,951 - ERROR - ['GOOGL']: Timeout('Failed to perform, curl: (28) Connection timed out after 206538 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-03-13 21:23:36,826 - WARNING - Failed to scan GOOGL_AMD: Downloaded data is empty
+2026-03-13 21:32:33,623 - ERROR - 
+1 Failed download:
+2026-03-13 21:32:34,029 - ERROR - ['XEL']: Timeout('Failed to perform, curl: (28) Connection timed out after 405452 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-03-13 21:32:35,278 - WARNING - Failed to scan EXC_XEL: Downloaded data is empty
+2026-03-13 21:33:10,012 - INFO - Initializing  Alpaca Paper Trader
+2026-03-13 21:33:10,481 - INFO - Initialized with 3 pair(s)
+2026-03-13 21:33:10,519 - INFO -  DAILY UPDATE
+2026-03-13 21:33:13,021 - WARNING - Market open.
+2026-03-13 21:33:13,551 - INFO - 
+ Account:
+2026-03-13 21:33:13,552 - INFO - Portfolio: $99,397.01
+2026-03-13 21:33:13,552 - INFO - Cash: $99,397.01
+2026-03-13 21:33:13,552 - INFO - Return: -0.60%
+2026-03-13 21:33:13,552 - INFO - 
+Processing HON_DE...
+2026-03-13 21:33:13,552 - INFO - Calculating signals for HON_DE
+2026-03-13 21:33:14,771 - INFO - Regime classifier trained on 125 samples: NORMAL=78, VOLATILE=10, CRISIS=37
+2026-03-13 21:33:15,215 - INFO - 
+============================================================
+2026-03-13 21:33:15,215 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-13 21:33:15,215 - INFO - Signal: 0 | Z: -0.08 | Confidence: 0.06
+2026-03-13 21:33:15,215 - INFO - Current: Y=0, X=0
+2026-03-13 21:33:16,551 - INFO - Prices: HON=$235.19, DE=$577.53
+2026-03-13 21:33:16,552 - INFO - Current position: 0.0% of portfolio
+2026-03-13 21:33:16,552 - INFO - Already flat
+2026-03-13 21:33:16,569 - INFO - Logged to trades.csv -> signal=0, z=-0.08, regime=NORMAL
+2026-03-13 21:33:16,569 - INFO - ============================================================
+
+2026-03-13 21:33:16,569 - INFO - 
+Processing EOG_OXY...
+2026-03-13 21:33:16,569 - INFO - Calculating signals for EOG_OXY
+2026-03-13 21:33:17,191 - INFO - Regime classifier trained on 125 samples: NORMAL=96, VOLATILE=10, CRISIS=19
+2026-03-13 21:33:17,682 - INFO - 
+============================================================
+2026-03-13 21:33:17,682 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-13 21:33:17,683 - INFO - Signal: 1 | Z: -1.96 | Confidence: 1.31
+2026-03-13 21:33:17,683 - INFO - Current: Y=0, X=0
+2026-03-13 21:33:18,352 - INFO - Prices: EOG=$132.90, OXY=$57.47
+2026-03-13 21:33:18,353 - INFO - Current position: 0.0% of portfolio
+2026-03-13 21:33:18,353 - INFO -  Adding $8,946 to position (gradual entry)
+2026-03-13 21:33:18,353 - INFO - Action: ADD LONG
+2026-03-13 21:33:18,353 - INFO - Adding: Y=+67, X=-159
+2026-03-13 21:33:18,353 - INFO - New targets: Y=67, X=-159
+2026-03-13 21:33:18,698 - INFO -  Order: BUY 67 EOG - ID: 42b4e61a-0588-4372-b236-8881d3799e36
+2026-03-13 21:33:19,005 - INFO -  Order: SELL 159 OXY - ID: f507396e-046d-4912-8a32-37a667a69e50
+2026-03-13 21:33:19,010 - INFO - Logged to trades.csv -> signal=1, z=-1.96, regime=NORMAL
+2026-03-13 21:33:19,010 - INFO - ============================================================
+
+2026-03-13 21:33:19,010 - INFO - 
+Processing JPM_BAC...
+2026-03-13 21:33:19,010 - INFO - Calculating signals for JPM_BAC
+2026-03-13 21:33:19,489 - INFO - Regime classifier trained on 125 samples: NORMAL=96, VOLATILE=10, CRISIS=19
+2026-03-13 21:33:19,840 - INFO - 
+============================================================
+2026-03-13 21:33:19,841 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-13 21:33:19,841 - INFO - Signal: 0 | Z: 0.95 | Confidence: 0.63
+2026-03-13 21:33:19,841 - INFO - Current: Y=0, X=0
+2026-03-13 21:33:20,442 - INFO - Prices: JPM=$285.74, BAC=$47.38
+2026-03-13 21:33:20,442 - INFO - Current position: 0.0% of portfolio
+2026-03-13 21:33:20,443 - INFO - Already flat
+2026-03-13 21:33:20,448 - INFO - Logged to trades.csv -> signal=0, z=0.95, regime=CRISIS
+2026-03-13 21:33:20,448 - INFO - ============================================================
+
+2026-03-13 21:33:20,448 - INFO - 
+
+2026-03-13 21:33:20,448 - INFO - 
+
+2026-03-13 21:33:20,449 - INFO -  Complete! 1/3 pair(s)
+2026-03-13 21:33:20,449 - INFO - 
+
+2026-03-13 21:33:20,449 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-13 21:19:23
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,392.91
+  Return: -0.61%
+[Fri Mar 13 21:33:22 IST 2026]  Update completed successfully
+[Tue Mar 17 21:10:00 IST 2026] Starting paper trading update...
+2026-03-17 21:10:06,945 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-17 21:10:47,897 - INFO - Initializing  Alpaca Paper Trader
+2026-03-17 21:10:47,900 - INFO - Initialized with 3 pair(s)
+2026-03-17 21:10:47,900 - INFO -  DAILY UPDATE
+2026-03-17 21:10:49,102 - WARNING - Market open.
+2026-03-17 21:10:49,430 - INFO - 
+ Account:
+2026-03-17 21:10:49,430 - INFO - Portfolio: $99,552.90
+2026-03-17 21:10:49,431 - INFO - Cash: $99,626.81
+2026-03-17 21:10:49,431 - INFO - Return: -0.45%
+2026-03-17 21:10:49,431 - INFO - 
+Processing HON_DE...
+2026-03-17 21:10:49,431 - INFO - Calculating signals for HON_DE
+2026-03-17 21:10:49,931 - INFO - Regime classifier trained on 125 samples: NORMAL=80, VOLATILE=10, CRISIS=35
+2026-03-17 21:10:50,297 - INFO - 
+============================================================
+2026-03-17 21:10:50,297 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-17 21:10:50,297 - INFO - Signal: 0 | Z: 0.50 | Confidence: 0.34
+2026-03-17 21:10:50,297 - INFO - Current: Y=0, X=0
+2026-03-17 21:10:51,663 - INFO - Prices: HON=$229.70, DE=$573.14
+2026-03-17 21:10:51,663 - INFO - Current position: 0.0% of portfolio
+2026-03-17 21:10:51,663 - INFO - Already flat
+2026-03-17 21:10:51,679 - INFO - Logged to trades.csv -> signal=0, z=0.50, regime=NORMAL
+2026-03-17 21:10:51,679 - INFO - ============================================================
+
+2026-03-17 21:10:51,679 - INFO - 
+Processing EOG_OXY...
+2026-03-17 21:10:51,679 - INFO - Calculating signals for EOG_OXY
+2026-03-17 21:10:52,129 - INFO - Regime classifier trained on 125 samples: NORMAL=98, VOLATILE=10, CRISIS=17
+2026-03-17 21:10:52,589 - INFO - 
+============================================================
+2026-03-17 21:10:52,590 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-17 21:10:52,590 - INFO - Signal: 1 | Z: 0.69 | Confidence: 0.46
+2026-03-17 21:10:52,590 - INFO - Current: Y=67, X=-159
+2026-03-17 21:10:53,197 - INFO - Prices: EOG=$136.40, OXY=$57.95
+2026-03-17 21:10:53,198 - INFO - Current position: 18.4% of portfolio
+2026-03-17 21:10:53,198 - INFO -   At max position (18.4%), not adding
+2026-03-17 21:10:53,203 - INFO - Logged to trades.csv -> signal=1, z=0.69, regime=CRISIS
+2026-03-17 21:10:53,203 - INFO - ============================================================
+
+2026-03-17 21:10:53,203 - INFO - 
+Processing JPM_BAC...
+2026-03-17 21:10:53,203 - INFO - Calculating signals for JPM_BAC
+2026-03-17 21:10:54,232 - INFO - Regime classifier trained on 125 samples: NORMAL=98, VOLATILE=10, CRISIS=17
+2026-03-17 21:10:54,630 - INFO - 
+============================================================
+2026-03-17 21:10:54,631 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-17 21:10:54,631 - INFO - Signal: 0 | Z: 0.06 | Confidence: 0.04
+2026-03-17 21:10:54,631 - INFO - Current: Y=0, X=0
+2026-03-17 21:10:55,244 - INFO - Prices: JPM=$286.58, BAC=$47.37
+2026-03-17 21:10:55,245 - INFO - Current position: 0.0% of portfolio
+2026-03-17 21:10:55,245 - INFO - Already flat
+2026-03-17 21:10:55,250 - INFO - Logged to trades.csv -> signal=0, z=0.06, regime=CRISIS
+2026-03-17 21:10:55,250 - INFO - ============================================================
+
+2026-03-17 21:10:55,250 - INFO - 
+
+2026-03-17 21:10:55,250 - INFO - 
+
+2026-03-17 21:10:55,251 - INFO -  Complete! 0/3 pair(s)
+2026-03-17 21:10:55,251 - INFO - 
+
+2026-03-17 21:10:55,251 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-17 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,552.63
+  Return: -0.45%
+[Tue Mar 17 21:10:56 IST 2026]  Update completed successfully
+[Thu Mar 19 21:10:00 IST 2026] Starting paper trading update...
+2026-03-19 21:10:06,695 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-19 21:11:11,603 - INFO - Initializing  Alpaca Paper Trader
+2026-03-19 21:11:11,607 - INFO - Initialized with 3 pair(s)
+2026-03-19 21:11:11,607 - INFO -  DAILY UPDATE
+2026-03-19 21:11:12,995 - WARNING - Market open.
+2026-03-19 21:11:13,486 - INFO - 
+ Account:
+2026-03-19 21:11:13,487 - INFO - Portfolio: $99,540.41
+2026-03-19 21:11:13,487 - INFO - Cash: $99,540.41
+2026-03-19 21:11:13,487 - INFO - Return: -0.46%
+2026-03-19 21:11:13,487 - INFO - 
+Processing HON_DE...
+2026-03-19 21:11:13,487 - INFO - Calculating signals for HON_DE
+2026-03-19 21:11:14,025 - INFO - Regime classifier trained on 125 samples: NORMAL=82, VOLATILE=10, CRISIS=33
+2026-03-19 21:11:14,415 - INFO - 
+============================================================
+2026-03-19 21:11:14,415 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-19 21:11:14,416 - INFO - Signal: 0 | Z: 0.24 | Confidence: 0.16
+2026-03-19 21:11:14,416 - INFO - Current: Y=0, X=0
+2026-03-19 21:11:15,630 - INFO - Prices: HON=$227.62, DE=$561.10
+2026-03-19 21:11:15,631 - INFO - Current position: 0.0% of portfolio
+2026-03-19 21:11:15,631 - INFO - Already flat
+2026-03-19 21:11:15,644 - INFO - Logged to trades.csv -> signal=0, z=0.24, regime=VOLATILE
+2026-03-19 21:11:15,644 - INFO - ============================================================
+
+2026-03-19 21:11:15,645 - INFO - 
+Processing EOG_OXY...
+2026-03-19 21:11:15,645 - INFO - Calculating signals for EOG_OXY
+2026-03-19 21:11:16,153 - INFO - Regime classifier trained on 125 samples: NORMAL=100, VOLATILE=10, CRISIS=15
+2026-03-19 21:11:16,553 - INFO - 
+============================================================
+2026-03-19 21:11:16,553 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-19 21:11:16,553 - INFO - Signal: 0 | Z: 0.07 | Confidence: 0.05
+2026-03-19 21:11:16,553 - INFO - Current: Y=0, X=0
+2026-03-19 21:11:17,202 - INFO - Prices: EOG=$138.74, OXY=$59.77
+2026-03-19 21:11:17,203 - INFO - Current position: 0.0% of portfolio
+2026-03-19 21:11:17,203 - INFO - Already flat
+2026-03-19 21:11:17,207 - INFO - Logged to trades.csv -> signal=0, z=0.07, regime=VOLATILE
+2026-03-19 21:11:17,207 - INFO - ============================================================
+
+2026-03-19 21:11:17,207 - INFO - 
+Processing JPM_BAC...
+2026-03-19 21:11:17,207 - INFO - Calculating signals for JPM_BAC
+2026-03-19 21:11:18,313 - INFO - Regime classifier trained on 125 samples: NORMAL=100, VOLATILE=10, CRISIS=15
+2026-03-19 21:11:18,703 - INFO - 
+============================================================
+2026-03-19 21:11:18,704 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-19 21:11:18,704 - INFO - Signal: 0 | Z: 0.88 | Confidence: 0.59
+2026-03-19 21:11:18,704 - INFO - Current: Y=0, X=0
+2026-03-19 21:11:19,423 - INFO - Prices: JPM=$285.88, BAC=$46.67
+2026-03-19 21:11:19,424 - INFO - Current position: 0.0% of portfolio
+2026-03-19 21:11:19,424 - INFO - Already flat
+2026-03-19 21:11:19,427 - INFO - Logged to trades.csv -> signal=0, z=0.88, regime=VOLATILE
+2026-03-19 21:11:19,428 - INFO - ============================================================
+
+2026-03-19 21:11:19,428 - INFO - 
+
+2026-03-19 21:11:19,428 - INFO - 
+
+2026-03-19 21:11:19,428 - INFO -  Complete! 0/3 pair(s)
+2026-03-19 21:11:19,428 - INFO - 
+
+2026-03-19 21:11:19,428 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-19 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.41
+  Return: -0.46%
+[Thu Mar 19 21:11:21 IST 2026]  Update completed successfully
+[Mon Mar 23 21:10:00 IST 2026] Starting paper trading update...
+2026-03-23 21:10:07,240 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-23 21:10:56,427 - INFO - Initializing  Alpaca Paper Trader
+2026-03-23 21:10:56,432 - INFO - Initialized with 3 pair(s)
+2026-03-23 21:10:56,433 - INFO -  DAILY UPDATE
+2026-03-23 21:10:57,886 - WARNING - Market open.
+2026-03-23 21:10:58,296 - INFO - 
+ Account:
+2026-03-23 21:10:58,297 - INFO - Portfolio: $99,540.39
+2026-03-23 21:10:58,297 - INFO - Cash: $99,540.39
+2026-03-23 21:10:58,297 - INFO - Return: -0.46%
+2026-03-23 21:10:58,297 - INFO - 
+Processing HON_DE...
+2026-03-23 21:10:58,297 - INFO - Calculating signals for HON_DE
+2026-03-23 21:10:58,864 - INFO - Regime classifier trained on 125 samples: NORMAL=84, VOLATILE=11, CRISIS=30
+2026-03-23 21:10:59,322 - INFO - 
+============================================================
+2026-03-23 21:10:59,322 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-23 21:10:59,322 - INFO - Signal: 0 | Z: -0.28 | Confidence: 0.19
+2026-03-23 21:10:59,323 - INFO - Current: Y=0, X=0
+2026-03-23 21:11:01,135 - INFO - Prices: HON=$225.47, DE=$566.99
+2026-03-23 21:11:01,135 - INFO - Current position: 0.0% of portfolio
+2026-03-23 21:11:01,136 - INFO - Already flat
+2026-03-23 21:11:01,149 - INFO - Logged to trades.csv -> signal=0, z=-0.28, regime=NORMAL
+2026-03-23 21:11:01,149 - INFO - ============================================================
+
+2026-03-23 21:11:01,149 - INFO - 
+Processing EOG_OXY...
+2026-03-23 21:11:01,149 - INFO - Calculating signals for EOG_OXY
+2026-03-23 21:11:01,673 - INFO - Regime classifier trained on 125 samples: NORMAL=102, VOLATILE=11, CRISIS=12
+2026-03-23 21:11:02,033 - INFO - 
+============================================================
+2026-03-23 21:11:02,034 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-23 21:11:02,034 - INFO - Signal: 0 | Z: -0.81 | Confidence: 0.54
+2026-03-23 21:11:02,034 - INFO - Current: Y=0, X=0
+2026-03-23 21:11:02,682 - INFO - Prices: EOG=$138.94, OXY=$59.31
+2026-03-23 21:11:02,683 - INFO - Current position: 0.0% of portfolio
+2026-03-23 21:11:02,683 - INFO - Already flat
+2026-03-23 21:11:02,688 - INFO - Logged to trades.csv -> signal=0, z=-0.81, regime=NORMAL
+2026-03-23 21:11:02,688 - INFO - ============================================================
+
+2026-03-23 21:11:02,688 - INFO - 
+Processing JPM_BAC...
+2026-03-23 21:11:02,688 - INFO - Calculating signals for JPM_BAC
+2026-03-23 21:11:03,686 - INFO - Regime classifier trained on 125 samples: NORMAL=102, VOLATILE=11, CRISIS=12
+2026-03-23 21:11:04,112 - INFO - 
+============================================================
+2026-03-23 21:11:04,113 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-23 21:11:04,113 - INFO - Signal: 0 | Z: -1.01 | Confidence: 0.67
+2026-03-23 21:11:04,113 - INFO - Current: Y=0, X=0
+2026-03-23 21:11:04,825 - INFO - Prices: JPM=$291.98, BAC=$47.88
+2026-03-23 21:11:04,826 - INFO - Current position: 0.0% of portfolio
+2026-03-23 21:11:04,826 - INFO - Already flat
+2026-03-23 21:11:04,830 - INFO - Logged to trades.csv -> signal=0, z=-1.01, regime=NORMAL
+2026-03-23 21:11:04,830 - INFO - ============================================================
+
+2026-03-23 21:11:04,830 - INFO - 
+
+2026-03-23 21:11:04,830 - INFO - 
+
+2026-03-23 21:11:04,830 - INFO -  Complete! 0/3 pair(s)
+2026-03-23 21:11:04,831 - INFO - 
+
+2026-03-23 21:11:04,831 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-23 21:10:07
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Mon Mar 23 21:11:06 IST 2026]  Update completed successfully
+[Tue Mar 24 21:10:00 IST 2026] Starting paper trading update...
+2026-03-24 21:10:08,799 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-24 21:10:53,974 - INFO - Initializing  Alpaca Paper Trader
+2026-03-24 21:10:53,976 - INFO - Initialized with 3 pair(s)
+2026-03-24 21:10:53,976 - INFO -  DAILY UPDATE
+2026-03-24 21:10:55,193 - WARNING - Market open.
+2026-03-24 21:10:55,497 - INFO - 
+ Account:
+2026-03-24 21:10:55,497 - INFO - Portfolio: $99,540.39
+2026-03-24 21:10:55,497 - INFO - Cash: $99,540.39
+2026-03-24 21:10:55,497 - INFO - Return: -0.46%
+2026-03-24 21:10:55,497 - INFO - 
+Processing HON_DE...
+2026-03-24 21:10:55,498 - INFO - Calculating signals for HON_DE
+2026-03-24 21:10:56,128 - INFO - Regime classifier trained on 125 samples: NORMAL=84, VOLATILE=11, CRISIS=30
+2026-03-24 21:10:56,486 - INFO - 
+============================================================
+2026-03-24 21:10:56,486 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-24 21:10:56,487 - INFO - Signal: 0 | Z: 0.02 | Confidence: 0.01
+2026-03-24 21:10:56,487 - INFO - Current: Y=0, X=0
+2026-03-24 21:10:57,744 - INFO - Prices: HON=$224.29, DE=$580.13
+2026-03-24 21:10:57,745 - INFO - Current position: 0.0% of portfolio
+2026-03-24 21:10:57,745 - INFO - Already flat
+2026-03-24 21:10:57,756 - INFO - Logged to trades.csv -> signal=0, z=0.02, regime=NORMAL
+2026-03-24 21:10:57,756 - INFO - ============================================================
+
+2026-03-24 21:10:57,756 - INFO - 
+Processing EOG_OXY...
+2026-03-24 21:10:57,756 - INFO - Calculating signals for EOG_OXY
+2026-03-24 21:10:58,398 - INFO - Regime classifier trained on 125 samples: NORMAL=102, VOLATILE=11, CRISIS=12
+2026-03-24 21:10:58,772 - INFO - 
+============================================================
+2026-03-24 21:10:58,773 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-24 21:10:58,773 - INFO - Signal: 0 | Z: 0.55 | Confidence: 0.36
+2026-03-24 21:10:58,773 - INFO - Current: Y=0, X=0
+2026-03-24 21:10:59,385 - INFO - Prices: EOG=$143.11, OXY=$61.27
+2026-03-24 21:10:59,385 - INFO - Current position: 0.0% of portfolio
+2026-03-24 21:10:59,385 - INFO - Already flat
+2026-03-24 21:10:59,389 - INFO - Logged to trades.csv -> signal=0, z=0.55, regime=NORMAL
+2026-03-24 21:10:59,389 - INFO - ============================================================
+
+2026-03-24 21:10:59,389 - INFO - 
+Processing JPM_BAC...
+2026-03-24 21:10:59,390 - INFO - Calculating signals for JPM_BAC
+2026-03-24 21:11:00,621 - INFO - Regime classifier trained on 125 samples: NORMAL=102, VOLATILE=11, CRISIS=12
+2026-03-24 21:11:01,005 - INFO - 
+============================================================
+2026-03-24 21:11:01,005 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-24 21:11:01,005 - INFO - Signal: 0 | Z: 0.09 | Confidence: 0.06
+2026-03-24 21:11:01,005 - INFO - Current: Y=0, X=0
+2026-03-24 21:11:01,682 - INFO - Prices: JPM=$294.59, BAC=$48.33
+2026-03-24 21:11:01,682 - INFO - Current position: 0.0% of portfolio
+2026-03-24 21:11:01,682 - INFO - Already flat
+2026-03-24 21:11:01,687 - INFO - Logged to trades.csv -> signal=0, z=0.09, regime=NORMAL
+2026-03-24 21:11:01,687 - INFO - ============================================================
+
+2026-03-24 21:11:01,687 - INFO - 
+
+2026-03-24 21:11:01,687 - INFO - 
+
+2026-03-24 21:11:01,687 - INFO -  Complete! 0/3 pair(s)
+2026-03-24 21:11:01,687 - INFO - 
+
+2026-03-24 21:11:01,688 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-24 21:10:08
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Tue Mar 24 21:11:03 IST 2026]  Update completed successfully
+[Wed Mar 25 21:10:00 IST 2026] Starting paper trading update...
+2026-03-25 21:10:09,168 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-25 21:10:58,600 - INFO - Initializing  Alpaca Paper Trader
+2026-03-25 21:10:58,605 - INFO - Initialized with 3 pair(s)
+2026-03-25 21:10:58,605 - INFO -  DAILY UPDATE
+2026-03-25 21:11:00,260 - WARNING - Market open.
+2026-03-25 21:11:00,590 - INFO - 
+ Account:
+2026-03-25 21:11:00,591 - INFO - Portfolio: $99,540.39
+2026-03-25 21:11:00,591 - INFO - Cash: $99,540.39
+2026-03-25 21:11:00,591 - INFO - Return: -0.46%
+2026-03-25 21:11:00,591 - INFO - 
+Processing HON_DE...
+2026-03-25 21:11:00,591 - INFO - Calculating signals for HON_DE
+2026-03-25 21:11:01,105 - INFO - Regime classifier trained on 125 samples: NORMAL=85, VOLATILE=11, CRISIS=29
+2026-03-25 21:11:01,638 - INFO - 
+============================================================
+2026-03-25 21:11:01,638 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-25 21:11:01,638 - INFO - Signal: 0 | Z: -0.59 | Confidence: 0.39
+2026-03-25 21:11:01,638 - INFO - Current: Y=0, X=0
+2026-03-25 21:11:02,979 - INFO - Prices: HON=$226.40, DE=$580.69
+2026-03-25 21:11:02,979 - INFO - Current position: 0.0% of portfolio
+2026-03-25 21:11:02,979 - INFO - Already flat
+2026-03-25 21:11:02,994 - INFO - Logged to trades.csv -> signal=0, z=-0.59, regime=NORMAL
+2026-03-25 21:11:02,994 - INFO - ============================================================
+
+2026-03-25 21:11:02,994 - INFO - 
+Processing EOG_OXY...
+2026-03-25 21:11:02,994 - INFO - Calculating signals for EOG_OXY
+2026-03-25 21:11:03,538 - INFO - Regime classifier trained on 125 samples: NORMAL=103, VOLATILE=11, CRISIS=11
+2026-03-25 21:11:03,987 - INFO - 
+============================================================
+2026-03-25 21:11:03,987 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-25 21:11:03,987 - INFO - Signal: 0 | Z: 0.18 | Confidence: 0.12
+2026-03-25 21:11:03,988 - INFO - Current: Y=0, X=0
+2026-03-25 21:11:04,702 - INFO - Prices: EOG=$142.72, OXY=$61.68
+2026-03-25 21:11:04,703 - INFO - Current position: 0.0% of portfolio
+2026-03-25 21:11:04,703 - INFO - Already flat
+2026-03-25 21:11:04,707 - INFO - Logged to trades.csv -> signal=0, z=0.18, regime=NORMAL
+2026-03-25 21:11:04,707 - INFO - ============================================================
+
+2026-03-25 21:11:04,707 - INFO - 
+Processing JPM_BAC...
+2026-03-25 21:11:04,707 - INFO - Calculating signals for JPM_BAC
+2026-03-25 21:11:06,653 - INFO - Regime classifier trained on 125 samples: NORMAL=103, VOLATILE=11, CRISIS=11
+2026-03-25 21:11:07,059 - INFO - 
+============================================================
+2026-03-25 21:11:07,059 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-25 21:11:07,059 - INFO - Signal: 0 | Z: -0.68 | Confidence: 0.45
+2026-03-25 21:11:07,059 - INFO - Current: Y=0, X=0
+2026-03-25 21:11:07,674 - INFO - Prices: JPM=$294.67, BAC=$48.53
+2026-03-25 21:11:07,674 - INFO - Current position: 0.0% of portfolio
+2026-03-25 21:11:07,674 - INFO - Already flat
+2026-03-25 21:11:07,678 - INFO - Logged to trades.csv -> signal=0, z=-0.68, regime=NORMAL
+2026-03-25 21:11:07,678 - INFO - ============================================================
+
+2026-03-25 21:11:07,679 - INFO - 
+
+2026-03-25 21:11:07,679 - INFO - 
+
+2026-03-25 21:11:07,679 - INFO -  Complete! 0/3 pair(s)
+2026-03-25 21:11:07,679 - INFO - 
+
+2026-03-25 21:11:07,679 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-25 21:10:09
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Wed Mar 25 21:11:09 IST 2026]  Update completed successfully
+[Thu Mar 26 21:10:01 IST 2026] Starting paper trading update...
+2026-03-26 21:10:10,315 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-11
+2026-03-26 21:10:55,013 - INFO - Initializing  Alpaca Paper Trader
+2026-03-26 21:10:55,015 - INFO - Initialized with 3 pair(s)
+2026-03-26 21:10:55,016 - INFO -  DAILY UPDATE
+2026-03-26 21:10:56,010 - WARNING - Market open.
+2026-03-26 21:10:56,316 - INFO - 
+ Account:
+2026-03-26 21:10:56,317 - INFO - Portfolio: $99,540.39
+2026-03-26 21:10:56,317 - INFO - Cash: $99,540.39
+2026-03-26 21:10:56,317 - INFO - Return: -0.46%
+2026-03-26 21:10:56,317 - INFO - 
+Processing HON_DE...
+2026-03-26 21:10:56,317 - INFO - Calculating signals for HON_DE
+2026-03-26 21:10:56,978 - INFO - Regime classifier trained on 125 samples: NORMAL=87, VOLATILE=10, CRISIS=28
+2026-03-26 21:10:57,362 - INFO - 
+============================================================
+2026-03-26 21:10:57,362 - INFO - Managing HON_DE (FIXED VERSION)
+2026-03-26 21:10:57,362 - INFO - Signal: 0 | Z: 1.08 | Confidence: 0.72
+2026-03-26 21:10:57,363 - INFO - Current: Y=0, X=0
+2026-03-26 21:10:58,619 - INFO - Prices: HON=$227.28, DE=$582.34
+2026-03-26 21:10:58,619 - INFO - Current position: 0.0% of portfolio
+2026-03-26 21:10:58,619 - INFO - Already flat
+2026-03-26 21:10:58,630 - INFO - Logged to trades.csv -> signal=0, z=1.08, regime=NORMAL
+2026-03-26 21:10:58,630 - INFO - ============================================================
+
+2026-03-26 21:10:58,630 - INFO - 
+Processing EOG_OXY...
+2026-03-26 21:10:58,630 - INFO - Calculating signals for EOG_OXY
+2026-03-26 21:10:59,173 - INFO - Regime classifier trained on 125 samples: NORMAL=105, VOLATILE=10, CRISIS=10
+2026-03-26 21:10:59,545 - INFO - 
+============================================================
+2026-03-26 21:10:59,546 - INFO - Managing EOG_OXY (FIXED VERSION)
+2026-03-26 21:10:59,546 - INFO - Signal: 0 | Z: -0.23 | Confidence: 0.15
+2026-03-26 21:10:59,546 - INFO - Current: Y=0, X=0
+2026-03-26 21:11:00,219 - INFO - Prices: EOG=$147.70, OXY=$63.24
+2026-03-26 21:11:00,220 - INFO - Current position: 0.0% of portfolio
+2026-03-26 21:11:00,220 - INFO - Already flat
+2026-03-26 21:11:00,225 - INFO - Logged to trades.csv -> signal=0, z=-0.23, regime=VOLATILE
+2026-03-26 21:11:00,225 - INFO - ============================================================
+
+2026-03-26 21:11:00,225 - INFO - 
+Processing JPM_BAC...
+2026-03-26 21:11:00,225 - INFO - Calculating signals for JPM_BAC
+2026-03-26 21:11:01,339 - INFO - Regime classifier trained on 125 samples: NORMAL=105, VOLATILE=10, CRISIS=10
+2026-03-26 21:11:02,023 - INFO - 
+============================================================
+2026-03-26 21:11:02,023 - INFO - Managing JPM_BAC (FIXED VERSION)
+2026-03-26 21:11:02,023 - INFO - Signal: 0 | Z: -0.49 | Confidence: 0.33
+2026-03-26 21:11:02,023 - INFO - Current: Y=0, X=0
+2026-03-26 21:11:02,603 - INFO - Prices: JPM=$292.86, BAC=$48.34
+2026-03-26 21:11:02,604 - INFO - Current position: 0.0% of portfolio
+2026-03-26 21:11:02,604 - INFO - Already flat
+2026-03-26 21:11:02,609 - INFO - Logged to trades.csv -> signal=0, z=-0.49, regime=NORMAL
+2026-03-26 21:11:02,609 - INFO - ============================================================
+
+2026-03-26 21:11:02,609 - INFO - 
+
+2026-03-26 21:11:02,609 - INFO - 
+
+2026-03-26 21:11:02,609 - INFO -  Complete! 0/3 pair(s)
+2026-03-26 21:11:02,610 - INFO - 
+
+2026-03-26 21:11:02,610 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-26 21:10:10
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: HON_DE, EOG_OXY, JPM_BAC
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Thu Mar 26 21:11:04 IST 2026]  Update completed successfully

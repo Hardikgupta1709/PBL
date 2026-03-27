@@ -1,0 +1,59 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Anonymous Authors}
+\address{Department of Computer Science / Finance \\ University}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief \\ IEEE Conference Proceedings}
+
+\opening{Dear Editor,}
+
+We submit the enclosed manuscript, ``Regime-Adaptive Pairs Trading with
+Robust Kalman Filtering: An Integrated Framework with Ablation Analysis
+and Live Validation,'' for consideration for publication in your
+proceedings.
+
+\textbf{Summary.}
+The paper presents a pairs trading framework that couples an adaptive
+Kalman filter (with MAD-based outlier robustness) to a random-forest
+regime classifier.  The key innovation is that the Kalman filter's
+process noise is modulated by the detected market regime, allowing
+faster hedge-ratio adaptation during turbulent periods.
+
+\textbf{Evaluation rigour.}
+We apply the full battery of modern financial ML evaluation:
+expanding walk-forward analysis (32 quarterly folds), 10{,}000-trial
+Monte Carlo significance testing, block bootstrap confidence intervals
+with Benjamini--Hochberg correction, a 9-configuration ablation study,
+7-baseline comparison, 4-source performance attribution, SHAP feature
+analysis, rolling cointegration stability analysis, and live paper
+trading on Alpaca.
+
+\textbf{Honest results.}
+In the spirit of Harvey et al.\ (2016), we report honest negative
+out-of-sample results: no tested pair achieves a statistically
+significant positive Sharpe ratio after realistic transaction costs.
+However, regime gating provides +19.5\% protective alpha on the
+strongest pair (BAC/PNC), validating the regime-detection component as
+a risk management tool.
+
+\textbf{Reproducibility.}
+All code, data pipelines, configuration files, and a Docker container
+are provided.  A single command (\texttt{python Research/reproduce.py})
+regenerates all 8 tables and 11 figures.
+
+\textbf{Supplementary material} is provided separately and includes
+complete hyperparameter tables, extended sensitivity analysis,
+per-pair ablation details, walk-forward fold-by-fold results,
+full feature importance rankings, and computational cost analysis.
+
+The manuscript has not been submitted elsewhere and all authors have
+approved the submission.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

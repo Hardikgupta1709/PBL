@@ -1,0 +1,261 @@
+
+######################################################################
+  REVIEWER FIX EXPERIMENTS — FULL MODE
+  2026-03-14 14:03:38
+######################################################################
+
+======================================================================
+  FIX 1: BOOTSTRAP & MONTE CARLO FOR SUCCESS PAIRS
+======================================================================
+
+  ── AEP/SRE ──
+    Filtered Sharpe: 0.2814, N obs: 1126
+    Running block bootstrap (10000 resamples)...
+    Bootstrap 95% CI: [-0.636, 1.230]
+    Bootstrap SE: 0.473
+    Lo(2002) 95% CI: [0.222, 0.341]
+    Lo(2002) SE: 0.030
+    Running Monte Carlo (10000 random strategies)...
+    MC p-value: 0.2282
+    MC random Sharpe: -0.011 ± 0.436
+    Actual trades: 7, in-position: 5.2%
+  ⏱  bootstrap_mc_AEP_SRE: 7.4s
+
+  ── CVX/COP ──
+    Filtered Sharpe: 0.4446, N obs: 1126
+    Running block bootstrap (10000 resamples)...
+    Bootstrap 95% CI: [-0.612, 1.059]
+    Bootstrap SE: 0.419
+    Lo(2002) 95% CI: [0.383, 0.506]
+    Lo(2002) SE: 0.031
+    Running Monte Carlo (10000 random strategies)...
+    MC p-value: 0.1828
+    MC random Sharpe: -0.008 ± 0.485
+    Actual trades: 1, in-position: 0.9%
+  ⏱  bootstrap_mc_CVX_COP: 6.0s
+
+  ✓ Saved success_pairs_significance.csv/json
+
+======================================================================
+  FIX 2: RL DETAILED REPORTING
+======================================================================
+
+  ── RL Agent: BAC/PNC ──
+    Baseline Sharpe: -0.1258
+    RL OOS Sharpe:   0.0000
+    RL OOS Return:   0.000000
+    RL OOS MaxDD:    0.000000
+    Flat %:          100.0%  (1126/1126 days)
+    Long days:       0  |  Short days: 0
+    Round-trip trades: 0
+    Avg holding:     0.0 days
+    Val Sharpe:      0.4475
+  ⏱  rl_detailed_BAC_PNC: 56.4s
+
+  ── RL Agent: WFC/MS ──
+    Baseline Sharpe: -0.0449
+    RL OOS Sharpe:   0.0000
+    RL OOS Return:   0.000000
+    RL OOS MaxDD:    0.000000
+    Flat %:          100.0%  (1126/1126 days)
+    Long days:       0  |  Short days: 0
+    Round-trip trades: 0
+    Avg holding:     0.0 days
+    Val Sharpe:      0.6140
+  ⏱  rl_detailed_WFC_MS: 92.1s
+
+  ── RL Agent: CVX/OXY ──
+    Baseline Sharpe: -0.6135
+    RL OOS Sharpe:   0.0000
+    RL OOS Return:   0.000000
+    RL OOS MaxDD:    0.000000
+    Flat %:          100.0%  (1126/1126 days)
+    Long days:       0  |  Short days: 0
+    Round-trip trades: 0
+    Avg holding:     0.0 days
+    Val Sharpe:      1.4019
+  ⏱  rl_detailed_CVX_OXY: 46.2s
+
+  ── RL Agent: AEP/SRE ──
+    Baseline Sharpe: 0.2197
+    RL OOS Sharpe:   0.0000
+    RL OOS Return:   0.000000
+    RL OOS MaxDD:    0.000000
+    Flat %:          100.0%  (1126/1126 days)
+    Long days:       0  |  Short days: 0
+    Round-trip trades: 0
+    Avg holding:     0.0 days
+    Val Sharpe:      0.4862
+  ⏱  rl_detailed_AEP_SRE: 55.8s
+
+  RL Detailed Summary:
+   Pair  BL_Sharpe  RL_Sharpe  Sharpe_Delta  Val_Sharpe  RL_Trades  Flat_Pct  Long_Days  Short_Days  Avg_Hold_Days  RL_Return  RL_MaxDD  BL_Trades  Episodes
+BAC/PNC    -0.1258          0        0.1258      0.4475          0     100.0          0           0              0          0         0         58        29
+ WFC/MS    -0.0449          0        0.0449      0.6140          0     100.0          0           0              0          0         0         54        49
+CVX/OXY    -0.6135          0        0.6135      1.4019          0     100.0          0           0              0          0         0         55        24
+AEP/SRE     0.2197          0       -0.2197      0.4862          0     100.0          0           0              0          0         0         56        30
+
+  ✓ Saved rl_detailed.csv
+
+======================================================================
+  FIX 3: ECONOMIC SIGNIFICANCE & ANALYTICAL SHARPE CIs
+======================================================================
+
+  ── BAC/PNC (Banking) ──
+    Filtered Sharpe: 0.0076
+    Lo(2002) 95% CI: [-0.051, 0.066]
+    CI includes 0
+    Ann. dollar return on $100K: $33
+    Total PnL over OOS: $147
+    Est. capacity: $0.0M
+    Break-even cost: 5.9 bps
+    Sharpe at costs: {0: np.float64(0.04970269097197083), 2: np.float64(0.032789969017165646), 5: np.float64(0.007595313669901769), 10: np.float64(-0.03390795368985912), 15: np.float64(-0.07476724452263392), 20: np.float64(-0.11494681447196649), 30: np.float64(-0.193144327277282)}
+  ⏱  econ_BAC_PNC: 32.3s
+
+  ── WFC/MS (Financials) ──
+    Filtered Sharpe: -0.2627
+    Lo(2002) 95% CI: [-0.322, -0.203]
+    CI includes 0
+    Ann. dollar return on $100K: $-258
+    Total PnL over OOS: $-1,147
+    Est. capacity: $0.0M
+    Break-even cost: N/A (never profitable)
+    Sharpe at costs: {0: np.float64(-0.2179303920853682), 2: np.float64(-0.23595497917739303), 5: np.float64(-0.2627387187149465), 10: np.float64(-0.30654976165318126), 15: np.float64(-0.3490955866958982), 20: np.float64(-0.3901438345226699), 30: np.float64(-0.4670242322781302)}
+  ⏱  econ_WFC_MS: 31.3s
+
+  ── CVX/OXY (Energy) ──
+    Filtered Sharpe: 0.1184
+    Lo(2002) 95% CI: [0.060, 0.177]
+    CI excludes 0 ✅
+    Ann. dollar return on $100K: $2,703
+    Total PnL over OOS: $12,654
+    Est. capacity: $0.3M
+    Break-even cost: 30.0 bps
+    Sharpe at costs: {0: np.float64(0.12142293938181524), 2: np.float64(0.12022573198656324), 5: np.float64(0.11842969548091738), 10: np.float64(0.11543573080934115), 15: np.float64(0.11244110280204538), 20: np.float64(0.10944586896724463), 30: np.float64(0.10345381418141748)}
+  ⏱  econ_CVX_OXY: 32.3s
+
+  ── AEP/SRE (Utilities) ──
+    Filtered Sharpe: 0.2814
+    Lo(2002) 95% CI: [0.222, 0.341]
+    CI excludes 0 ✅
+    Ann. dollar return on $100K: $1,091
+    Total PnL over OOS: $4,967
+    Est. capacity: $0.4M
+    Break-even cost: 30.0 bps
+    Sharpe at costs: {0: np.float64(0.3234542211454153), 2: np.float64(0.30660752608812514), 5: np.float64(0.2813866829673174), 10: np.float64(0.23951674073574247), 15: np.float64(0.19790590210856743), 20: np.float64(0.15661310641058332), 30: np.float64(0.0752025070848679)}
+  ⏱  econ_AEP_SRE: 33.2s
+
+  ── CVX/COP (Energy) ──
+    Filtered Sharpe: 0.4446
+    Lo(2002) 95% CI: [0.383, 0.506]
+    CI excludes 0 ✅
+    Ann. dollar return on $100K: $1,566
+    Total PnL over OOS: $7,192
+    Est. capacity: $1.0M
+    Break-even cost: 30.0 bps
+    Sharpe at costs: {0: np.float64(0.45183242042371763), 2: np.float64(0.4489543339183161), 5: np.float64(0.4446314508949608), 10: np.float64(0.43741245784412436), 15: np.float64(0.43017759997340427), 20: np.float64(0.422929026096207), 30: np.float64(0.4083992595398282)}
+  ⏱  econ_CVX_COP: 32.5s
+
+  Economic Significance Summary:
+   Pair     Sector  F_Sharpe  F_Lo_CI_Lo  F_Lo_CI_Hi  CI_Excludes_Zero  F_Ann_Dollar_100K  Breakeven_Cost_Bps
+BAC/PNC    Banking    0.0076      -0.051       0.066             False               33.0                 5.9
+ WFC/MS Financials   -0.2627      -0.322      -0.203             False             -258.0                 NaN
+CVX/OXY     Energy    0.1184       0.060       0.177              True             2703.0                30.0
+AEP/SRE  Utilities    0.2814       0.222       0.341              True             1091.0                30.0
+CVX/COP     Energy    0.4446       0.383       0.506              True             1566.0                30.0
+
+  ✓ Saved economic_significance.csv
+
+  Generating fig18_breakeven_cost...
+    ✓ Saved fig18_breakeven_cost.pdf/png
+
+======================================================================
+  FIX 4: WALK-FORWARD CONDITIONAL METRICS
+======================================================================
+
+  ── AEP/SRE walk-forward conditional analysis ──
+    Total folds: 32
+    Positive: 11/32 (34.4%)
+    Avg positive fold Sharpe: 1.056
+    Avg negative fold Sharpe: -0.066
+    Magnitude ratio (pos/neg): 16.01
+    Healthy folds (15): avg Sharpe 0.250
+    Unhealthy folds (17): avg Sharpe 0.381
+
+  ── CVX/COP walk-forward conditional analysis ──
+    Total folds: 32
+    Positive: 6/32 (18.8%)
+    Avg positive fold Sharpe: 1.099
+    Avg negative fold Sharpe: 0.000
+    Magnitude ratio (pos/neg): inf
+    Healthy folds (6): avg Sharpe 0.634
+    Unhealthy folds (26): avg Sharpe 0.107
+
+  ✓ Saved wf_conditional.json
+
+======================================================================
+  FIX 5: Lo(2002) SHARPE CIs FOR ALL 12 PAIRS
+======================================================================
+  BAC/PNC... F=0.008 CI=[-0.051,0.066] ○
+  WFC/MS... F=-0.263 CI=[-0.322,-0.203] ○
+  CVX/OXY... F=0.118 CI=[0.060,0.177] ✅
+  AEP/SRE... F=0.281 CI=[0.222,0.341] ✅
+  CVX/COP... F=0.445 CI=[0.383,0.506] ✅
+  VMC/MLM... F=-0.177 CI=[-0.235,-0.118] ○
+  LIN/VMC... F=-0.611 CI=[-0.675,-0.547] ○
+  JNJ/UNH... F=-0.493 CI=[-0.555,-0.431] ○
+  GOOGL/AMD... F=-0.843 CI=[-0.911,-0.775] ○
+  KO/COST... F=0.835 CI=[0.767,0.903] ✅
+  HON/DE... F=0.426 CI=[0.365,0.487] ✅
+  USB/TFC... F=-0.214 CI=[-0.273,-0.155] ○
+
+  ✓ Saved lo_sharpe_cis.csv
+  5/12 pairs have filtered Sharpe CI excluding zero
+
+######################################################################
+  ALL REVIEWER FIXES COMPLETE — 12.5 min total
+######################################################################
+
+  New files in Research/results/:
+    attribution_BAC_PNC.png                         50,497 bytes
+    attribution_CVX_OXY.png                         52,162 bytes
+    attribution_WFC_MS.png                          49,178 bytes
+    computational_costs.csv                            399 bytes
+    economic_significance.csv                        1,225 bytes
+    expanded_discovered_pairs.csv                    1,269 bytes
+    expanded_universe_report.txt                     5,009 bytes
+    expanded_universe_summary.csv                    4,544 bytes
+    filter_ablation_summary.csv                        925 bytes
+    filter_deep_analysis.csv                           692 bytes
+    final_timing.json                                1,005 bytes
+    full_run_log.txt                                11,713 bytes
+    lo_sharpe_cis.csv                                  899 bytes
+    regime_eval_BAC_PNC.png                         75,561 bytes
+    reviewer_full_log.txt                            8,204 bytes
+    reviewer_quick_log.txt                          11,670 bytes
+    rl_ablation_summary.csv                            552 bytes
+    rl_detailed.csv                                    363 bytes
+    rl_multi_pair.csv                                  656 bytes
+    rl_reward_variants.csv                             747 bytes
+    rotation_38pair_scan.csv                         4,015 bytes
+    sensitivity_heatmap.png                        110,572 bytes
+    success_pairs_full.csv                             527 bytes
+    success_pairs_significance.csv                     577 bytes
+    success_pairs_significance.json                    920 bytes
+    timing_summary.json                                566 bytes
+    wf_conditional.json                                967 bytes
+    wilcoxon_filter_test.csv                         2,776 bytes
+    wilcoxon_summary.json                              424 bytes
+
+  TIMING:
+    bootstrap_mc_AEP_SRE                7.4s
+    bootstrap_mc_CVX_COP                6.0s
+    econ_AEP_SRE                        33.2s
+    econ_BAC_PNC                        32.3s
+    econ_CVX_COP                        32.5s
+    econ_CVX_OXY                        32.3s
+    econ_WFC_MS                         31.3s
+    rl_detailed_AEP_SRE                 55.8s
+    rl_detailed_BAC_PNC                 56.4s
+    rl_detailed_CVX_OXY                 46.2s
+    rl_detailed_WFC_MS                  92.1s
