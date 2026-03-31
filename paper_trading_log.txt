@@ -634,3 +634,153 @@ Mode: Paper Trading
   Portfolio: $99,540.39
   Return: -0.46%
 [Thu Mar 26 21:11:04 IST 2026]  Update completed successfully
+[Fri Mar 27 21:10:00 IST 2026] Starting paper trading update...
+2026-03-27 21:10:07,013 - INFO - Loaded 10 success pairs from /Users/hardik/PBL_Run/Research/results/success_pairs_full.csv
+2026-03-27 21:10:07,015 - INFO - Loaded rotation state: 1 active pairs, last rotation: 2026-03-27
+2026-03-27 21:10:19,720 - INFO - Initializing  Alpaca Paper Trader
+2026-03-27 21:10:19,721 - INFO - Initialized with 1 pair(s)
+2026-03-27 21:10:19,721 - INFO -  DAILY UPDATE
+2026-03-27 21:10:20,860 - WARNING - Market open.
+2026-03-27 21:10:21,264 - INFO - 
+ Account:
+2026-03-27 21:10:21,265 - INFO - Portfolio: $99,540.39
+2026-03-27 21:10:21,265 - INFO - Cash: $99,540.39
+2026-03-27 21:10:21,265 - INFO - Return: -0.46%
+2026-03-27 21:10:21,265 - INFO - 
+Processing PSX_FANG...
+2026-03-27 21:10:21,265 - INFO - Calculating signals for PSX_FANG
+2026-03-27 21:10:21,774 - INFO - Regime classifier trained on 125 samples: NORMAL=106, VOLATILE=10, CRISIS=9
+2026-03-27 21:10:22,616 - INFO - 
+============================================================
+2026-03-27 21:10:22,616 - INFO - Managing PSX_FANG (FIXED VERSION)
+2026-03-27 21:10:22,616 - INFO - Signal: 0 | Z: -0.68 | Confidence: 0.45
+2026-03-27 21:10:22,616 - INFO - Current: Y=0, X=0
+2026-03-27 21:10:24,125 - INFO - Prices: PSX=$186.77, FANG=$202.54
+2026-03-27 21:10:24,126 - INFO - Current position: 0.0% of portfolio
+2026-03-27 21:10:24,126 - INFO - Already flat
+2026-03-27 21:10:24,137 - INFO - Logged to trades.csv -> signal=0, z=-0.68, regime=VOLATILE
+2026-03-27 21:10:24,138 - INFO - ============================================================
+
+2026-03-27 21:10:24,138 - INFO - 
+
+2026-03-27 21:10:24,138 - INFO - 
+
+2026-03-27 21:10:24,138 - INFO -  Complete! 0/1 pair(s)
+2026-03-27 21:10:24,138 - INFO - 
+
+2026-03-27 21:10:24,138 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-27 21:10:06
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: PSX_FANG
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Fri Mar 27 21:10:25 IST 2026]  Update completed successfully
+[Mon Mar 30 21:10:00 IST 2026] Starting paper trading update...
+2026-03-30 21:10:08,061 - INFO - Loaded 10 success pairs from /Users/hardik/PBL_Run/Research/results/success_pairs_full.csv
+2026-03-30 21:10:08,063 - INFO - Loaded rotation state: 3 active pairs, last rotation: 2026-03-30
+2026-03-30 21:10:21,969 - INFO - Initializing  Alpaca Paper Trader
+2026-03-30 21:10:21,971 - INFO - Initialized with 3 pair(s)
+2026-03-30 21:10:21,971 - INFO -  DAILY UPDATE
+2026-03-30 21:10:23,229 - WARNING - Market open.
+2026-03-30 21:10:23,556 - INFO - 
+ Account:
+2026-03-30 21:10:23,557 - INFO - Portfolio: $99,540.39
+2026-03-30 21:10:23,557 - INFO - Cash: $99,540.39
+2026-03-30 21:10:23,557 - INFO - Return: -0.46%
+2026-03-30 21:10:23,557 - INFO - 
+Processing BAC_PNC...
+2026-03-30 21:10:23,558 - INFO - Calculating signals for BAC_PNC
+2026-03-30 21:10:24,029 - INFO - Regime classifier trained on 125 samples: NORMAL=108, VOLATILE=10, CRISIS=7
+2026-03-30 21:10:24,969 - INFO - 
+============================================================
+2026-03-30 21:10:24,969 - INFO - Managing BAC_PNC (FIXED VERSION)
+2026-03-30 21:10:24,969 - INFO - Signal: 0 | Z: -0.06 | Confidence: 0.04
+2026-03-30 21:10:24,969 - INFO - Current: Y=0, X=0
+2026-03-30 21:10:26,400 - INFO - Prices: BAC=$47.42, PNC=$203.69
+2026-03-30 21:10:26,400 - INFO - Current position: 0.0% of portfolio
+2026-03-30 21:10:26,400 - INFO - Already flat
+2026-03-30 21:10:26,411 - INFO - Logged to trades.csv -> signal=0, z=-0.06, regime=NORMAL
+2026-03-30 21:10:26,411 - INFO - ============================================================
+
+2026-03-30 21:10:26,411 - INFO - 
+Processing WFC_MS...
+2026-03-30 21:10:26,411 - INFO - Calculating signals for WFC_MS
+2026-03-30 21:10:27,758 - INFO - Regime classifier trained on 125 samples: NORMAL=101, VOLATILE=10, CRISIS=14
+2026-03-30 21:10:28,816 - INFO - 
+============================================================
+2026-03-30 21:10:28,816 - INFO - Managing WFC_MS (FIXED VERSION)
+2026-03-30 21:10:28,816 - INFO - Signal: 0 | Z: 0.21 | Confidence: 0.14
+2026-03-30 21:10:28,816 - INFO - Current: Y=0, X=0
+2026-03-30 21:10:29,883 - INFO - Prices: WFC=$77.65, MS=$160.38
+2026-03-30 21:10:29,883 - INFO - Current position: 0.0% of portfolio
+2026-03-30 21:10:29,884 - INFO - Already flat
+2026-03-30 21:10:29,889 - INFO - Logged to trades.csv -> signal=0, z=0.21, regime=VOLATILE
+2026-03-30 21:10:29,889 - INFO - ============================================================
+
+2026-03-30 21:10:29,889 - INFO - 
+Processing CVX_OXY...
+2026-03-30 21:10:29,889 - INFO - Calculating signals for CVX_OXY
+2026-03-30 21:10:31,143 - INFO - Regime classifier trained on 125 samples: NORMAL=108, VOLATILE=10, CRISIS=7
+2026-03-30 21:10:32,038 - INFO - 
+============================================================
+2026-03-30 21:10:32,038 - INFO - Managing CVX_OXY (FIXED VERSION)
+2026-03-30 21:10:32,039 - INFO - Signal: 0 | Z: 0.36 | Confidence: 0.24
+2026-03-30 21:10:32,039 - INFO - Current: Y=0, X=0
+2026-03-30 21:10:32,647 - INFO - Prices: CVX=$213.69, OXY=$66.90
+2026-03-30 21:10:32,647 - INFO - Current position: 0.0% of portfolio
+2026-03-30 21:10:32,647 - INFO - Already flat
+2026-03-30 21:10:32,652 - INFO - Logged to trades.csv -> signal=0, z=0.36, regime=VOLATILE
+2026-03-30 21:10:32,653 - INFO - ============================================================
+
+2026-03-30 21:10:32,653 - INFO - 
+
+2026-03-30 21:10:32,653 - INFO - 
+
+2026-03-30 21:10:32,653 - INFO -  Complete! 0/3 pair(s)
+2026-03-30 21:10:32,653 - INFO - 
+
+2026-03-30 21:10:32,653 - INFO - 
+
+
+
+
+
+ PAPER TRADING SYSTEM
+
+
+
+
+Time: 2026-03-30 21:10:08
+Mode: Paper Trading
+
+
+
+
+
+ Running Daily Paper Trading Update
+  Using rotated pairs: BAC_PNC, WFC_MS, CVX_OXY
+ Configuration validation passed
+
+ Performance Summary:
+  Portfolio: $99,540.39
+  Return: -0.46%
+[Mon Mar 30 21:10:34 IST 2026]  Update completed successfully

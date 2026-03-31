@@ -93,8 +93,11 @@ class AlpacaPaperTrader:
         
         try:
             from Core_Strategy.conservative_strategy import (
-                ConservativeSystem,
                 download_data
+            )
+            from Research.dynamic_pair_selector import (
+                backtest_with_dynamic_filter,
+                HealthThresholds,
             )
             
             end_date = datetime.now()
@@ -109,14 +112,24 @@ class AlpacaPaperTrader:
             if len(stock_y) < config.MIN_DATA_POINTS:
                 logger.warning(f"Insufficient data: {len(stock_y)} points")
                 return None
-            
-            system = ConservativeSystem()
+
             # Use the first half of the lookback window as training data
             train_days = min(252, len(stock_y) // 2)
             train_end = stock_y.index[train_days - 1].strftime('%Y-%m-%d')
-            results = system.run_backtest(
+
+            thresholds = HealthThresholds(
+                adf_pvalue=config.HEALTH_ADF_PVALUE,
+                hurst_max=config.HEALTH_HURST_MAX,
+                coint_pvalue=config.HEALTH_COINT_PVALUE,
+                lookback_window=config.HEALTH_LOOKBACK_WINDOW,
+            )
+
+            result_bundle = backtest_with_dynamic_filter(
                 stock_y, stock_x, market,
                 train_end_date=train_end,
+                thresholds=thresholds,
+                apply_health_sizing=config.APPLY_HEALTH_SIZING,
+                slippage_bps=config.SLIPPAGE_BPS,
                 entry_z_normal=pair_config['entry_z_normal'],
                 exit_z_normal=pair_config['exit_z_normal'],
                 entry_z_volatile=pair_config['entry_z_volatile'],
@@ -125,11 +138,18 @@ class AlpacaPaperTrader:
                 z_score_window=pair_config['z_score_window'],
                 verbose=False,
             )
+
+            results = result_bundle['filtered']
+            health = result_bundle['health'].reindex(results.index, method='ffill')
             
-            latest_signal = int(results['final_signal'].iloc[-1])
+            latest_signal_raw = float(results['final_signal'].iloc[-1])
+            latest_signal = 0 if abs(latest_signal_raw) < 1e-9 else (1 if latest_signal_raw > 0 else -1)
             latest_z = float(results['z_score'].iloc[-1])
             latest_regime = int(results['regime'].iloc[-1])
             hedge_ratio = float(results['hedge_ratio'].iloc[-1])
+            latest_health_score = float(health['health_score'].iloc[-1]) if 'health_score' in health.columns else 1.0
+            latest_is_healthy = bool(health['is_healthy'].iloc[-1]) if 'is_healthy' in health.columns else True
+            latest_checks_passed = int(health['checks_passed'].iloc[-1]) if 'checks_passed' in health.columns else 3
             
             regime_names = {0: 'CRISIS', 1: 'VOLATILE', 2: 'NORMAL'}
             
@@ -139,7 +159,10 @@ class AlpacaPaperTrader:
                 'regime': regime_names.get(latest_regime, 'UNKNOWN'),
                 'hedge_ratio': hedge_ratio,
                 'timestamp': datetime.now(),
-                'confidence': abs(latest_z) / pair_config['entry_z_normal']
+                'confidence': min(1.0, abs(latest_z) / max(pair_config['entry_z_normal'], 1e-6)),
+                'health_score': latest_health_score,
+                'is_healthy': latest_is_healthy,
+                'checks_passed': latest_checks_passed,
             }
             
         except Exception as e:
@@ -211,6 +234,9 @@ class AlpacaPaperTrader:
                 'z_score': round(signal_data['z_score'], 4),
                 'regime': signal_data['regime'],
                 'confidence': round(signal_data.get('confidence', 0), 4),
+                'health_score': round(signal_data.get('health_score', 0), 4),
+                'is_healthy': int(bool(signal_data.get('is_healthy', True))),
+                'checks_passed': int(signal_data.get('checks_passed', 0)),
                 'qty_y': int(qty_y),
                 'qty_x': int(qty_x),
                 'price_y': round(price_y, 2),

@@ -26,7 +26,18 @@ def run_pair_rotation(top_k: int = 3, force: bool = False) -> bool:
     print("\n Running Automatic Pair Rotation")
     
     try:
-        manager = PairRotationManager(top_k=top_k)
+        manager = PairRotationManager(
+            top_k=top_k,
+            min_health_score=config.ROTATION_MIN_HEALTH_SCORE,
+            min_healthy_pct=config.ROTATION_MIN_HEALTHY_PCT,
+            rotation_interval_days=config.ROTATION_INTERVAL_DAYS,
+            health_window=config.HEALTH_LOOKBACK_WINDOW,
+            adf_pvalue=config.HEALTH_ADF_PVALUE,
+            hurst_max=config.HEALTH_HURST_MAX,
+            coint_pvalue=config.HEALTH_COINT_PVALUE,
+            max_total_exposure=config.ROTATION_MAX_TOTAL_EXPOSURE,
+            universe_mode=config.ROTATION_UNIVERSE_MODE,
+        )
         result = manager.run_rotation(force=force, verbose=True)
         
         if result is None:
@@ -62,7 +73,18 @@ def run_daily_trading(with_rotation: bool = True, top_k: int = 3) -> bool:
     try:
         # Step 0: Check if pair rotation is needed
         if with_rotation:
-            manager = PairRotationManager(top_k=top_k)
+            manager = PairRotationManager(
+                top_k=top_k,
+                min_health_score=config.ROTATION_MIN_HEALTH_SCORE,
+                min_healthy_pct=config.ROTATION_MIN_HEALTHY_PCT,
+                rotation_interval_days=config.ROTATION_INTERVAL_DAYS,
+                health_window=config.HEALTH_LOOKBACK_WINDOW,
+                adf_pvalue=config.HEALTH_ADF_PVALUE,
+                hurst_max=config.HEALTH_HURST_MAX,
+                coint_pvalue=config.HEALTH_COINT_PVALUE,
+                max_total_exposure=config.ROTATION_MAX_TOTAL_EXPOSURE,
+                universe_mode=config.ROTATION_UNIVERSE_MODE,
+            )
             if manager.needs_rotation():
                 print("  Monthly rotation check triggered...")
                 run_pair_rotation(top_k=top_k)
@@ -216,7 +238,7 @@ Examples:
     parser.add_argument(
         '--top-k',
         type=int,
-        default=3,
+        default=config.ROTATION_TOP_K,
         help='Number of top pairs to trade (default: 3)'
     )
     

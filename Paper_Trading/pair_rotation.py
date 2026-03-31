@@ -39,6 +39,10 @@ from Research.dynamic_pair_selector import PairHealthMonitor, HealthThresholds
 
 logger = logging.getLogger(__name__)
 
+RESULTS_DIR = BASE_DIR / 'Research' / 'results'
+SUCCESS_PAIRS_CSV = RESULTS_DIR / 'success_pairs_full.csv'
+EXPANDED_SUMMARY_CSV = RESULTS_DIR / 'expanded_universe_summary.csv'
+
 # =============================================================================
 # EXPANDED UNIVERSE — All discovered pairs from Research
 # =============================================================================
@@ -149,10 +153,15 @@ class PairRotationManager:
         self,
         top_k: int = 3,
         min_health_score: float = 0.50,
-        min_healthy_pct: float = 5.0,    # Exclude pairs with < 5% healthy days
+        min_healthy_pct: float = 7.0,    # Day-10 aligned floor
         rotation_interval_days: int = 30,
         lookback_days: int = 365,
         health_window: int = 126,
+        adf_pvalue: float = 0.05,
+        hurst_max: float = 0.50,
+        coint_pvalue: float = 0.10,
+        max_total_exposure: float = 0.55,
+        universe_mode: str = 'success',
         state_file: Optional[str] = None,
     ):
         self.top_k = top_k
@@ -161,13 +170,23 @@ class PairRotationManager:
         self.rotation_interval_days = rotation_interval_days
         self.lookback_days = lookback_days
         self.health_window = health_window
+        self.max_total_exposure = max_total_exposure
+        self.universe_mode = universe_mode
+
+        # Dynamic universe source of truth from research outputs
+        self.universe = self._load_research_universe(universe_mode)
 
         self.state_file = Path(state_file) if state_file else (
             BASE_DIR / 'Paper_Trading' / 'logs' / 'rotation_state.json'
         )
         self.state_file.parent.mkdir(parents=True, exist_ok=True)
 
-        self.thresholds = HealthThresholds(lookback_window=health_window)
+        self.thresholds = HealthThresholds(
+            adf_pvalue=adf_pvalue,
+            hurst_max=hurst_max,
+            coint_pvalue=coint_pvalue,
+            lookback_window=health_window,
+        )
         self.monitor = PairHealthMonitor(self.thresholds)
 
         # Current state
@@ -195,11 +214,66 @@ class PairRotationManager:
             'last_rotation_date': self.last_rotation_date,
             'top_k': self.top_k,
             'min_health_score': self.min_health_score,
+            'min_healthy_pct': self.min_healthy_pct,
+            'universe_mode': self.universe_mode,
             'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         }
         with open(self.state_file, 'w') as f:
             json.dump(state, f, indent=2)
         logger.info(f"Saved rotation state to {self.state_file}")
+
+    def _load_research_universe(self, mode: str = 'success') -> Dict[str, Dict]:
+        """Load candidate universe from research results; fallback to static set."""
+        sector_map = {}
+        if EXPANDED_SUMMARY_CSV.exists():
+            try:
+                expanded = pd.read_csv(EXPANDED_SUMMARY_CSV)
+                for _, row in expanded.iterrows():
+                    sector_map[str(row['Pair'])] = str(row.get('Sector', 'Unknown'))
+            except Exception as e:
+                logger.warning(f"Could not load expanded universe summary: {e}")
+
+        if mode == 'success' and SUCCESS_PAIRS_CSV.exists():
+            try:
+                success = pd.read_csv(SUCCESS_PAIRS_CSV)
+                universe = {}
+                for _, row in success.iterrows():
+                    pair_slash = str(row['Pair'])
+                    ty, tx = pair_slash.split('/')
+                    pair_name = f"{ty}_{tx}"
+                    universe[pair_name] = {
+                        'ticker_y': ty,
+                        'ticker_x': tx,
+                        'sector': sector_map.get(pair_name, 'Unknown'),
+                        'research_f_sharpe': float(row.get('F_Sharpe', 0.0)),
+                        'research_pct_healthy': float(row.get('Pct_Healthy', 0.0)),
+                    }
+                if universe:
+                    logger.info(f"Loaded {len(universe)} success pairs from {SUCCESS_PAIRS_CSV}")
+                    return universe
+            except Exception as e:
+                logger.warning(f"Could not load success pairs CSV: {e}")
+
+        if EXPANDED_SUMMARY_CSV.exists():
+            try:
+                expanded = pd.read_csv(EXPANDED_SUMMARY_CSV)
+                universe = {}
+                for _, row in expanded.iterrows():
+                    pair_name = str(row['Pair'])
+                    ty, tx = pair_name.split('_')
+                    universe[pair_name] = {
+                        'ticker_y': ty,
+                        'ticker_x': tx,
+                        'sector': str(row.get('Sector', 'Unknown')),
+                    }
+                if universe:
+                    logger.info(f"Loaded {len(universe)} expanded pairs from {EXPANDED_SUMMARY_CSV}")
+                    return universe
+            except Exception as e:
+                logger.warning(f"Could not load expanded universe CSV: {e}")
+
+        logger.warning("Falling back to static EXPANDED_UNIVERSE")
+        return EXPANDED_UNIVERSE
 
     def needs_rotation(self) -> bool:
         """Check if rotation is due based on interval."""
@@ -229,7 +303,7 @@ class PairRotationManager:
         }
         """
         if universe is None:
-            universe = EXPANDED_UNIVERSE
+            universe = self.universe
 
         end_date = datetime.now()
         start_date = end_date - timedelta(days=self.lookback_days)
@@ -430,12 +504,12 @@ class PairRotationManager:
         n_pairs = len(selected_pairs)
 
         # Distribute position size equally, capped at 60% total
-        max_total_exposure = 0.55
+        max_total_exposure = self.max_total_exposure
         per_pair_size = min(0.20, max_total_exposure / max(n_pairs, 1))
 
         for pair_name in selected_pairs:
             info = scan_results.get(pair_name, {})
-            universe_info = EXPANDED_UNIVERSE.get(pair_name, {})
+            universe_info = self.universe.get(pair_name, EXPANDED_UNIVERSE.get(pair_name, {}))
 
             config[pair_name] = {
                 'ticker_y': universe_info.get('ticker_y', pair_name.split('_')[0]),
@@ -444,6 +518,8 @@ class PairRotationManager:
                 'position_size': round(per_pair_size, 2),
                 'health_score': info.get('health_score', 0),
                 'sector': info.get('sector', 'Unknown'),
+                'backtest_sharpe': round(universe_info.get('research_f_sharpe', 0.0), 3),
+                'win_rate': 50.0,
             }
 
         return config
@@ -502,11 +578,27 @@ class PairRotationManager:
         selected = self.select_top_pairs(rankings, scan_results)
 
         if not selected:
-            logger.warning("No eligible pairs found! Keeping current pairs.")
-            if verbose:
-                print("\n  WARNING: No pairs pass health criteria!")
-                print(f"  Keeping current pairs: {', '.join(self.current_pairs)}")
-            return None
+            # Fallback: keep risk filters, relax only score threshold
+            relaxed = [
+                name for name, score, _ in rankings
+                if scan_results[name]['is_healthy']
+                and scan_results[name]['pct_healthy_recent'] >= self.min_healthy_pct
+            ][:self.top_k]
+
+            if relaxed:
+                selected = relaxed
+                logger.warning(
+                    "No pairs met strict score cutoff; using relaxed fallback among healthy candidates."
+                )
+                if verbose:
+                    print("\n  WARNING: No pairs pass strict score threshold.")
+                    print(f"  Fallback selected: {', '.join(selected)}")
+            else:
+                logger.warning("No eligible pairs found! Keeping current pairs.")
+                if verbose:
+                    print("\n  WARNING: No pairs pass health criteria!")
+                    print(f"  Keeping current pairs: {', '.join(self.current_pairs)}")
+                return None
 
         # Step 4: Apply
         result = self.apply_rotation(selected, scan_results, verbose=verbose)
@@ -588,17 +680,25 @@ if __name__ == '__main__':
                         help='Rotation interval in days (default: 30)')
     parser.add_argument('--min-health', type=float, default=0.50,
                         help='Minimum health score to be eligible (default: 0.50)')
+    parser.add_argument('--min-healthy-pct', type=float, default=7.0,
+                        help='Minimum recent healthy-day percent (default: 7.0)')
+    parser.add_argument('--universe-mode', choices=['success', 'expanded', 'static'], default='success',
+                        help='Universe source: success pairs, expanded universe, or static fallback')
     args = parser.parse_args()
 
     print(f"\nPair Rotation Manager")
     print(f"  Top-K: {args.top_k}")
     print(f"  Interval: {args.interval} days")
     print(f"  Min health: {args.min_health}")
+    print(f"  Min healthy %: {args.min_healthy_pct}")
+    print(f"  Universe mode: {args.universe_mode}")
 
     manager = PairRotationManager(
         top_k=args.top_k,
         rotation_interval_days=args.interval,
         min_health_score=args.min_health,
+        min_healthy_pct=args.min_healthy_pct,
+        universe_mode=args.universe_mode,
     )
 
     if args.scan_only:
