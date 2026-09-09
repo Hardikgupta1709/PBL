@@ -1,22 +1,17 @@
-# Virtual Environment
 venv/
 ENV/
 env/
 
-# Python
 __pycache__/
 *.pyc
 
-# Config
 config.py
 *.env
 
-# Logs  
 logs/
 *.log
 
-# IDE
+
 .vscode/
 
-# OS
-.DS_Store
+.DS_StoreLocal_Backup_Old_Codebase/

@@ -1,250 +1,338 @@
-# Regime-Adaptive Pairs Trading with Robust Kalman Filtering
+# A Risk-Aware Regime-Adaptive Framework for Statistical Arbitrage Under Post-COVID Cointegration Instability
 
-<div align="center">
+**Zenodo archive — source code, data acquisition scripts, and reproduction assets**
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?style=flat-square&logo=python)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![Reproducible](https://img.shields.io/badge/Reproducible-Docker-blue?style=flat-square&logo=docker)
-
-**A statistically rigorous pairs trading framework combining adaptive Kalman filters  
-with random-forest regime detection, evaluated on US equities (2015–2025).**
-
-[Paper](#paper) · [Quick Start](#quick-start) · [Reproduce](#reproduction) · [Results](#key-results) · [Citation](#citation)
-
-</div>
+[![Deposit Licence: CC-BY 4.0](https://img.shields.io/badge/Deposit_Licence-CC--BY_4.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Code Licence: MIT](https://img.shields.io/badge/Code_Licence-MIT-green.svg)](LICENSE)
+[![Python 3.10](https://img.shields.io/badge/Python-3.10.12-blue.svg)](https://www.python.org/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21022049.svg)](https://doi.org/10.5281/zenodo.21022049)
 
 ---
 
-## Abstract
+## Overview
 
-We present a pairs trading system that augments classical cointegration-based
-spread trading with two innovations: (1) an adaptive Kalman filter whose
-process noise is modulated by a random-forest regime classifier trained on
-macro-financial features, and (2) a sensitivity-derived entry/exit band
-mechanism that widens thresholds in non-mean-reverting regimes. We evaluate
-the system on three US equity pairs (BAC/PNC, WFC/MS, CVX/OXY) using a
-strict temporal split (train ≤ 2020, OOS 2021–2025) and 32-fold expanding
-walk-forward analysis. Honest out-of-sample results show negative Sharpe
-ratios for all pairs, consistent with the known difficulty of achieving
-post-cost alpha in mature statistical arbitrage markets. Regime gating
-improves BAC/PNC by +19.5% cumulative return relative to always-on trading.
-A comprehensive ablation study (9 configurations) and 7-baseline comparison
-contextualise the contribution of each component.
+This archive contains the complete research codebase and reproduction scripts for:
 
----
+> **"A Risk-Aware Regime-Adaptive Framework for Statistical Arbitrage
+> Under Post-COVID Cointegration Instability"**
+> Hardik Gupta and Rishi Gupta
+> Department of Computer Science and Engineering, Manipal University Jaipur
+> *Submitted to Applied Artificial Intelligence (Taylor & Francis)*
 
-## Paper
+The framework couples three components into a single pipeline:
 
-The full paper is in `Paper/main.tex` (IEEE conference format, ~10 pages).
-Pre-built figures (11 PDFs) are in `Paper/figures/`, and 8 generated LaTeX
-tables are in `Paper/tables/`.
+1. **Adaptive Kalman filter** with Median Absolute Deviation (MAD) gain
+   attenuation for robust, time-varying hedge-ratio estimation.
+2. **Three-state Random Forest regime classifier** distinguishing Normal,
+   Volatile, and Crisis market states from 21 rolling features.
+3. **Real-time pair-health gate** executing rolling ADF, Hurst exponent,
+   and Engle-Granger diagnostics as a hard entry precondition before each trade.
 
-To compile on **Overleaf**, upload `Paper/overleaf_upload.zip` as a new project.
+Evaluated on 60 US equity pairs over a strict 2021-2025 out-of-sample window,
+the pair-health gate reduces median maximum drawdown by 3.9x
+(Wilcoxon p < 1e-4, N = 60) relative to the unfiltered baseline.
 
 ---
 
-## Key Results
+## Archive Contents
 
-| Pair | OOS Sharpe | Max DD | Regime Gating Δ |
-|------|-----------|--------|-----------------|
-| BAC/PNC | −0.126 | −12.3% | +19.5% cumulative |
-| WFC/MS | −0.045 | −8.7% | +6.2% cumulative |
-| CVX/OXY | −0.613 | −18.1% | +3.8% cumulative |
+All paths are relative to the archive root. This deposit contains source
+code and scripts only. Price data are downloaded at runtime from Yahoo
+Finance (no login or account required — see the Data section below).
+Regime classifier weights are trained in memory during each run using
+fixed hyperparameters and a fixed random seed, producing deterministic
+results (see the Classifier section below).
 
-All OOS Sharpe ratios are negative after realistic transaction costs (5 bps
-slippage). See the paper for full discussion of why this is expected and what
-the ablation/attribution analysis reveals about component contributions.
+| Path | Size | Description |
+|---|---|---|
+| `README.md` | — | This file |
+| `__init__.py` | 341 B | Package initialiser |
+| `hybrid_pairs_trading.py` | 32 KB | Core trading engine: Kalman filter, regime classifier, health gate, signal logic, backtest loop, and performance attribution |
+| `run_paper_trading.py` | 11 KB | Entry point for the Alpaca Markets paper-trading and rotation workflow |
+| `Dockerfile` | 1 KB | Container definition for a fully reproducible execution environment |
+| `requirements.txt` | — | Pinned Python dependency list (see Software Environment) |
+| `Core_Strategy/` | — | Strategy modules including `conservative_strategy.py`, which implements data download, feature construction, regime classifier training, Kalman filter, health gate, and backtest engine |
+| `Research/` | — | Experiment pipelines: ablation study, baselines, cointegration analysis, feature importance, regime evaluation, statistical tests, return attribution, 60-pair universe backtest, and master `reproduce.py` script |
+| `Pair_Discovery/` | — | Pair screening utilities and 60-pair universe discovery pipeline |
+| `Paper_Trading/` | — | Alpaca Markets integration: monthly rotation scan, eligibility logic, daily monitoring loop, and trade execution logging |
 
 ---
 
-## Project Structure
+## Licence
 
-```
-PBL_Run/
-├── Core_Strategy/              # Production strategy code
-│   ├── conservative_strategy.py    # Regime-adaptive Kalman pairs trader
-│   └── strategy_validator.py       # Walk-forward + bootstrap validation
-├── Research/                   # Experiment & analysis modules
-│   ├── reproduce.py                # ★ One-command full reproduction
-│   ├── baselines.py                # 7-baseline comparison
-│   ├── ablation_study.py           # 9-config ablation
-│   ├── feature_analysis.py         # SHAP + Gini + permutation
-│   ├── statistical_tests.py        # Bootstrap CIs + Monte Carlo
-│   ├── cointegration_analysis.py   # Rolling ADF + Hurst
-│   ├── regime_evaluation.py        # RF vs HMM vs simple rules
-│   ├── attribution.py              # 4-source return decomposition
-│   ├── universe_backtest.py        # Multi-pair OOS backtest
-│   ├── generate_paper_figures.py   # All 11 figures
-│   ├── generate_paper_tables.py    # All 8 tables
-│   ├── config_experiments.yaml     # Centralised parameters
-│   └── results/                    # Intermediate CSVs/JSONs
-├── Paper/                      # IEEE LaTeX manuscript
-│   ├── main.tex                    # Full paper (~760 lines)
-│   ├── references.bib              # 37 BibTeX entries
-│   ├── figures/                    # 11 camera-ready figures
-│   ├── tables/                     # 8 standalone .tex tables
-│   └── overleaf_upload.zip         # Ready-to-upload archive
-├── Pair_Discovery/             # Automated pair screening
-│   └── auto_find_pairs.py         # Cointegration scanner
-├── Paper_Trading/              # Live paper trading (Alpaca)
-│   ├── alpaca_paper_trader.py
-│   ├── Monitoring_Dashboard.py     # Streamlit dashboard
-│   └── config.py
-├── Configuration/              # Legacy config
-├── Dockerfile                  # Reproducibility container
-├── requirements.txt            # Pinned dependencies (Python 3.12.9)
-├── EXPERIMENTS.md              # Per-experiment reproduction guide
-└── RESEARCH_UPGRADE_PLAN.md    # 7-week upgrade roadmap
-```
+**This Zenodo deposit** is released under
+**Creative Commons Attribution 4.0 International (CC-BY 4.0)**.
+Full licence text: https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt all materials in this deposit for any
+purpose, provided you give appropriate credit, link to the licence,
+and indicate if changes were made.
+
+**The source code** additionally carries the **MIT Licence** (see `LICENSE`).
+The MIT Licence is compatible with CC-BY 4.0 and applies specifically to
+the `.py` files; the CC-BY 4.0 deposit licence governs the archive as a whole.
+
+---
+
+## Software Environment
+
+**Python version:** 3.10.12
+
+**Pinned library versions:**
+
+| Library | Version | Purpose |
+|---|---|---|
+| pandas | 2.0.3 | Data manipulation and time-series alignment |
+| numpy | 1.24.3 | Numerical computation |
+| scikit-learn | 1.3.0 | Random Forest classifier and StandardScaler |
+| statsmodels | 0.14.0 | ADF test and Engle-Granger cointegration |
+| hurst | 0.0.5 | Hurst exponent estimation |
+| torch | 2.0.1 | Dueling Double DQN reinforcement learning agent |
+| yfinance | 0.2.28 | Yahoo Finance price data download |
+| alpaca-trade-api | 3.0.0 | Alpaca Markets paper-trading integration |
+
+Full pinned list (including transitive dependencies): `requirements.txt`
+
+**Hardware used:** Apple M-series CPU (8-core, 16 GB unified memory), no GPU.
+All wall-clock times reported in the manuscript were measured on this hardware.
+
+**Random seeds (all components):**
+
+| Component | Seed |
+|---|---|
+| numpy | 42 |
+| torch | 42 |
+| scikit-learn (random_state) | 42 |
+| Monte Carlo permutation trials | 0 |
+| Block bootstrap resamples | 0 |
+
+With these seeds fixed, all results are fully deterministic.
 
 ---
 
 ## Quick Start
 
-### Prerequisites
-
-- Python 3.12+ (tested on 3.12.9)
-- ~4 GB RAM
-- Internet connection (for `yfinance` data download)
-
-### Installation
+### Option A — Docker (recommended for exact environment reproducibility)
 
 ```bash
-git clone <repo-url> && cd PBL_Run
+# Build the container image
+docker build -t pairs_trading .
 
-# Option A: venv
-python -m venv venv && source venv/bin/activate
+# Run the full reproduction suite inside the container
+docker run --rm pairs_trading python Research/reproduce.py
+```
+
+### Option B — Local Python environment
+
+**Requirements:** Python 3.10 or newer, pip.
+
+```bash
+# Step 1 — extract the archive and enter the directory
+cd PBL_Run
+
+# Step 2 — create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate        # macOS and Linux
+# venv\Scripts\activate         # Windows
+
+# Step 3 — install pinned dependencies
 pip install -r requirements.txt
 
-# Option B: Docker (fully self-contained)
-docker build -t pairs-trading .
-docker run --rm pairs-trading              # full reproduction
-docker run --rm pairs-trading python Research/reproduce.py --quick
+# Step 4 — run the full reproduction suite
+python Research/reproduce.py
 ```
 
-### Run the Strategy (single pair)
-
-```python
-from Core_Strategy.conservative_strategy import ConservativePairsStrategy
-
-strategy = ConservativePairsStrategy(
-    ticker_y="BAC", ticker_x="PNC",
-    lookback=252, entry_z=2.0, exit_z=0.5,
-    regime_filter=True,
-)
-results = strategy.run(start_date="2015-01-01", end_date="2025-06-30")
-print(results["oos_sharpe"])
-```
-
----
-
-## Reproduction
-
-A single command reproduces **all** experiments, figures, and tables:
+**Targeted runs:**
 
 ```bash
-python Research/reproduce.py           # Full run (~30-45 min)
-python Research/reproduce.py --quick   # Reduced Monte Carlo (~5-10 min)
-python Research/reproduce.py --figures # Figures only
-python Research/reproduce.py --tables  # Tables only
-```
-
-**Outputs:**
-- `Research/results/` — CSVs and JSONs for every experiment
-- `Paper/figures/` — 11 camera-ready PDF + PNG figures
-- `Paper/tables/` — 8 standalone LaTeX table files
-- `Research/results/reproduction_manifest.json` — Provenance metadata
-
-**Determinism:** Random seed 42 is locked at startup. Results depend on
-`yfinance` data (which may shift slightly with provider updates), but the
-qualitative conclusions are robust.
-
-See [EXPERIMENTS.md](EXPERIMENTS.md) for per-experiment details.
-
----
-
-## Experiments
-
-| # | Experiment | Module | Output |
-|---|-----------|--------|--------|
-| 1 | Baseline comparison (7 methods) | `Research/baselines.py` | Table 2, Fig 4 |
-| 2 | Ablation study (9 configs) | `Research/ablation_study.py` | Table 3, Fig 3 |
-| 3 | Feature importance (SHAP) | `Research/feature_analysis.py` | Table 5, Fig 7 |
-| 4 | Statistical tests (bootstrap) | `Research/statistical_tests.py` | Table 1 CIs |
-| 5 | Walk-forward (32 folds) | `Core_Strategy/strategy_validator.py` | Table 4, Fig 10 |
-| 6 | Cointegration stability | `Research/cointegration_analysis.py` | Fig 6 |
-| 7 | Regime detection eval | `Research/regime_evaluation.py` | Table 7 |
-| 8 | Performance attribution | `Research/attribution.py` | Table 8, Fig 9 |
-
----
-
-## Configuration
-
-All experiment parameters are centralised in
-[`Research/config_experiments.yaml`](Research/config_experiments.yaml):
-
-```yaml
-temporal_split:
-  train_end: "2020-12-31"
-strategy_defaults:
-  entry_z: 2.0
-  exit_z: 0.5
-  lookback: 252
-reproducibility:
-  random_seed: 42
-  n_bootstrap: 10000
+python Research/reproduce.py --quick      # Core results only (approx. 10 min)
+python Research/reproduce.py --figures    # Regenerate all manuscript figures
+python Research/reproduce.py --tables     # Regenerate all manuscript tables
 ```
 
 ---
 
-## Paper Trading
+## Data
 
-The system supports live paper trading via the Alpaca API:
+### Source and access
+
+All price data are sourced from **Yahoo Finance** via the `yfinance` library
+(v0.2.28). Yahoo Finance provides free, publicly accessible historical price
+data. No account, login, API key, or subscription is required.
+
+Data are downloaded automatically when you run any reproduction script.
+No pre-downloaded files are included in this archive.
+
+### Download and preprocessing pipeline
+
+The data pipeline is implemented in `Core_Strategy/conservative_strategy.py`
+starting at line 711. The pipeline performs the following steps in order:
+
+1. Downloads each ticker separately using `yfinance` with `auto_adjust=True`,
+   which returns closing prices already adjusted for splits and dividends.
+2. Extracts the `Close` price series for each asset.
+3. Aligns all series to common trading dates.
+4. Drops rows with missing values using `dropna()`.
+5. Computes returns using `pct_change()`.
+6. Fills derived feature gaps with `ffill()` or `fillna(0)` in the
+   feature construction and classifier path.
+
+No bespoke cleaning is applied. There is no manual outlier removal,
+winsorisation, or smoothing on the raw Yahoo Finance data.
+
+### Tickers and date range
+
+| Asset(s) | Role |
+|---|---|
+| BAC, PNC | Benchmark pair 1 (Banking) |
+| WFC, MS | Benchmark pair 2 (Financial Services) |
+| CVX, OXY | Benchmark pair 3 (Energy) |
+| SPY | Market benchmark |
+| 60-pair universe | See `Pair_Discovery/` for full ticker list |
+
+Date range: 2015-01-01 through 2025-06-30 (downloaded 2025-07-01).
+
+### Reproducibility note
+
+Yahoo Finance applies retroactive split and dividend adjustments after the
+original download date. If you re-download on a later date, minor numerical
+differences from the manuscript figures are possible. For exact bitwise
+reproduction, use the included Docker image, which pins the full software
+environment, although it cannot pin the Yahoo Finance data itself.
+
+---
+
+## Regime Classifier
+
+There are no pre-trained `.pkl` model weight files in this deposit.
+The Random Forest regime classifier is trained entirely in memory during
+each run. Because all random seeds are fixed (see Software Environment),
+training is fully deterministic and produces identical weights on every run.
+
+### Classifier location
+
+Implemented in `Core_Strategy/conservative_strategy.py` starting at line 137.
+
+### Training pipeline (three steps)
+
+**Step 1 — Feature construction.**
+Builds 21 rolling features from the price series and market index:
+rolling realised volatilities (5, 10, 20, 40, 60 days), first and second
+differences of rolling volatility, four rolling maximum drawdown measures,
+three rolling return windows, price trend strength, range expansion,
+pair return correlation and its one-day change, pair-level spread volatility,
+and a binary spike indicator.
+
+**Step 2 — Label construction.**
+Assigns one of three ordinal regime labels to each training day based on
+rolling 20-day realised volatility quantiles computed on the training period:
+
+| Label | Value | Condition |
+|---|---|---|
+| Crisis | 0 | volatility > 90th percentile |
+| Volatile | 1 | volatility > 70th percentile |
+| Normal | 2 | otherwise |
+
+**Step 3 — Model fitting.**
+Fits a `StandardScaler` followed by a `RandomForestClassifier` with:
+
+| Hyperparameter | Value |
+|---|---|
+| n_estimators | 300 |
+| max_depth | 6 |
+| min_samples_split | 40 |
+| min_samples_leaf | 20 |
+| class_weight | balanced |
+| random_state | 42 |
+
+The classifier is trained exclusively on data up to 2020-12-31 and frozen.
+No test-period data (2021-2025) is used during training or recalibration.
+
+---
+
+## Reproducing Manuscript Results
+
+The master reproduction script (`Research/reproduce.py`) runs all
+experiments and writes all outputs in the order tables and figures
+appear in the manuscript.
+
+| Script | Manuscript output |
+|---|---|
+| `Research/reproduce.py` | All tables and figures (full pipeline) |
+| `Research/baselines.py` | Table 2: six baselines vs proposed method |
+| `Research/ablation_study.py` | Table 9: ablation across eight configurations |
+| `Research/feature_analysis.py` | Table 10 and Figure 7: feature importance |
+| `Research/statistical_tests.py` | Tables 6, 7, 8: bootstrap CI, Monte Carlo, Wilcoxon |
+| `Core_Strategy/strategy_validator.py` | Tables 4, 5 and Figure 10: walk-forward analysis |
+| `Research/cointegration_analysis.py` | Figure 6 and Table 12: rolling diagnostics |
+| `Research/regime_evaluation.py` | Table 3 and Figure 2: classifier comparison |
+| `Research/attribution.py` | Table 8 and Figure 9: return attribution |
+| `Research/universe_backtest.py` | Figures 13, 14, 19, 20: 60-pair universe results |
+
+**Output locations:**
+
+| Location | Contents |
+|---|---|
+| `Research/results/` | Intermediate CSV and JSON files |
+| `Research/figures/` | All manuscript figures in PDF and PNG |
+| `Research/tables/` | All manuscript tables in CSV |
+
+**Expected run times on Apple M-series CPU (single core, no GPU):**
+
+| Task | Time |
+|---|---|
+| Single-pair backtest | ~1 s |
+| Pair health monitoring (per pair) | ~3 s |
+| Dynamic filter (per pair) | ~6 s |
+| RL training (10 episodes) | ~16 s |
+| 10-pair universe backtest | ~57 s |
+| Full pipeline (10 pairs) | ~4 min |
+
+---
+
+## Paper-Trading Workflow
+
+The Alpaca Markets paper-trading workflow requires API credentials.
+These are not included in this archive. Obtain a free paper-trading
+account at https://app.alpaca.markets
+
+Set credentials as environment variables before running:
 
 ```bash
-# Set API keys in Paper_Trading/config.py
-python Paper_Trading/alpaca_paper_trader.py
-
-# Monitor via Streamlit dashboard
-streamlit run Paper_Trading/Monitoring_Dashboard.py
+export ALPACA_KEY_ID="your_key_id"
+export ALPACA_SECRET_KEY="your_secret_key"
+export ALPACA_BASE_URL="https://paper-api.alpaca.markets"
 ```
 
----
+Start the daily monitoring loop:
 
-## Dependencies
-
-Key packages (all pinned in `requirements.txt`):
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| numpy | 2.3.5 | Numerical computation |
-| pandas | 2.3.3 | Data manipulation |
-| scipy | 1.16.3 | Statistical tests |
-| scikit-learn | 1.7.2 | Random-forest regime classifier |
-| statsmodels | 0.14.5 | Cointegration (ADF, Johansen) |
-| shap | 0.51.0 | Feature importance |
-| yfinance | 1.1.0 | Market data |
-| matplotlib | 3.10.7 | Figures |
-| alpaca-py | 0.43.2 | Paper trading API |
-
----
-
-## Citation
-
-If you use this code or reference the methodology:
-
-```bibtex
-@inproceedings{pairs_trading_2025,
-  title   = {Regime-Adaptive Pairs Trading with Robust Kalman Filtering:
-             A Multi-Component Analysis},
-  author  = {Hardik},
-  year    = {2025},
-  note    = {IEEE conference format}
-}
+```bash
+python run_paper_trading.py
 ```
 
+This runs the pipeline described in Section 5.12 of the manuscript
+(Deployment Feasibility Study). The monthly rotation scan across 38 pairs
+completes in approximately 2 minutes on a single CPU.
+
+
 ---
 
-## License
+## Contact
 
-This project is released under the MIT License.
+**Hardik Gupta** — code, data, and reproduction queries
+hardik.2427030615@muj.manipal.edu
+
+**Rishi Gupta** — manuscript and research queries
+rishi.gupta@jaipur.manipal.edu
+
+Department of Computer Science and Engineering
+Manipal University Jaipur, Jaipur, Rajasthan 302026, India
+
+---
+
+## Acknowledgements
+
+The authors thank the Department of Computer Science and Engineering,
+Manipal University Jaipur, for access to computational resources.
+The open-source communities behind scikit-learn, statsmodels, PyTorch,
+and yfinance are gratefully acknowledged.

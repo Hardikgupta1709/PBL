@@ -7,7 +7,7 @@ Implements all validation tests required for conference-level research:
 2. Monte Carlo Simulation (random entry/exit dates, NOT shuffled returns)
 3. Bootstrap Confidence Intervals for Sharpe ratio
 4. Stress Testing across historical crises
-5. Sensitivity Analysis (7×5×3 parameter grid)
+5. Sensitivity Analysis 
 6. Statistical Tests (stationarity, mean, autocorrelation)
 7. Benjamini-Hochberg multiple testing correction
 
