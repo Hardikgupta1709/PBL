@@ -1,22 +1,3 @@
-"""
-Regime Detection Evaluation: Is the RF Classifier Actually Good?
-==================================================================
-Systematic evaluation of the Random Forest regime classifier against:
-
-1. Confusion matrix analysis (OOS predictions vs rule-based labels)
-2. Regime transition analysis (stability, false alarm rate)
-3. Hidden Markov Model (HMM) baseline comparison
-4. Simple volatility-threshold rules comparison
-5. Economic value: Sharpe with RF regime vs HMM regime vs simple rules
-
-This is critical for the paper — "our regime detector adds value" must be
-demonstrated with evidence, not just stated.
-
-References:
-    Hamilton (1989) — Hidden Markov Model for regime switching
-    Ang & Timmermann (2012) — Regime changes and financial markets
-"""
-
 import numpy as np
 import pandas as pd
 import os

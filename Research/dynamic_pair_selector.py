@@ -1,29 +1,3 @@
-"""
-Dynamic Pair Selection Filter
-=================================
-Week 8 Improvement: Real-time cointegration health gating.
-
-Pairs are only traded when they pass live rolling health checks:
-    1. ADF p-value < threshold (spread is stationary)
-    2. Hurst exponent < 0.5 (pair is mean-reverting)
-    3. Cointegration p-value < threshold (relationship intact)
-
-The filter uses ONLY trailing data — no look-ahead bias.
-It integrates as a post-processing layer on top of ConservativeSystem
-signals, forcing positions to zero when pair health degrades.
-
-Design:
-    - PairHealthMonitor: computes rolling health for a single pair
-    - DynamicPairSelector: manages health across a universe of pairs
-    - backtest_with_dynamic_filter(): wraps ConservativeSystem with health gating
-    - compare_filtered_vs_unfiltered(): ablation comparison
-
-References:
-    Gatev et al. (2006) — pairs selection with distance metric
-    Krauss (2017) — "Statistical Arbitrage Pairs Trading Strategies"
-    Do & Faff (2010) — cointegration breakdown and pair selection
-"""
-
 import numpy as np
 import pandas as pd
 import os

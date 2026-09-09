@@ -1,24 +1,3 @@
-"""
-Paper Figure Generator — Publication-Quality Figures (300 DPI)
-================================================================
-Week 5: Generate all 10 figures for the research paper.
-
-Figures:
-    1. System Architecture Diagram (flowchart)
-    2. Regime Classification Example (coloured regime bands)
-    3. Ablation Bar Chart (Sharpe contribution per component)
-    4. Baseline Comparison Bar Chart (our method vs 6 baselines)
-    5. Parameter Sensitivity Heatmap (entry_z × exit_z)
-    6. Cointegration Stability Plot (rolling p-value + trades)
-    7. Feature Importance Bar Chart (SHAP top-10)
-    8. Cumulative Return Curves (our method vs baselines)
-    9. Performance Attribution Bar (return decomposition)
-   10. Walk-Forward Fold Results (per-fold Sharpe bar chart)
-
-All figures saved to Paper/figures/ as PDF + PNG (300 DPI).
-Matplotlib + seaborn, consistent colour palette, LaTeX-safe labels.
-"""
-
 import numpy as np
 import pandas as pd
 import matplotlib

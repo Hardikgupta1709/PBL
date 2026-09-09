@@ -1,24 +1,3 @@
-"""
-Automatic Monthly Pair Rotation for Paper Trading
-====================================================
-Scans the expanded universe of pairs, ranks them by real-time
-cointegration health, and selects the top-K healthiest pairs
-for live paper trading.
-
-Rotation Logic:
-    1. Every rotation_interval_days (default: 30), re-scan all candidate pairs.
-    2. Download trailing 1-year data for each pair.
-    3. Compute rolling health score (ADF + Hurst + cointegration).
-    4. Rank pairs by health_score; require is_healthy=True.
-    5. Select top-K pairs (default: top 3).
-    6. Update config.VALIDATED_PAIRS so the trader uses the new set.
-    7. Close positions in any pairs that are being rotated out.
-
-Pair Selection Criterion (from Research):
-    - Pairs with < 5% healthy OOS days should be excluded entirely.
-    - Only pairs with current health_score >= 0.5 are eligible.
-"""
-
 import os
 import sys
 import json

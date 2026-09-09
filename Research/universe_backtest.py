@@ -1,20 +1,3 @@
-"""
-Universe Backtest: Scale Strategy Across 50+ Pairs
-====================================================
-Scans all 10 sectors from the stock universe, discovers viable pairs,
-runs the full backtest + validation on each, and aggregates statistics.
-
-This addresses Improvement 3 from the research upgrade plan:
-    - "Is the strategy a one-pair wonder?"
-    - Aggregate Sharpe, hit rate, median return across the whole universe
-    - Benjamini-Hochberg correction for multiple testing
-    - Survivorship-bias-aware pair selection
-
-Output:
-    Research/results/universe_summary.csv — per-pair metrics
-    Research/results/universe_report.txt  — aggregate report
-"""
-
 import numpy as np
 import pandas as pd
 import os

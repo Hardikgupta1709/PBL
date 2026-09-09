@@ -1,28 +1,3 @@
-"""
-Ablation Study: Measuring Each Component's Marginal Contribution
-=================================================================
-Systematically removes one component at a time from the full system
-and measures the impact on OOS Sharpe ratio.
-
-Ablation Configs:
-    0. Full System (all components) — reference
-    1. Remove MAD outlier detection
-    2. Remove regime classification (always NORMAL)
-    3. Remove adaptive Kalman (use fixed OLS hedge)
-    4. Remove dynamic z-score window (use fixed 40)
-    5. Remove stop-loss
-    6. Remove minimum hold period
-    7. Remove transaction costs (gross returns)
-    8. Remove volatile-regime parameter adjustment
-
-Each ablation is run on ALL pairs, and the Sharpe delta from the full
-system is reported. This proves each component earns its place.
-
-Reference:
-    Melis et al. (2018) "On the State of the Art of Evaluation in
-    Neural Language Models" — ablation methodology
-"""
-
 import numpy as np
 import pandas as pd
 import os

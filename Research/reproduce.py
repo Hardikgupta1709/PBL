@@ -1,32 +1,4 @@
 #!/usr/bin/env python3
-"""
-Full Experiment Reproduction Script
-=====================================
-One-command reproduction of ALL experiments, figures, and tables
-for the paper "Regime-Adaptive Pairs Trading with Robust Kalman Filtering".
-
-Usage:
-    python Research/reproduce.py              # Run everything
-    python Research/reproduce.py --quick      # Skip long-running experiments
-    python Research/reproduce.py --tables     # Tables only
-    python Research/reproduce.py --figures    # Figures only
-
-Output:
-    Research/results/   — CSV/JSON intermediate results
-    Paper/figures/      — All 11 camera-ready figures (PDF + PNG)
-    Paper/tables/       — All 8 standalone LaTeX tables
-
-Estimated runtime:
-    Full run: ~30-45 minutes (depending on network speed for yfinance)
-    Quick run: ~5-10 minutes (uses cached data, skips Monte Carlo)
-
-Requirements:
-    pip install -r requirements.txt
-
-Reference:
-    See EXPERIMENTS.md for detailed per-experiment documentation.
-"""
-
 import argparse
 import json
 import logging

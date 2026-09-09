@@ -1,22 +1,4 @@
 #!/usr/bin/env python3
-"""
-generate_paper_tables.py — Generate All Publication-Quality LaTeX Tables
-========================================================================
-
-Week 6, Improvement 18: Generate standalone LaTeX table files from real
-backtest data for direct inclusion in the paper.
-
-Tables generated:
-  1. Pair Universe Summary (sectors, cointegration, half-life)
-  2. Main Baseline Comparison (all 7 methods × 3 pairs, with CIs)
-  3. Full Ablation Study (9 configs × 3 pairs)
-  4. Walk-Forward Fold-by-Fold Results
-  5. Feature Importance Top-10 (consensus ranking)
-  6. Paper Trading Summary
-
-All tables are saved as .tex files in Paper/tables/ for \input{} inclusion.
-"""
-
 import os
 import sys
 import warnings

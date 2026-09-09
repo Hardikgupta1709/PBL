@@ -1,26 +1,3 @@
-"""
-Cointegration Stability Analysis
-==================================
-Week 3, Improvement 9: "Pairs that were cointegrated may break."
-
-Provides rolling analysis of pair relationship health:
-
-    1. Rolling Cointegration Tests — Engle-Granger p-value over time (126-day window)
-    2. Rolling Hurst Exponent — Mean-reversion strength over time
-    3. Rolling Half-Life — Speed of mean reversion over time
-    4. PnL × Stability Correlation — Does profitability track pair health?
-
-Output:
-    - Time-series DataFrame with all rolling metrics
-    - Summary statistics (% of time cointegrated, avg Hurst, etc.)
-    - Correlation table: rolling_coint_p vs rolling_pnl
-
-References:
-    Engle & Granger (1987) "Co-Integration and Error Correction"
-    Hurst (1951) — H < 0.5 → mean-reverting; H > 0.5 → trending
-    Vidyamurthy (2004) "Pairs Trading" — half-life application
-"""
-
 import numpy as np
 import pandas as pd
 import os

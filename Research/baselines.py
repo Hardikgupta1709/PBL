@@ -1,25 +1,3 @@
-"""
-Academic Baselines for Pairs Trading Comparison
-=================================================
-Implements 6 baseline strategies that our method must beat to demonstrate value.
-
-Baselines:
-    1. Gatev Distance Method (Gatev, Goetzmann & Rouwenhorst, 2006)
-    2. OLS Cointegration (Engle-Granger with fixed hedge ratio)
-    3. Kalman-Only (No Regime) — Our Kalman filter, regime always NORMAL
-    4. Regime-Only (No Kalman) — OLS hedge ratio + RF regime detection
-    5. Buy-and-Hold Stocks — Equal-weight portfolio of pair stocks
-    6. SPY Buy-and-Hold — Market benchmark
-
-All baselines run on the SAME data, SAME pairs, SAME train/test split,
-and SAME transaction cost model for fair comparison.
-
-Reference:
-    Gatev, E., Goetzmann, W. N., & Rouwenhorst, K. G. (2006).
-    "Pairs trading: Performance of a relative-value arbitrage rule."
-    Review of Financial Studies, 19(3), 797-827.
-"""
-
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression

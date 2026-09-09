@@ -1,20 +1,3 @@
-"""
-Core Strategy: Adaptive Kalman Filter with Regime-Gated Signal Generation
-==========================================================================
-Academic-grade implementation with strict temporal train/validate/test protocol.
-
-Components:
-    1. ConservativeKalman — Adaptive Kalman filter with MAD-based outlier detection
-    2. StrictRegimeClassifier — 3-tier RF regime classification (NORMAL/VOLATILE/CRISIS)
-    3. Signal generation — z-score mean reversion with regime gating
-    4. ConservativeSystem — Full backtest engine with temporal split enforcement
-
-Key Design Principle:
-    The RF regime classifier is trained ONLY on the training period.
-    It is then frozen and applied forward to validation and test periods.
-    This eliminates look-ahead bias in regime predictions.
-"""
-
 import numpy as np
 import pandas as pd
 from scipy import stats

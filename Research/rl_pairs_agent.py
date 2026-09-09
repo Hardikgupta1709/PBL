@@ -1,34 +1,3 @@
-"""
-Reinforcement Learning Agent for Pairs Trading Entry/Exit
-=============================================================
-Week 10: Replace fixed z-score thresholds with a learned DQN policy.
-
-Architecture:
-    - Deep Q-Network (DQN) with experience replay and target network
-    - State: [z_score, regime, spread_vol, hurst, half_life, position,
-              days_held, rolling_pnl, health_score]
-    - Actions: {0: HOLD/FLAT, 1: LONG_SPREAD, 2: SHORT_SPREAD, 3: EXIT}
-    - Reward: realized PnL minus transaction costs (no shaping)
-
-Training Protocol (STRICT):
-    - Train ONLY on data ≤ train_end_date (2020-12-31)
-    - Validate on 2021-2022 (hyperparameter selection only)
-    - Test on 2023-2025 (final reporting, NEVER seen during training)
-    - Compare RL agent vs fixed thresholds in ablation
-
-Anti-Overfit Safeguards:
-    - Small network (2 hidden layers × 64 units)
-    - Dropout and L2 regularization
-    - Early stopping on validation Sharpe
-    - No reward shaping — raw PnL only
-    - Action masking during CRISIS regime
-
-References:
-    Mnih et al. (2015) — DQN: Human-level control through deep RL
-    Deng et al. (2017) — Deep RL for financial signal representation
-    Zhang et al. (2020) — DRL for pairs trading
-"""
-
 import numpy as np
 import pandas as pd
 import torch

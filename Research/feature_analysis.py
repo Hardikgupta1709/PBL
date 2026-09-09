@@ -1,24 +1,3 @@
-"""
-Feature Importance Analysis for RF Regime Classifier
-======================================================
-Answers: "Which features actually drive regime detection?"
-
-Methods:
-    1. SHAP TreeExplainer — exact Shapley values for tree ensembles
-    2. Scikit-learn built-in feature importance (Gini/MDI)
-    3. Permutation importance with 10 repeats (model-agnostic)
-    4. Feature ablation — remove one feature group, measure accuracy drop
-
-Output:
-    - Feature ranking table (CSV)
-    - SHAP summary data (CSV)
-    - Feature group ablation results (CSV)
-
-Reference:
-    Lundberg & Lee (2017) "A Unified Approach to Interpreting Model
-    Predictions" — SHAP values for tree models
-"""
-
 import numpy as np
 import pandas as pd
 import os

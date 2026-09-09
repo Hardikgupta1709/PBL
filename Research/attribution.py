@@ -1,33 +1,3 @@
-"""
-Performance Attribution: Decomposing Return Sources
-=====================================================
-Answers: "Where does the alpha come from?"
-
-Decomposes the full-system OOS return into 4 additive alpha sources:
-
-    1. Regime Timing Alpha
-       — Return from trading only in favourable regimes vs always trading.
-       Method: Run strategy with regime gating vs without.  Difference = regime alpha.
-
-    2. Mean Reversion Alpha
-       — Return from z-score signal vs random entry/exit in the same regimes.
-       Method: Monte Carlo with random entries constrained to NORMAL/VOLATILE days.
-
-    3. Position Sizing Alpha
-       — Return from dynamic signal-based sizing vs fixed ±1 positions.
-       Method: Compare proportional-to-z sizing against sign-only signals.
-
-    4. Pair Selection Alpha (multi-pair mode)
-       — Return from selecting top pairs vs random same-sector pairs.
-       Method: Compare top-N pair returns vs random-N sector-matched pairs.
-
-Output: decomposition dict + stacked bar chart saved to Research/results/.
-
-Reference:
-    Brinson, Hood & Beebower (1986) — Performance attribution framework
-    Adapted to pairs trading component decomposition.
-"""
-
 import numpy as np
 import pandas as pd
 import os

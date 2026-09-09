@@ -1,29 +1,3 @@
-"""
-Statistical Testing Suite for Pairs Trading Research
-======================================================
-Week 3 — "Make every number defensible"
-
-Improvements 7 & 8 from RESEARCH_UPGRADE_PLAN.md:
-
-    7. Bootstrap Confidence Intervals
-       - Bootstrap CI for Sharpe, Return, MaxDD, Win Rate  (10,000 resamples)
-       - Paired bootstrap test: Sharpe(ours) − Sharpe(baseline) ≠ 0
-       - Effect sizes: Cohen's d for practical significance
-
-    8. Multiple Testing Correction
-       - Benjamini-Hochberg FDR control (across pairs and baselines)
-       - Bonferroni correction (conservative alternative)
-       - Report: "X of Y pairs remain significant at FDR = 5%"
-
-References:
-    - Efron & Tibshirani (1994) "An Introduction to the Bootstrap"
-    - Ledoit & Wolf (2008) "Robust Performance Hypothesis Testing with the
-      Sharpe Ratio" (circular block bootstrap)
-    - Benjamini & Hochberg (1995) "Controlling the False Discovery Rate"
-    - Harvey, Liu & Zhu (2016) "...and the Cross-Section of Expected Returns"
-    - Cohen (1988) "Statistical Power Analysis for the Behavioral Sciences"
-"""
-
 import numpy as np
 import pandas as pd
 import os

@@ -1,22 +1,3 @@
-"""
-Strategy Validator: Academic-Grade Validation Suite
-====================================================
-Implements all validation tests required for conference-level research:
-
-1. Expanding Walk-Forward Analysis (10+ folds, quarterly steps)
-2. Monte Carlo Simulation (random entry/exit dates, NOT shuffled returns)
-3. Bootstrap Confidence Intervals for Sharpe ratio
-4. Stress Testing across historical crises
-5. Sensitivity Analysis 
-6. Statistical Tests (stationarity, mean, autocorrelation)
-7. Benjamini-Hochberg multiple testing correction
-
-References:
-    - Harvey et al. (2016) "...and the Cross-Section of Expected Returns"
-    - Bailey & López de Prado (2014) "The Deflated Sharpe Ratio"
-    - White (2000) "A Reality Check for Data Snooping"
-"""
-
 import numpy as np
 import pandas as pd
 from scipy import stats
